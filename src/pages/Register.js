@@ -15,7 +15,7 @@ export default function Register() {
       <div className="w-full sm:rounded-lg shadow sm:border max-w-md  bg-slate-800 border-slate-600">
         <div className="space-y-6 p-7">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-white">
-            Registrace
+            Registrace d
           </h1>
           <form className="space-y-6" action="#">
             <div>
