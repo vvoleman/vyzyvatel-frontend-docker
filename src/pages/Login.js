@@ -14,6 +14,10 @@ export default function Login() {
   const [passwdError, setPasswdError] = useState(false);
   const [serverError, setServerError] = useState("");
 
+  useEffect(() => {
+    document.title = "Přihlášení - Vyzyvatel";
+  }, []);
+
   const handleUsern = (e) => {
     e.preventDefault();
 
@@ -38,13 +42,22 @@ export default function Login() {
   };
 
   const handleButton = (e) => {
-    if (usernError || passwdError || usern === "" || passwd === "") return;
+    e.preventDefault();
+
+    console.log("login");
+
+    if (usernError || passwdError) return;
+
+    if (usern === "") {
+      setUsernError(true);
+      return;
+    }
+    if (passwd === "") {
+      setPasswdError(true);
+      return;
+    }
     loginUser(usern, passwd, setServerError);
   };
-
-  useEffect(() => {
-    document.title = "Přihlášení - Vyzyvatel";
-  }, []);
 
   return (
     <div className="flex grow justify-center items-center bg-slate-900">
@@ -97,7 +110,7 @@ export default function Login() {
               ) : null}
             </div>
             <button
-              onChange={handleButton}
+              onClick={handleButton}
               type="submit"
               className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
             >
