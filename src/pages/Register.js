@@ -9,11 +9,7 @@ const validateEmail = (email) => {
 export default function Register() {
   const { registerUser } = useContext(AuthContext);
 
-  const [usern, setUsern] = useState(
-    localStorage.getItem("lastUsername")
-      ? JSON.parse(localStorage.getItem("lastUsername"))
-      : ""
-  );
+  const [usern, setUsern] = useState("");
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
   const [confPasswd, setConfPasswd] = useState("");
@@ -46,7 +42,7 @@ export default function Register() {
     if (e.target.value[e.target.value.length - 1] === " ") return;
     if (e.target.value.length > 16) return;
 
-    if (e.target.value.length <= 5) setUsernError(true);
+    if (e.target.value.length <= 4) setUsernError(true);
     else setUsernError(false);
 
     setUsern(e.target.value);
@@ -71,7 +67,7 @@ export default function Register() {
     if (e.target.value[e.target.value.length - 1] === " ") return;
     if (e.target.value.length > 30) return;
 
-    if (e.target.value.length <= 5) setPasswdError(true);
+    if (e.target.value.length < 8) setPasswdError(true);
     else setPasswdError(false);
 
     setPasswd(e.target.value);
@@ -86,7 +82,7 @@ export default function Register() {
   const handleButton = (e) => {
     e.preventDefault();
 
-    console.log("login");
+    console.log("register");
 
     if (usernError || passwdError) return;
 
@@ -94,11 +90,17 @@ export default function Register() {
       setUsernError(true);
       return;
     }
+
+    if (email === "") {
+      setEmailError(true);
+      return;
+    }
+
     if (passwd === "") {
       setPasswdError(true);
       return;
     }
-    registerUser(usern, email, passwd, setServerError);
+    registerUser(usern, passwd, email, setServerError);
   };
 
   return (
@@ -126,7 +128,7 @@ export default function Register() {
               />
               {usernError ? (
                 <label className="text-rose-500/90 p-2 text-sm">
-                  Uživatelské jméno musí být delší než 5 znaků
+                  Uživatelské jméno musí být delší než 4 znaky
                 </label>
               ) : null}
             </div>
@@ -168,7 +170,7 @@ export default function Register() {
               />
               {passwdError ? (
                 <label className="text-rose-500/90 p-2 text-sm">
-                  Heslo musí být delší než 5 znaků
+                  Heslo musí být nejméně 8 znaků dlouhé
                 </label>
               ) : null}
             </div>
@@ -195,11 +197,15 @@ export default function Register() {
             </div>
 
             <button
+              onClick={handleButton}
               type="submit"
               className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
             >
               Vytvořit účet
             </button>
+            {serverError !== "" ? (
+              <div className="flex text-rose-400">{serverError}</div>
+            ) : null}
             <p className="text-sm font-light text-gray-400">
               Už máte účet?{" "}
               <a

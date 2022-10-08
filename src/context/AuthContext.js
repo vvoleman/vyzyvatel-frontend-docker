@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("authToken"))
       : null
   );
-  const [Username, setUsername] = useState(() =>
+  const [username, setUsername] = useState(() =>
     localStorage.getItem("username")
       ? JSON.parse(localStorage.getItem("username"))
       : null
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const registerUser = async (username, password, email, setOpenError) => {
+  const registerUser = async (username, password, email, setServerError) => {
     let response = await fetch(BACKEND_URL + "/api/auth/users/", {
       method: "POST",
       headers: {
@@ -34,8 +34,14 @@ export const AuthProvider = ({ children }) => {
     });
     let data = await response.json();
     console.log("registerUser - data:", data);
-    if (response.ok) navigate("./login");
-    setOpenError(true);
+    if (response.ok) {
+      localStorage.setItem("lastUsername", JSON.stringify(username));
+      navigate("./login");
+    } else if ("username" in data) {
+      setServerError("Účet s tímto uživatelským jménem již existuje");
+    } else if ("password" in data) {
+      setServerError("Heslo je příliš slabé");
+    } else setServerError("Registrace proběhla neúspěšně");
   };
 
   const loginUser = async (username, password, setServerError) => {
@@ -57,8 +63,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("username", JSON.stringify(username));
       localStorage.setItem("lastUsername", JSON.stringify(username));
       localStorage.setItem("authToken", JSON.stringify(data.auth_token));
-      navigate("/");
       setServerError("");
+      navigate("/");
     } else setServerError("Účet s těmito údaji neexistuje");
   };
 
@@ -97,7 +103,7 @@ export const AuthProvider = ({ children }) => {
     logoutUser: logoutUser,
     userInfo: userInfo,
 
-    Username: Username,
+    username: username,
   };
 
   return (

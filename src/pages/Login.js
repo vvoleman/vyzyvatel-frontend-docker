@@ -24,7 +24,7 @@ export default function Login() {
     if (e.target.value[0] >= "0" && e.target.value[0] <= "9") return;
     if (e.target.value[e.target.value.length - 1] === " ") return;
     if (e.target.value.length > 16) return;
-    if (e.target.value.length <= 5) setUsernError(true);
+    if (e.target.value.length <= 4) setUsernError(true);
     else setUsernError(false);
 
     setUsern(e.target.value);
@@ -35,7 +35,7 @@ export default function Login() {
 
     if (e.target.value[e.target.value.length - 1] === " ") return;
     if (e.target.value.length > 30) return;
-    if (e.target.value.length <= 5) setPasswdError(true);
+    if (e.target.value.length < 8) setPasswdError(true);
     else setPasswdError(false);
 
     setPasswd(e.target.value);
@@ -84,7 +84,7 @@ export default function Login() {
               />
               {usernError ? (
                 <label className="text-rose-500/90 p-2 text-sm">
-                  Uživatelské jméno musí být delší než 5 znaků
+                  Uživatelské jméno musí být delší než 4 znaky
                 </label>
               ) : null}
             </div>
@@ -105,7 +105,7 @@ export default function Login() {
               />
               {passwdError ? (
                 <label className="text-rose-500/90 p-2 text-sm">
-                  Heslo musí být delší než 5 znaků
+                  Heslo je nejméně 8 znaků dlouhé
                 </label>
               ) : null}
             </div>
