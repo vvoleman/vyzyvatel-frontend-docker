@@ -38,6 +38,21 @@ export default function Register() {
   const handleUsern = (e) => {
     e.preventDefault();
 
+    const validChars =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ěščřžýáíéóůúňĚŠČŘŽÝÁÍÉÓŮÚŇ";
+
+    const text = e.target.value;
+
+    let areValid = true;
+    text.split("").forEach((char) => {
+      if (!validChars.includes(char)) {
+        console.log(char);
+        areValid = false;
+      }
+    });
+
+    if (!areValid) return;
+
     if (e.target.value[0] >= "0" && e.target.value[0] <= "9") return;
     if (e.target.value[e.target.value.length - 1] === " ") return;
     if (e.target.value.length > 16) return;

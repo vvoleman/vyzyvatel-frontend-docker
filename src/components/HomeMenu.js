@@ -7,8 +7,10 @@ export default function HomeMenu({
   userState,
   setUserState,
   setRoomCode,
+  setLobbyState,
 }) {
   const [code, setCode] = useState("");
+  const [codeError, setCodeError] = useState(null);
 
   const handleCode = (e) => {
     e.preventDefault();
@@ -19,21 +21,41 @@ export default function HomeMenu({
   const createRoom = () => {
     socket.emit("create-room", username, (response) => {
       if (response) {
-        setRoomCode(response);
-        setUserState({ ...userState, isOwner: true, state: USER_STATES.LOBBY });
+        setRoomCode(response.roomCode);
+        setUserState(response.userState);
+        setLobbyState(response.lobbyState);
       }
     });
   };
 
   useEffect(() => {
     const joinRoom = () => {
-      socket.emit("join-room", code);
+      socket.emit("join-room", code, username, (response) => {
+        if (response === "404") {
+          setCodeError("chybný kód");
+          return;
+        }
+        setRoomCode(response.roomCode);
+        setUserState(response.userState);
+        setLobbyState(response.lobbyState);
+        setCodeError(null);
+      });
     };
+
+    setCodeError(null);
 
     if (code.length === 4) {
       joinRoom();
     }
-  }, [code, socket]);
+  }, [
+    code,
+    socket,
+    setCodeError,
+    setLobbyState,
+    setRoomCode,
+    setUserState,
+    username,
+  ]);
 
   return (
     <div className="flex grow justify-center items-center bg-slate-900">
@@ -47,17 +69,27 @@ export default function HomeMenu({
             Vytvořit hru
           </button>
           <hr className="border border-slate-400/60" />
-          <label htmlFor="code" className="userdata-label text-center">
-            Kód do hry
-          </label>
-          <input
-            value={code}
-            type="text"
-            name="code"
-            placeholder="CODE"
-            className={`userdata-input`}
-            onChange={handleCode}
-          />
+          <div className="flex justify-center">
+            <div>
+              <label
+                htmlFor="code"
+                className="userdata-label text-center text-xl"
+              >
+                Připojit se do hry
+              </label>
+              <input
+                value={code}
+                type="text"
+                name="code"
+                placeholder="vložte kód"
+                className={`tracking-widest border text-xl w-40 rounded-lg block text-center p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white`}
+                onChange={handleCode}
+              />
+            </div>
+          </div>
+          <div className="text-center text-rose-500/90 text-lg te">
+            {codeError ? codeError : null}
+          </div>
         </div>
       </div>
     </div>
