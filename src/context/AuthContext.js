@@ -82,26 +82,13 @@ export const AuthProvider = ({ children }) => {
       setUsername(null);
       localStorage.removeItem("username");
       localStorage.removeItem("authToken");
-    } else console.log("logoutUser - fail");
-  };
-
-  const userInfo = async () => {
-    let response = await fetch(BACKEND_URL + "/api/auth/users/me/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + authToken,
-      },
-    });
-    let data = await response.json();
-    console.log("userInfo - data:", data);
+    } else console.log("logoutUser - fail" + JSON.stringify(response.json()));
   };
 
   let contextData = {
     registerUser: registerUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
-    userInfo: userInfo,
 
     username: username,
   };

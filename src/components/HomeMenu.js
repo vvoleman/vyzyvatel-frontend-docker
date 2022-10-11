@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import USER_STATES from "../global/constants";
 
 export default function HomeMenu({
   socket,
@@ -34,6 +33,12 @@ export default function HomeMenu({
         if (response === "404") {
           setCodeError("chybný kód");
           return;
+        } else if (response === "full") {
+          setCodeError("hra je plná");
+          return;
+        } else if (response === "banned") {
+          setCodeError("v této hře nejste vítán/a");
+          return;
         }
         setRoomCode(response.roomCode);
         setUserState(response.userState);
@@ -61,13 +66,15 @@ export default function HomeMenu({
     <div className="flex grow justify-center items-center bg-slate-900">
       <div className="w-full sm:rounded-lg shadow sm:border max-w-md  bg-slate-800 border-slate-600">
         <div className="space-y-6 p-7">
-          <button
-            onClick={createRoom}
-            type="submit"
-            className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
-          >
-            Vytvořit hru
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={createRoom}
+              type="submit"
+              className="border-2 border-slate-400/40 w-8/12 text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
+            >
+              Vytvořit hru
+            </button>
+          </div>
           <hr className="border border-slate-400/60" />
           <div className="flex justify-center">
             <div>
@@ -78,6 +85,7 @@ export default function HomeMenu({
                 Připojit se do hry
               </label>
               <input
+                onFocus={() => setCode("")}
                 value={code}
                 type="text"
                 name="code"
@@ -90,6 +98,7 @@ export default function HomeMenu({
           <div className="text-center text-rose-500/90 text-lg te">
             {codeError ? codeError : null}
           </div>
+          <hr className="border border-slate-400/60" />
         </div>
       </div>
     </div>

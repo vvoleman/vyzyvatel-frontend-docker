@@ -25,9 +25,15 @@ export default function Home() {
 
   useEffect(() => {
     console.log("roomCode: " + roomCode);
+  }, [roomCode]);
+
+  useEffect(() => {
     console.log("userState: " + JSON.stringify(userState));
+  }, [userState]);
+
+  useEffect(() => {
     console.log("lobbyState: " + JSON.stringify(lobbyState));
-  }, [userState, roomCode, lobbyState]);
+  }, [lobbyState]);
 
   useEffect(() => {
     const login = () => {
