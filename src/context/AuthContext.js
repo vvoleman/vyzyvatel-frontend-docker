@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BACKEND_URL from "../global/backend.js";
+
+import { DEBUG } from "../constants";
 
 const AuthContext = createContext();
 
@@ -17,23 +18,53 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("username"))
       : null
   );
+  const [email, setEmail] = useState(() =>
+    localStorage.getItem("email")
+      ? JSON.parse(localStorage.getItem("email"))
+      : null
+  );
+
+  useEffect(() => {
+    const fetchEmail = async () => {
+      let response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/api/auth/email/",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Token " + authToken,
+          },
+        }
+      );
+      let data = await response.json();
+      if (response.ok) {
+        setEmail(data);
+        localStorage.setItem("email", JSON.stringify(data));
+      }
+    };
+
+    if (username && authToken) fetchEmail();
+  }, [username, authToken]);
 
   const navigate = useNavigate();
 
   const registerUser = async (username, password, email, setServerError) => {
-    let response = await fetch(BACKEND_URL + "/api/auth/users/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-      }),
-    });
+    let response = await fetch(
+      process.env.REACT_APP_BACKEND_URL + "/api/auth/users/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+        }),
+      }
+    );
     let data = await response.json();
-    console.log("registerUser - data:", data);
+    DEBUG && console.log("register:", data);
     if (response.ok) {
       localStorage.setItem("lastUsername", JSON.stringify(username));
       navigate("./login");
@@ -45,18 +76,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loginUser = async (username, password, setServerError) => {
-    let response = await fetch(BACKEND_URL + "/api/auth/token/login/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    });
+    let response = await fetch(
+      process.env.REACT_APP_BACKEND_URL + "/api/auth/token/login/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      }
+    );
     let data = await response.json();
-    console.log("loginUser - data:", data);
+    DEBUG && console.log("login:", data);
     if (response.ok) {
       setUsername(username);
       setAuthToken(data.auth_token);
@@ -69,20 +103,27 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutUser = async () => {
-    let response = await fetch(BACKEND_URL + "/api/auth/token/logout/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + authToken,
-      },
-    });
+    let response = await fetch(
+      process.env.REACT_APP_BACKEND_URL + "/api/auth/token/logout/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + authToken,
+        },
+      }
+    );
     if (response.ok) {
-      console.log("logoutUser - succes");
+      DEBUG && console.log("logoutUser - succes");
       setAuthToken(null);
       setUsername(null);
+      setEmail(null);
       localStorage.removeItem("username");
+      localStorage.removeItem("email");
       localStorage.removeItem("authToken");
-    } else console.log("logoutUser - fail" + JSON.stringify(response.json()));
+    } else
+      DEBUG &&
+        console.log("logoutUser - fail" + JSON.stringify(response.json()));
   };
 
   let contextData = {
@@ -91,6 +132,7 @@ export const AuthProvider = ({ children }) => {
     logoutUser: logoutUser,
 
     username: username,
+    useremail: email,
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { BsPersonCircle } from "react-icons/bs";
+import { Gravatar } from "./Gravatar";
+import { BiLogInCircle } from "react-icons/bi";
 
 function DropdownItemLink({ text, url }) {
   return (
@@ -27,7 +28,7 @@ export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
-  const { username, logoutUser } = useContext(AuthContext);
+  const { username, useremail, logoutUser } = useContext(AuthContext);
 
   return (
     <nav className="flex bg-slate-800 text-white h-[60px] justify-start items-center border-b border-slate-700">
@@ -49,7 +50,15 @@ export default function Header() {
             setAccountDropdownOpen(!accountDropdownOpen);
           }}
         >
-          <BsPersonCircle size={25} className="sm:mr-5 mr-1" />
+          {useremail ? (
+            <Gravatar
+              className="sm:mr-5 mr-1 border-2 border-slate-400 rounded-full"
+              email={useremail}
+              size={32}
+            />
+          ) : (
+            <BiLogInCircle className="sm:mr-5 mr-1" size={30} />
+          )}
         </button>
       </div>
       <button

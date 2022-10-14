@@ -1,21 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+
+import AuthContext from "../context/AuthContext";
+import SocketContext from "../context/SocketContext";
+
 import LoadingScreen from "./LoadingScreen";
 import Chat from "./Chat";
 import LobbyPlayers from "./LobbyPlayers";
 import ChooseCategories from "./ChooseCategories";
-
 import { FaCopy } from "react-icons/fa";
 
-export default function Lobby({
-  socket,
-  username,
-  roomCode,
-  setUserState,
-  setRoomCode,
-  userState,
-  lobbyState,
-  setLobbyState,
-}) {
+export default function Lobby() {
+  const { username } = useContext(AuthContext);
+  const {
+    socket,
+    roomCode,
+    setLobbyState,
+    lobbyState,
+    socketUpdateRoom,
+    socketCancelRoom,
+    socketLeaveRoom,
+  } = useContext(SocketContext);
+
   const [copied, setCopied] = useState(false);
   const isPublic = useRef(false);
 
@@ -27,35 +32,8 @@ export default function Lobby({
     }
   }, [copied]);
 
-  useEffect(() => {
-    socket.on("user-update", (data) => {
-      setRoomCode(data.roomCode);
-      setUserState(data.userState);
-    });
-
-    socket.on("room-update", (data) => {
-      setLobbyState(data.lobbyState);
-    });
-  }, [socket, setLobbyState, setRoomCode, setUserState]);
-
   const handleSlider = () => {
-    socket.emit("update-room", roomCode, username, {
-      ...lobbyState,
-      public: isPublic.current,
-    });
-  };
-  const cancelRoom = () => {
-    socket.emit("cancel-room", roomCode, username);
-  };
-
-  const leaveRoom = () => {
-    socket.emit("leave-room", roomCode, username, (response) => {
-      if (response) {
-        setRoomCode(response.roomCode);
-        setUserState(response.userState);
-        setLobbyState(response.lobbyState);
-      }
-    });
+    socketUpdateRoom(isPublic.current);
   };
 
   if (lobbyState)
@@ -152,7 +130,7 @@ export default function Lobby({
                   )}
 
                   <button
-                    onClick={cancelRoom}
+                    onClick={socketCancelRoom}
                     type="submit"
                     className="border-2 border-slate-400/40 sm:w-1/3 w-full text-rose-500 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
                   >
@@ -161,7 +139,7 @@ export default function Lobby({
                 </>
               ) : (
                 <button
-                  onClick={leaveRoom}
+                  onClick={socketLeaveRoom}
                   type="submit"
                   className="border-2 border-slate-400/40 sm:w-1/3 w-full text-rose-500 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
                 >
