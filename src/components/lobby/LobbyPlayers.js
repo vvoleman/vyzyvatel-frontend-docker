@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiStar } from "react-icons/fi";
 import { MdCancelPresentation } from "react-icons/md";
 
-export default function LobbyPlayers({
-  socket,
-  roomCode,
-  lobbyState,
-  username,
-}) {
-  const kickPlayer = (player) => {
-    socket.emit("kick-room", roomCode, username, player);
-  };
+import AuthContext from "../../context/AuthContext";
+import SocketContext from "../../context/SocketContext";
+
+export default function LobbyPlayers() {
+  const { username } = useContext(AuthContext);
+  const { lobbyState, socketKickPlayer } = useContext(SocketContext);
 
   return (
     <div className="text-white px-4">
@@ -41,7 +38,7 @@ export default function LobbyPlayers({
                 <button
                   className="absolute text-rose-400 top-[-25px] left-[10px]"
                   onClick={() => {
-                    kickPlayer(player);
+                    socketKickPlayer(player);
                   }}
                 >
                   <MdCancelPresentation size={25} />

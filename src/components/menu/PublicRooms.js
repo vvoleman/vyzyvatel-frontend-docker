@@ -3,8 +3,8 @@ import TextCategories from "./TextCategories";
 
 export default function PublicRooms({
   publicRooms,
-  joinPublicRoom,
-  getPublicRooms,
+  socketJoinPublicRoom,
+  setCodeError,
 }) {
   if (publicRooms)
     return (
@@ -28,7 +28,7 @@ export default function PublicRooms({
               <div className="flex justify-end">
                 <button
                   onClick={() => {
-                    joinPublicRoom(room.roomCode);
+                    socketJoinPublicRoom(room.roomCode, setCodeError);
                   }}
                   className="border border-slate-500 m-1 px-5 p-2 rounded-lg bg-slate-900/80 font-semibold text-slate-200"
                 >

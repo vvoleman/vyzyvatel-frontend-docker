@@ -1,92 +1,38 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PublicRooms from "./PublicRooms";
 
-export default function HomeMenu({
-  socket,
-  username,
-  userState,
-  setUserState,
-  setRoomCode,
-  setLobbyState,
-}) {
+import SocketContext from "../../context/SocketContext";
+
+export default function HomeMenu() {
+  const {
+    socketCreateRoom,
+    socketJoinRoom,
+    socketGetPublicRooms,
+    socketJoinPublicRoom,
+  } = useContext(SocketContext);
+
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState(null);
   const [publicRooms, setPublicRooms] = useState(null);
 
-  const getPublicRooms = useCallback(() => {
-    socket.emit("public-rooms", (response) => {
-      if (response) {
-        setPublicRooms(response);
-      }
-    });
-  }, [socket]);
-
-  const joinPublicRoom = (roomCode) => {
-    socket.emit("join-room", roomCode, username, (response) => {
-      if (response === "404") {
-        setCodeError("chybný kód");
-        return;
-      } else if (response === "full") {
-        setCodeError("hra je plná");
-        return;
-      } else if (response === "banned") {
-        setCodeError("v této hře nejste vítán/a");
-        return;
-      }
-      setRoomCode(response.roomCode);
-      setUserState(response.userState);
-      setLobbyState(response.lobbyState);
-      setCodeError(null);
-    });
-  };
-
-  const joinRoom = useCallback(() => {
-    socket.emit("join-room", code, username, (response) => {
-      if (response === "404") {
-        setCodeError("chybný kód");
-        return;
-      } else if (response === "full") {
-        setCodeError("hra je plná");
-        return;
-      } else if (response === "banned") {
-        setCodeError("v této hře nejste vítán/a");
-        return;
-      }
-      setRoomCode(response.roomCode);
-      setUserState(response.userState);
-      setLobbyState(response.lobbyState);
-      setCodeError(null);
-    });
-  }, [code, setLobbyState, setRoomCode, socket, username, setUserState]);
-
   useEffect(() => {
     if (publicRooms == null) {
-      getPublicRooms();
+      socketGetPublicRooms(setPublicRooms);
     }
-  }, [publicRooms, getPublicRooms]);
+  }, [publicRooms, socketGetPublicRooms]);
 
   useEffect(() => {
     setCodeError(null);
 
     if (code.length === 4) {
-      joinRoom();
+      socketJoinRoom(code, setCodeError);
     }
-  }, [code, setCodeError, joinRoom]);
+  }, [code, setCodeError, socketJoinRoom]);
 
   const handleCode = (e) => {
     e.preventDefault();
 
     if (e.target.value.length <= 4) setCode(e.target.value.toUpperCase());
-  };
-
-  const createRoom = () => {
-    socket.emit("create-room", username, (response) => {
-      if (response) {
-        setRoomCode(response.roomCode);
-        setUserState(response.userState);
-        setLobbyState(response.lobbyState);
-      }
-    });
   };
 
   return (
@@ -95,7 +41,7 @@ export default function HomeMenu({
         <div className="space-y-6 p-7">
           <div className="flex justify-center">
             <button
-              onClick={createRoom}
+              onClick={socketCreateRoom}
               type="submit"
               className="border-2 border-slate-400/40 w-64 text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
             >
@@ -132,8 +78,8 @@ export default function HomeMenu({
             </div>
             <PublicRooms
               publicRooms={publicRooms}
-              joinPublicRoom={joinPublicRoom}
-              getPublicRooms={getPublicRooms}
+              setCodeError={setCodeError}
+              socketJoinPublicRoom={socketJoinPublicRoom}
             />
           </div>
         </div>

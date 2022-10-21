@@ -16,15 +16,10 @@ const socket = io.connect(process.env.REACT_APP_SOCKETIO_URL);
 export default SocketContext;
 
 export const SocketProvider = ({ children }) => {
-  const { username } = useContext(AuthContext);
+  const { username, useremail } = useContext(AuthContext);
 
   const [userState, setUserState] = useState(null);
-  const [roomCode, setRoomCode] = useState(null);
   const [lobbyState, setLobbyState] = useState(null);
-
-  useEffect(() => {
-    DEBUG && console.log("roomCode refreshed: " + roomCode);
-  }, [roomCode]);
 
   useEffect(() => {
     DEBUG && console.log("userState refreshed: " + JSON.stringify(userState));
@@ -36,65 +31,128 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     socket.on("user-update", (data) => {
-      setRoomCode(data.roomCode);
-      setUserState(data.userState);
+      setUserState(data);
     });
 
     socket.on("room-update", (data) => {
-      setLobbyState(data.lobbyState);
+      setLobbyState(data);
     });
-  }, [setLobbyState, setRoomCode, setUserState]);
+  }, [setLobbyState, setUserState]);
 
   const login = useCallback(() => {
-    socket.emit("login", username, (response) => {
+    socket.emit("login", username, useremail, (response) => {
       if (response) {
         DEBUG && console.log("login: " + JSON.stringify(response));
-        setRoomCode(response.roomCode);
         setUserState(response.userState);
         if (response.lobbyState) setLobbyState(response.lobbyState);
       }
     });
-  }, [username]);
+  }, [username, useremail]);
 
   const cancelRoom = useCallback(() => {
-    socket.emit("cancel-room", roomCode, username);
-  }, [roomCode, username]);
+    socket.emit("cancel-room", username);
+  }, [username]);
 
   const leaveRoom = useCallback(() => {
-    socket.emit("leave-room", roomCode, username, (response) => {
+    socket.emit("leave-room", username, (response) => {
       if (response) {
-        setRoomCode(response.roomCode);
         setUserState(response.userState);
         setLobbyState(response.lobbyState);
       }
     });
-  }, [roomCode, username]);
+  }, [username]);
 
   const updateRoom = useCallback(
-    (isPublic) => {
-      socket.emit("update-room", roomCode, username, {
-        ...lobbyState,
-        public: isPublic,
+    (newLobbyState) => {
+      socket.emit("update-room", username, newLobbyState);
+    },
+    [username]
+  );
+
+  const createRoom = useCallback(() => {
+    socket.emit("create-room", username, (response) => {
+      if (response) {
+        setUserState(response.userState);
+        setLobbyState(response.lobbyState);
+      }
+    });
+  }, [username]);
+
+  const joinRoom = useCallback(
+    (roomCode, setCodeError) => {
+      socket.emit("join-room", roomCode, username, (response) => {
+        if (response === "404") {
+          setCodeError("chybný kód");
+          return;
+        } else if (response === "full") {
+          setCodeError("hra je plná");
+          return;
+        } else if (response === "banned") {
+          setCodeError("v této hře nejste vítán/a");
+          return;
+        }
+        setUserState(response.userState);
+        setLobbyState(response.lobbyState);
+        setCodeError(null);
       });
     },
-    [roomCode, username, lobbyState]
+    [username]
+  );
+
+  const joinPublicRoom = useCallback(
+    (roomCode, setCodeError) => {
+      socket.emit("join-room", roomCode, username, (response) => {
+        if (response === "404") {
+          setCodeError("chybný kód");
+          return;
+        } else if (response === "full") {
+          setCodeError("hra je plná");
+          return;
+        } else if (response === "banned") {
+          setCodeError("v této hře nejste vítán/a");
+          return;
+        }
+        setUserState(response.userState);
+        setLobbyState(response.lobbyState);
+        setCodeError(null);
+      });
+    },
+    [username]
+  );
+
+  const getPublicRooms = useCallback((setPublicRooms) => {
+    socket.emit("public-rooms", (response) => {
+      if (response) {
+        setPublicRooms(response);
+      }
+    });
+  }, []);
+
+  const kickPlayer = useCallback(
+    (player) => {
+      socket.emit("kick-room", username, player);
+    },
+    [username]
   );
 
   let contextData = {
     socket: socket,
 
     userState: userState,
-    roomCode: roomCode,
     lobbyState: lobbyState,
 
     setUserState: setUserState,
-    setRoomCode: setRoomCode,
     setLobbyState: setLobbyState,
 
     socketLogin: login,
     socketCancelRoom: cancelRoom,
     socketLeaveRoom: leaveRoom,
     socketUpdateRoom: updateRoom,
+    socketCreateRoom: createRoom,
+    socketJoinRoom: joinRoom,
+    socketJoinPublicRoom: joinPublicRoom,
+    socketGetPublicRooms: getPublicRooms,
+    socketKickPlayer: kickPlayer,
   };
 
   return (

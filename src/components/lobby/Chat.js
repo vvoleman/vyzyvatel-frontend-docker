@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
+import AuthContext from "../../context/AuthContext";
 
-export default function Chat({ socket, username, roomCode }) {
+import SocketContext from "../../context/SocketContext";
+
+export default function Chat() {
+  const { username } = useContext(AuthContext);
+  const { socket } = useContext(SocketContext);
+
   const [currMess, setCurrMess] = useState("");
   const [messList, setMessList] = useState([]);
 
@@ -23,7 +29,7 @@ export default function Chat({ socket, username, roomCode }) {
           new Date(Date.now()).getMinutes(),
       };
 
-      await socket.emit("send-message", messData, username, roomCode);
+      await socket.emit("send-message", messData, username);
       setMessList((list) => [...list, messData]);
       setCurrMess("");
     }

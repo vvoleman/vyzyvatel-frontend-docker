@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 
-import AuthContext from "../context/AuthContext";
-import SocketContext from "../context/SocketContext";
+import AuthContext from "../../context/AuthContext";
+import SocketContext from "../../context/SocketContext";
 
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "../LoadingScreen";
 import Chat from "./Chat";
 import LobbyPlayers from "./LobbyPlayers";
 import ChooseCategories from "./ChooseCategories";
@@ -12,9 +12,7 @@ import { FaCopy } from "react-icons/fa";
 export default function Lobby() {
   const { username } = useContext(AuthContext);
   const {
-    socket,
-    roomCode,
-    setLobbyState,
+    userState,
     lobbyState,
     socketUpdateRoom,
     socketCancelRoom,
@@ -33,7 +31,10 @@ export default function Lobby() {
   }, [copied]);
 
   const handleSlider = () => {
-    socketUpdateRoom(isPublic.current);
+    socketUpdateRoom({
+      ...lobbyState,
+      public: isPublic.current,
+    });
   };
 
   if (lobbyState)
@@ -48,10 +49,10 @@ export default function Lobby() {
                   className="flex ml-3 text-yellow-200 font-semibold text-2xl tracking-widest text-start items-center"
                   onClick={() => {
                     setCopied(true);
-                    navigator.clipboard.writeText(roomCode);
+                    navigator.clipboard.writeText(userState.roomCode);
                   }}
                 >
-                  {roomCode ? roomCode : ""}
+                  {userState.roomCode ? userState.roomCode : ""}
                   <FaCopy className="p-2 text-white/80" size={35} />
                   <div className="relative">
                     <p className="text-sm font-normal tracking-normal text-white/80 absolute top-[-12px]">
@@ -62,20 +63,9 @@ export default function Lobby() {
               </div>
             </div>
             <div className="grid sm:grid-rows-1 sm:grid-cols-3 grid-cols-1 grid-rows-3 gap-2 w-full">
-              <ChooseCategories
-                lobbyState={lobbyState}
-                setLobbyState={setLobbyState}
-                username={username}
-                socket={socket}
-                roomCode={roomCode}
-              />
+              <ChooseCategories />
               <div className="grid grid-rows-2">
-                <LobbyPlayers
-                  lobbyState={lobbyState}
-                  username={username}
-                  socket={socket}
-                  roomCode={roomCode}
-                />
+                <LobbyPlayers />
                 {lobbyState["owner"] === username ? (
                   <div className="flex justify-center items-center text-white">
                     <div>
@@ -107,7 +97,7 @@ export default function Lobby() {
                   </div>
                 )}
               </div>
-              <Chat socket={socket} username={username} roomCode={roomCode} />
+              <Chat />
             </div>
             <div className="flex justify-center gap-5">
               {lobbyState["owner"] === username ? (
