@@ -11,7 +11,7 @@ import Lobby from "../components/lobby/Lobby";
 import LoadingScreen from "../components/LoadingScreen";
 
 export default function Home() {
-  const { username } = useContext(AuthContext);
+  const { username, useremail } = useContext(AuthContext);
   const { userState, socketLogin } = useContext(SocketContext);
 
   const navigate = useNavigate();
@@ -21,13 +21,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!username) {
+    if (!username || !useremail) {
       navigate("/login");
       return;
     }
 
     socketLogin();
-  }, [username, navigate, socketLogin]);
+  }, [username, useremail, navigate, socketLogin]);
 
   if (!userState) return <LoadingScreen />;
 

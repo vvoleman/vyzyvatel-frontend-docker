@@ -20,14 +20,19 @@ export const SocketProvider = ({ children }) => {
 
   const [userState, setUserState] = useState(null);
   const [lobbyState, setLobbyState] = useState(null);
+  const [gameState, setGameState] = useState(null);
 
   useEffect(() => {
-    DEBUG && console.log("userState refreshed: " + JSON.stringify(userState));
+    DEBUG && console.log("userState: " + JSON.stringify(userState));
   }, [userState]);
 
   useEffect(() => {
-    DEBUG && console.log("lobbyState refreshed: " + JSON.stringify(lobbyState));
+    DEBUG && console.log("lobbyState: " + JSON.stringify(lobbyState));
   }, [lobbyState]);
+
+  useEffect(() => {
+    DEBUG && console.log("gameState: " + JSON.stringify(gameState));
+  }, [gameState]);
 
   useEffect(() => {
     socket.on("user-update", (data) => {
@@ -37,12 +42,16 @@ export const SocketProvider = ({ children }) => {
     socket.on("room-update", (data) => {
       setLobbyState(data);
     });
+
+    socket.on("game-update", (data) => {
+      setGameState(data);
+    });
   }, [setLobbyState, setUserState]);
 
   const login = useCallback(() => {
     socket.emit("login", username, useremail, (response) => {
       if (response) {
-        DEBUG && console.log("login: " + JSON.stringify(response));
+        //DEBUG && console.log("login: " + JSON.stringify(response));
         setUserState(response.userState);
         if (response.lobbyState) setLobbyState(response.lobbyState);
       }
@@ -135,6 +144,10 @@ export const SocketProvider = ({ children }) => {
     [username]
   );
 
+  const startGame = useCallback(() => {
+    socket.emit("start-game", username);
+  }, [username]);
+
   let contextData = {
     socket: socket,
 
@@ -153,6 +166,7 @@ export const SocketProvider = ({ children }) => {
     socketJoinPublicRoom: joinPublicRoom,
     socketGetPublicRooms: getPublicRooms,
     socketKickPlayer: kickPlayer,
+    socketStartGame: startGame,
   };
 
   return (

@@ -3,10 +3,12 @@ import AuthContext from "../context/AuthContext";
 import { Gravatar } from "./Gravatar";
 import { BiLogInCircle } from "react-icons/bi";
 
-function DropdownItemLink({ text, url }) {
+function DropdownItemLink({ text, url, margin }) {
   return (
     <a href={url}>
-      <li className="bg-slate-700 rounded-lg p-2 px-3 border border-slate-400/60 mt-2">
+      <li
+        className={`bg-slate-700 rounded-lg p-1.5 px-3 border border-slate-400/60 ${margin}`}
+      >
         {text}
       </li>
     </a>
@@ -17,7 +19,7 @@ function DropdownItemButton({ text, func }) {
   return (
     <button
       onClick={func}
-      className="bg-slate-700 rounded-lg p-2 px-3 border border-slate-400/60 mt-2"
+      className="bg-slate-700 rounded-lg p-1.5 px-3 border border-slate-400/60 my-1"
     >
       {text}
     </button>
@@ -25,7 +27,6 @@ function DropdownItemButton({ text, func }) {
 }
 
 export default function Header() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
   const { username, useremail, logoutUser } = useContext(AuthContext);
@@ -34,7 +35,7 @@ export default function Header() {
     <nav className="flex bg-slate-800 text-white h-[60px] justify-start items-center border-b border-slate-700">
       <div className="flex justify-center items-center w-full absolute">
         <div className="sm:text-2xl text-lg text-white pb-1 font-semibold">
-          Vyzyvatel.cz
+          <a href="/"> Vyzyvatel.cz </a>
         </div>
       </div>
       <div className="flex justify-end items-center w-full absolute">
@@ -52,38 +53,20 @@ export default function Header() {
         >
           {useremail ? (
             <Gravatar
-              className="sm:mr-5 mr-1 border-2 border-slate-400 rounded-full"
+              className="sm:mr-5 mr-1 border-2 border-green-500 rounded-full"
               email={useremail}
-              size={32}
+              size={34}
             />
           ) : (
             <BiLogInCircle className="sm:mr-5 mr-1" size={30} />
           )}
         </button>
       </div>
-      <button
-        className="text-slate-200 shadow-xl border border-slate-400/60 pt-1 pb-2 px-3 absolute rounded-lg sm:ml-3 ml-1"
-        onClick={() => {
-          setDropdownOpen(!dropdownOpen);
-        }}
-      >
-        menu
-      </button>
-      {dropdownOpen ? (
-        <div
-          className="top-[60px] left-[0px] absolute bg-slate-700/50 px-2 py-2 rounded-br-lg border-b border-r border-slate-700"
-          onMouseLeave={() => {
-            setDropdownOpen(false);
-          }}
-        >
-          {username ? <ul></ul> : <ul></ul>}
-        </div>
-      ) : null}
       {accountDropdownOpen ? (
         <div
-          className="absolute top-[60px] right-0 bg-slate-700/50 px-2 py-2 rounded-bl-lg border-b border-l border-slate-700"
+          className="absolute top-[60px] right-0 bg-slate-800 px-2 py-1.5 rounded-bl-md border-b border-l border-slate-700"
           onMouseLeave={() => {
-            setDropdownOpen(false);
+            setAccountDropdownOpen(false);
           }}
         >
           {username ? (
@@ -93,7 +76,11 @@ export default function Header() {
           ) : (
             <ul>
               <DropdownItemLink text={"přihlášení"} url={"/login"} />
-              <DropdownItemLink text={"registrace"} url={"/register"} />
+              <DropdownItemLink
+                text={"registrace"}
+                url={"/register"}
+                margin={"mt-2"}
+              />
             </ul>
           )}
         </div>
@@ -101,3 +88,14 @@ export default function Header() {
     </nav>
   );
 }
+
+/*
+      <button
+        className="text-slate-200 shadow-xl border border-slate-400/60 pt-1 pb-2 px-3 absolute rounded-lg sm:ml-3 ml-1"
+        onClick={() => {
+          setDropdownOpen(!dropdownOpen);
+        }}
+      >
+        menu
+      </button>
+*/

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { FiStar } from "react-icons/fi";
 import { MdCancelPresentation } from "react-icons/md";
+import { Gravatar } from "../Gravatar";
 
 import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
@@ -18,30 +18,34 @@ export default function LobbyPlayers() {
         </span>
       </div>
       {lobbyState.players.map((player, idx) => {
+        let email =
+          idx < lobbyState.emails.length ? lobbyState.emails[idx] : "";
+        let borderColor = idx === 0 ? "border-amber-400" : "border-blue-400";
         return (
-          <div
-            key={idx}
-            className={`flex items-end text-lg justify-center rounded-lg pb-2.5 pt-1.5 border my-2 ${
-              player === username
-                ? "border-white font-semibold"
-                : "border-slate-400"
-            } `}
-          >
-            {idx === 0 ? (
-              <div className="absolute">
-                <FiStar className="ml-0 m-1 relative right-[36px]" size={18} />
-              </div>
-            ) : null}
-            {player}
+          <div key={idx}>
+            <div
+              className={`flex items-center text-lg justify-start rounded-lg pb-2.5 pt-1.5 pl-2 border my-2 ${
+                player === username
+                  ? "border-white font-semibold"
+                  : "border-slate-400"
+              } `}
+            >
+              <Gravatar
+                className={`m-2 border-2 ${borderColor} rounded-full`}
+                email={email}
+                size={36}
+              />
+              {player}
+            </div>
             {idx !== 0 && username === lobbyState.owner ? (
-              <div className="relative">
+              <div className="relative flex justify-end">
                 <button
-                  className="absolute text-rose-400 top-[-25px] left-[10px]"
+                  className="absolute text-rose-400 top-[-58px] right-[18px]"
                   onClick={() => {
                     socketKickPlayer(player);
                   }}
                 >
-                  <MdCancelPresentation size={25} />
+                  <MdCancelPresentation size={30} />
                 </button>
               </div>
             ) : null}

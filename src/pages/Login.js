@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser, username } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [usern, setUsern] = useState(
     localStorage.getItem("lastUsername")
@@ -16,7 +18,8 @@ export default function Login() {
 
   useEffect(() => {
     document.title = "Přihlášení - Vyzyvatel";
-  }, []);
+    if (username) navigate("/");
+  }, [username, navigate]);
 
   const handleUsern = (e) => {
     e.preventDefault();

@@ -29,17 +29,29 @@ export const AuthProvider = ({ children }) => {
       let response = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/api/auth/email/",
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Token " + authToken,
           },
+          body: JSON.stringify({
+            username: username,
+          }),
         }
       );
       let data = await response.json();
-      if (response.ok) {
-        setEmail(data);
-        localStorage.setItem("email", JSON.stringify(data));
+      if (!response.ok) return;
+      if (data.valid === true) {
+        setEmail(data.email);
+        localStorage.setItem("email", JSON.stringify(data.email));
+      } else {
+        localStorage.removeItem("username");
+        localStorage.removeItem("email");
+        localStorage.removeItem("authToken");
+        localStorage.setItem("lastUsername", JSON.stringify("cheater"));
+        setUsername(null);
+        setEmail(null);
+        setAuthToken(null);
       }
     };
 
@@ -90,7 +102,7 @@ export const AuthProvider = ({ children }) => {
       }
     );
     let data = await response.json();
-    DEBUG && console.log("login:", data);
+    //DEBUG && console.log("login:", data);
     if (response.ok) {
       setUsername(username);
       setAuthToken(data.auth_token);
@@ -115,12 +127,12 @@ export const AuthProvider = ({ children }) => {
     );
     if (response.ok) {
       DEBUG && console.log("logoutUser - succes");
-      setAuthToken(null);
-      setUsername(null);
-      setEmail(null);
       localStorage.removeItem("username");
       localStorage.removeItem("email");
       localStorage.removeItem("authToken");
+      setAuthToken(null);
+      setUsername(null);
+      setEmail(null);
     } else
       DEBUG &&
         console.log("logoutUser - fail" + JSON.stringify(response.json()));
