@@ -41,7 +41,7 @@ export default function ChooseCategories() {
         {lobbyState.owner === username ? (
           <div
             key="0"
-            className="flex justify-between border rounded-md my-2 px-1 py-0.5 border-slate-200/20 bg-slate-800"
+            className="flex justify-between border rounded-md my-2 px-1 py-0.5 border-slate-200/10 bg-slate-800 text-white/70"
           >
             <div className="p-2 py-1">Vybrat vše</div>
             <div className="p-2 py-1 flex items-center">

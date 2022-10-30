@@ -13,7 +13,7 @@ export default function LobbyPlayers() {
     <div className="text-white px-4">
       <div className="text-center p-1 text-md">
         Připojení hráči
-        <span className="ml-2 font-semibold">
+        <span className="ml-2 font-semibold tracking-widest">
           ({lobbyState.players.length}/3)
         </span>
       </div>

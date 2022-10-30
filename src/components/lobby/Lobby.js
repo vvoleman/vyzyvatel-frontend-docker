@@ -17,6 +17,7 @@ export default function Lobby() {
     socketUpdateRoom,
     socketCancelRoom,
     socketLeaveRoom,
+    socketStartGame,
   } = useContext(SocketContext);
 
   const [copied, setCopied] = useState(false);
@@ -35,6 +36,14 @@ export default function Lobby() {
       ...lobbyState,
       public: isPublic.current,
     });
+  };
+
+  const IsAtleastOneCategoryActive = () => {
+    let isActive = false;
+    lobbyState.categories.forEach((cat) => {
+      if (cat.active === true) isActive = true;
+    });
+    return isActive;
   };
 
   if (lobbyState)
@@ -102,7 +111,8 @@ export default function Lobby() {
             <div className="flex justify-center gap-5">
               {lobbyState["owner"] === username ? (
                 <>
-                  {lobbyState["players"].length < 3 ? (
+                  {lobbyState["players"].length < 0 ||
+                  !IsAtleastOneCategoryActive() ? (
                     <button
                       disabled
                       type="submit"
@@ -112,6 +122,7 @@ export default function Lobby() {
                     </button>
                   ) : (
                     <button
+                      onClick={socketStartGame}
                       type="submit"
                       className="border-2 border-slate-400/40 sm:w-1/3 text-green-500 w-full bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
                     >
