@@ -12,8 +12,8 @@ import { FaCopy } from "react-icons/fa";
 export default function Lobby() {
   const { username } = useContext(AuthContext);
   const {
-    userState,
-    lobbyState,
+    userInfo,
+    roomInfo,
     socketUpdateRoom,
     socketCancelRoom,
     socketLeaveRoom,
@@ -33,20 +33,20 @@ export default function Lobby() {
 
   const handleSlider = () => {
     socketUpdateRoom({
-      ...lobbyState,
+      ...roomInfo,
       public: isPublic.current,
     });
   };
 
   const IsAtleastOneCategoryActive = () => {
     let isActive = false;
-    lobbyState.categories.forEach((cat) => {
+    roomInfo.categories.forEach((cat) => {
       if (cat.active === true) isActive = true;
     });
     return isActive;
   };
 
-  if (lobbyState)
+  if (roomInfo)
     return (
       <div className="flex grow justify-center items-center bg-slate-900">
         <div className="sm:rounded-lg shadow sm:border w-full max-w-6xl bg-slate-800 border-slate-600">
@@ -58,10 +58,10 @@ export default function Lobby() {
                   className="flex ml-3 text-yellow-200 font-semibold text-2xl tracking-widest text-start items-center"
                   onClick={() => {
                     setCopied(true);
-                    navigator.clipboard.writeText(userState.roomCode);
+                    navigator.clipboard.writeText(userInfo.roomCode);
                   }}
                 >
-                  {userState.roomCode ? userState.roomCode : ""}
+                  {userInfo.roomCode ? userInfo.roomCode : ""}
                   <FaCopy className="p-2 text-white/80" size={35} />
                   <div className="relative">
                     <p className="text-sm font-normal tracking-normal text-white/80 absolute top-[-12px]">
@@ -75,7 +75,7 @@ export default function Lobby() {
               <ChooseCategories />
               <div className="grid grid-rows-2">
                 <LobbyPlayers />
-                {lobbyState["owner"] === username ? (
+                {roomInfo["owner"] === username ? (
                   <div className="flex justify-center items-center text-white">
                     <div>
                       <div className="text-center m-2">
@@ -100,7 +100,7 @@ export default function Lobby() {
                   </div>
                 ) : (
                   <div className="flex justify-center items-center text-white/70">
-                    {lobbyState.public
+                    {roomInfo.public
                       ? "Kdokoliv se může připojit"
                       : "Přístup pouze přes kód"}
                   </div>
@@ -109,9 +109,9 @@ export default function Lobby() {
               <Chat />
             </div>
             <div className="flex justify-center gap-5">
-              {lobbyState["owner"] === username ? (
+              {roomInfo["owner"] === username ? (
                 <>
-                  {lobbyState["players"].length < 0 ||
+                  {roomInfo["players"].length < 0 ||
                   !IsAtleastOneCategoryActive() ? (
                     <button
                       disabled

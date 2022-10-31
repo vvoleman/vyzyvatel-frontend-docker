@@ -7,19 +7,19 @@ import SocketContext from "../../context/SocketContext";
 
 export default function LobbyPlayers() {
   const { username } = useContext(AuthContext);
-  const { lobbyState, socketKickPlayer } = useContext(SocketContext);
+  const { roomInfo, socketKickPlayer } = useContext(SocketContext);
 
   return (
     <div className="text-white px-4">
       <div className="text-center p-1 text-md">
         Připojení hráči
         <span className="ml-2 font-semibold tracking-widest">
-          ({lobbyState.players.length}/3)
+          ({roomInfo.players.length}/3)
         </span>
       </div>
-      {lobbyState.players.map((player, idx) => {
+      {roomInfo.players.map((player, idx) => {
         let email =
-          idx < lobbyState.emails.length ? lobbyState.emails[idx] : "";
+          idx < roomInfo.emails.length ? roomInfo.emails[idx] : "";
         let borderColor = idx === 0 ? "border-amber-400" : "border-blue-400";
         return (
           <div key={idx}>
@@ -37,7 +37,7 @@ export default function LobbyPlayers() {
               />
               {player}
             </div>
-            {idx !== 0 && username === lobbyState.owner ? (
+            {idx !== 0 && username === roomInfo.owner ? (
               <div className="relative flex justify-end">
                 <button
                   className="absolute text-rose-400 top-[-58px] right-[18px]"

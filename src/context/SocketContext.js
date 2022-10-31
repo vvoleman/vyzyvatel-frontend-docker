@@ -18,42 +18,32 @@ export default SocketContext;
 export const SocketProvider = ({ children }) => {
   const { username, useremail } = useContext(AuthContext);
 
-  const [userState, setUserState] = useState(null);
-  const [lobbyState, setLobbyState] = useState(null);
-  const [gameState, setGameState] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+  const [roomInfo, setRoomInfo] = useState(null);
 
   useEffect(() => {
-    DEBUG && console.log("userState: " + JSON.stringify(userState));
-  }, [userState]);
+    DEBUG && console.log("userInfo: " + JSON.stringify(userInfo));
+  }, [userInfo]);
 
   useEffect(() => {
-    DEBUG && console.log("lobbyState: " + JSON.stringify(lobbyState));
-  }, [lobbyState]);
-
-  useEffect(() => {
-    DEBUG && console.log("gameState: " + JSON.stringify(gameState));
-  }, [gameState]);
+    DEBUG && console.log("roomInfo: " + JSON.stringify(roomInfo));
+  }, [roomInfo]);
 
   useEffect(() => {
     socket.on("user-update", (data) => {
-      setUserState(data);
+      setUserInfo(data);
     });
 
     socket.on("room-update", (data) => {
-      setLobbyState(data);
+      setRoomInfo(data);
     });
-
-    socket.on("game-update", (data) => {
-      setGameState(data);
-    });
-  }, [setLobbyState, setUserState]);
+  }, [setRoomInfo, setUserInfo]);
 
   const login = useCallback(() => {
     socket.emit("login", username, useremail, (response) => {
       if (response) {
-        //DEBUG && console.log("login: " + JSON.stringify(response));
-        setUserState(response.userState);
-        if (response.lobbyState) setLobbyState(response.lobbyState);
+        setUserInfo(response.userInfo);
+        setRoomInfo(response.roomInfo);
       }
     });
   }, [username, useremail]);
@@ -65,8 +55,8 @@ export const SocketProvider = ({ children }) => {
   const leaveRoom = useCallback(() => {
     socket.emit("leave-room", username, (response) => {
       if (response) {
-        setUserState(response.userState);
-        setLobbyState(response.lobbyState);
+        setUserInfo(response.userInfo);
+        setRoomInfo(response.roomInfo);
       }
     });
   }, [username]);
@@ -81,8 +71,8 @@ export const SocketProvider = ({ children }) => {
   const createRoom = useCallback(() => {
     socket.emit("create-room", username, (response) => {
       if (response) {
-        setUserState(response.userState);
-        setLobbyState(response.lobbyState);
+        setUserInfo(response.userInfo);
+        setRoomInfo(response.roomInfo);
       }
     });
   }, [username]);
@@ -100,8 +90,8 @@ export const SocketProvider = ({ children }) => {
           setCodeError("v této hře nejste vítán/a");
           return;
         }
-        setUserState(response.userState);
-        setLobbyState(response.lobbyState);
+        setUserInfo(response.userInfo);
+        setRoomInfo(response.roomInfo);
         setCodeError(null);
       });
     },
@@ -121,8 +111,8 @@ export const SocketProvider = ({ children }) => {
           setCodeError("v této hře nejste vítán/a");
           return;
         }
-        setUserState(response.userState);
-        setLobbyState(response.lobbyState);
+        setUserInfo(response.userInfo);
+        setRoomInfo(response.roomInfo);
         setCodeError(null);
       });
     },
@@ -151,11 +141,11 @@ export const SocketProvider = ({ children }) => {
   let contextData = {
     socket: socket,
 
-    userState: userState,
-    lobbyState: lobbyState,
+    userInfo: userInfo,
+    roomInfo: roomInfo,
 
-    setUserState: setUserState,
-    setLobbyState: setLobbyState,
+    setUserInfo: setUserInfo,
+    setRoomInfo: setRoomInfo,
 
     socketLogin: login,
     socketCancelRoom: cancelRoom,

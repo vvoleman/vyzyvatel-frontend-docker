@@ -12,7 +12,7 @@ import LoadingScreen from "../components/LoadingScreen";
 
 export default function Home() {
   const { username, useremail } = useContext(AuthContext);
-  const { userState, socketLogin } = useContext(SocketContext);
+  const { userInfo, socketLogin } = useContext(SocketContext);
 
   const navigate = useNavigate();
 
@@ -29,9 +29,9 @@ export default function Home() {
     socketLogin();
   }, [username, useremail, navigate, socketLogin]);
 
-  if (!userState) return <LoadingScreen />;
+  if (!userInfo) return <LoadingScreen />;
 
-  switch (userState.state) {
+  switch (userInfo.state) {
     case USER_STATES.MENU:
       return <HomeMenu />;
     case USER_STATES.LOBBY:
