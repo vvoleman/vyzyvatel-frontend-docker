@@ -8,6 +8,7 @@ import { USER_STATES } from "../constants";
 
 import HomeMenu from "../components/menu/HomeMenu";
 import Lobby from "../components/lobby/Lobby";
+import Game from "../components/game/Game";
 import LoadingScreen from "../components/LoadingScreen";
 
 export default function Home() {
@@ -36,6 +37,8 @@ export default function Home() {
       return <HomeMenu />;
     case USER_STATES.LOBBY:
       return <Lobby />;
+    case USER_STATES.GAME:
+      return <Game />;
     default:
       return <LoadingScreen />;
   }

@@ -4,7 +4,7 @@ import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
 
 import LoadingScreen from "../LoadingScreen";
-import Chat from "./Chat";
+import LobbyChat from "./LobbyChat";
 import LobbyPlayers from "./LobbyPlayers";
 import ChooseCategories from "./ChooseCategories";
 import { FaCopy } from "react-icons/fa";
@@ -106,7 +106,7 @@ export default function Lobby() {
                   </div>
                 )}
               </div>
-              <Chat />
+              <LobbyChat />
             </div>
             <div className="flex justify-center gap-5">
               {roomInfo["owner"] === username ? (
@@ -152,5 +152,5 @@ export default function Lobby() {
         </div>
       </div>
     );
-  else return <LoadingScreen />;
+  return <LoadingScreen />;
 }

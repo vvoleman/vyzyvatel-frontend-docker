@@ -4,7 +4,7 @@ import AuthContext from "../../context/AuthContext";
 
 import SocketContext from "../../context/SocketContext";
 
-export default function Chat() {
+export default function GameChat() {
   const { username } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
 
