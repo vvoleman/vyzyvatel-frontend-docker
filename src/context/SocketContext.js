@@ -22,11 +22,11 @@ export const SocketProvider = ({ children }) => {
   const [roomInfo, setRoomInfo] = useState(null);
 
   useEffect(() => {
-    DEBUG && console.log("userInfo: " + JSON.stringify(userInfo));
+    if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
   }, [userInfo]);
 
   useEffect(() => {
-    DEBUG && console.log("roomInfo: " + JSON.stringify(roomInfo));
+    if (DEBUG) console.log("roomInfo: " + JSON.stringify(roomInfo));
   }, [roomInfo]);
 
   useEffect(() => {
@@ -123,6 +123,7 @@ export const SocketProvider = ({ children }) => {
     socket.emit("public-rooms", (response) => {
       if (response) {
         setPublicRooms(response);
+        if (DEBUG) console.log("public rooms: " + JSON.stringify(response));
       }
     });
   }, []);

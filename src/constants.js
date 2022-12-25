@@ -12,6 +12,13 @@ export const ROOM_STATES = {
 export const QUESTION_TYPES = {
   PICK: "pick",
   NUMERIC: "numeric",
+  IMAGE: "image",
+};
+
+export const PLAYER_COLORS = {
+  RED: "#FF4545",
+  GREEN: "#52FF68",
+  BLUE: "#4EBAFF",
 };
 
 export const DEBUG = true;

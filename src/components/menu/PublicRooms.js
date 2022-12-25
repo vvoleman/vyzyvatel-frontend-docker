@@ -21,7 +21,7 @@ export default function PublicRooms({
               className="grid grid-cols-4 p-2 py-1 border-t border-slate-400/50 text-slate-200 font-normal"
             >
               <div>{room.owner}</div>
-              <div>{room.players.length}/3</div>
+              <div>{room.capacity}/3</div>
               <div>
                 <TextCategories room={room} />
               </div>

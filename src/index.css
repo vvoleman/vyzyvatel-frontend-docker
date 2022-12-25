@@ -18,6 +18,13 @@
         overflow-x: hidden;
     }
 
+    .message-game-container {
+            width: 308px;
+            height: 360px;
+            overflow-y: hidden;
+            overflow-x: hidden;
+    }
+
     .categories-container {
         width: 100%;
         height: 360px;

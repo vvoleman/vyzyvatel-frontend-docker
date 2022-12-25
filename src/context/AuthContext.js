@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
       }
     );
     let data = await response.json();
-    DEBUG && console.log("register:", data);
+    if (DEBUG) console.log("register:", data);
     if (response.ok) {
       localStorage.setItem("lastUsername", JSON.stringify(username));
       navigate("./login");
