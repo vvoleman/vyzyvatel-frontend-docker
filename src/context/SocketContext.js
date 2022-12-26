@@ -139,6 +139,13 @@ export const SocketProvider = ({ children }) => {
     socket.emit("start-game", username);
   }, [username]);
 
+  const answerQuestion = useCallback(
+    (answer) => {
+      socket.emit("answer-question", username, answer);
+    },
+    [username]
+  );
+
   let contextData = {
     socket: socket,
 
@@ -158,6 +165,8 @@ export const SocketProvider = ({ children }) => {
     socketGetPublicRooms: getPublicRooms,
     socketKickPlayer: kickPlayer,
     socketStartGame: startGame,
+
+    socketAnswerQuestion: answerQuestion,
   };
 
   return (

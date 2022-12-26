@@ -56,7 +56,6 @@ export default function GamePlayers() {
       </div>
       <div className="absolute 2xl:hidden flex text-white px-4 top-[10%] left-[2%]">
         {roomInfo.players.map((player, idx) => {
-          let email = idx < roomInfo.emails.length ? roomInfo.emails[idx] : "";
           return (
             <div
               key={idx}
@@ -71,7 +70,7 @@ export default function GamePlayers() {
                   style={{
                     borderColor: roomInfo.playersColor[player],
                   }}
-                  email={email}
+                  email={roomInfo.emails[player] ? roomInfo.emails[player] : ""}
                   size={46}
                 />
                 <div

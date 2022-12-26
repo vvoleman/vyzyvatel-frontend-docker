@@ -18,8 +18,6 @@ export default function LobbyPlayers() {
         </span>
       </div>
       {roomInfo.players.map((player, idx) => {
-        let email =
-          idx < roomInfo.emails.length ? roomInfo.emails[idx] : "";
         let borderColor = idx === 0 ? "border-amber-400" : "border-blue-400";
         return (
           <div key={idx}>
@@ -32,7 +30,7 @@ export default function LobbyPlayers() {
             >
               <Gravatar
                 className={`m-2 border-2 ${borderColor} rounded-full`}
-                email={email}
+                email={roomInfo.emails[player] ? roomInfo.emails[player] : ""}
                 size={36}
               />
               {player}

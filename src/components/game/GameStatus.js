@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useCurrentTime from "../../hooks/useCurrentTime";
 
 const GameStatus = ({ roomInfo }) => {
@@ -7,29 +7,29 @@ const GameStatus = ({ roomInfo }) => {
   return (
     <div className="text-xl text-white absolute top-[16%] left-[64%]">
       <div>gameState: {roomInfo.gameState} </div>
-      {roomInfo.gameStateProps && roomInfo.gameStateProps.startTime ? (
+      {roomInfo.currentQuestion && roomInfo.currentQuestion.startTime ? (
         <div
           className={`${
-            roomInfo.gameStateProps.startTime < currentTime
+            roomInfo.currentQuestion.startTime < currentTime
               ? "text-green-400"
               : "text-white"
           }`}
         >
-          starTime: {roomInfo.gameStateProps.startTime}
+          starTime: {roomInfo.currentQuestion.startTime}
         </div>
       ) : null}
 
       <div className="text-yellow-200">currTime: {currentTime}</div>
 
-      {roomInfo.gameStateProps && roomInfo.gameStateProps.endTime ? (
+      {roomInfo.currentQuestion && roomInfo.currentQuestion.endTime ? (
         <div
           className={`${
-            roomInfo.gameStateProps.endTime < currentTime
+            roomInfo.currentQuestion.endTime < currentTime
               ? "text-red-400"
               : "text-white"
           }`}
         >
-          endTime: {roomInfo.gameStateProps.endTime}
+          endTime: {roomInfo.currentQuestion.endTime}
         </div>
       ) : null}
     </div>

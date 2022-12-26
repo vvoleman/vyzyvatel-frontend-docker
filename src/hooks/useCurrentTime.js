@@ -6,7 +6,7 @@ const useCurrentTime = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date().getTime());
-    }, 10);
+    }, 32);
 
     return () => clearInterval(interval);
   }, []);

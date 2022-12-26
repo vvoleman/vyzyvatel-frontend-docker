@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 
-import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
-
 import LoadingScreen from "../LoadingScreen";
 import MapSVG from "../../components/MapSVG";
 import GamePlayers from "./GamePlayers";
@@ -12,8 +10,7 @@ import GameStatus from "./GameStatus";
 import QuestionController from "./Questions/QuestionController";
 
 export default function Game() {
-  const { username } = useContext(AuthContext);
-  const { userInfo, roomInfo } = useContext(SocketContext);
+  const { roomInfo } = useContext(SocketContext);
   const [kraj, setKraj] = useState(null);
 
   if (roomInfo.map)
@@ -26,7 +23,7 @@ export default function Game() {
         <GamePlayers />
         <GameChat />
         <GameQueue />
-        <QuestionController />
+        {roomInfo.currentQuestion ? <QuestionController /> : null}
       </div>
     );
   return <LoadingScreen />;

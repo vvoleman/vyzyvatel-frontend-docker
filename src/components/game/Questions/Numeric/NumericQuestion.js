@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import CalculatorNumber from "./CalculatorNumber";
 import { BiPlay } from "react-icons/bi";
 import { BsBackspace } from "react-icons/bs";
-import QuestionTimer from "./QuestionTimer";
-import SocketContext from "../../../context/SocketContext";
+import QuestionTimer from "../QuestionTimer";
+import SocketContext from "../../../../context/SocketContext";
 
 const isWholeNumber = (str) => Number.isInteger(Number(str));
 
