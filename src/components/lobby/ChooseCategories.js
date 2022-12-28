@@ -3,6 +3,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 
 import SocketContext from "../../context/SocketContext";
 import AuthContext from "../../context/AuthContext";
+import { motion } from "framer-motion";
 
 export default function ChooseCategories() {
   const { username } = useContext(AuthContext);
@@ -61,16 +62,21 @@ export default function ChooseCategories() {
             </div>
           </div>
         ) : null}
-        {roomInfo.categories.map((category) => {
+        {roomInfo.categories.map((category, idx) => {
           return (
-            <div
+            <motion.div
+              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.6 }}
+              transition={{ delay: idx * 0.1 }}
               key={category.id}
               className="flex justify-between border rounded-md my-2 px-1 py-0.5 border-slate-200/50 bg-slate-800"
             >
               <div className="p-2 py-1">{category.name}</div>
               <div className="p-2 py-1 flex items-center">
                 {roomInfo.owner === username ? (
-                  <input
+                  <motion.input
+                    animate={{ scale: 1 }}
+                    initial={{ scale: 0 }}
                     className="w-6 h-5"
                     type="checkbox"
                     checked={category.active}
@@ -79,7 +85,9 @@ export default function ChooseCategories() {
                     }}
                   />
                 ) : (
-                  <input
+                  <motion.input
+                    animate={{ scale: 1 }}
+                    initial={{ scale: 0 }}
                     className="w-6 h-5"
                     type="checkbox"
                     checked={category.active}
@@ -87,7 +95,7 @@ export default function ChooseCategories() {
                   />
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </ScrollToBottom>

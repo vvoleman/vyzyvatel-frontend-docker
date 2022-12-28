@@ -3,6 +3,7 @@ import { Gravatar } from "../Gravatar";
 
 import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
+import { motion } from "framer-motion";
 
 export default function GamePlayers() {
   const { username } = useContext(AuthContext);
@@ -18,17 +19,20 @@ export default function GamePlayers() {
   };
 
   return (
-    <>
+    <div>
       <div className="absolute hidden 2xl:block text-white px-4 top-[10%] left-[2%]">
         {roomInfo.players.map((player, idx) => {
           let email = idx < roomInfo.emails.length ? roomInfo.emails[idx] : "";
           return (
-            <div
+            <motion.div
+              animate={{ scale: 1 }}
+              initial={{ scale: 0 }}
+              transition={{ duration: 0.3, delay: (idx + 1) * 0.2 }}
               key={idx}
               style={{
                 borderColor: roomInfo.playersColor[player],
               }}
-              className="flex items-center text-lg justify-between rounded-2xl pb-1.5 pt-1 pl-2 border-2 my-2 w-72 opacity-95"
+              className="flex items-center text-lg justify-between rounded-2xl pb-1.5 pt-1 pl-2 border-2 my-2 w-72 opacity-95 bg-gradient-to-r from-slate-800 to-black/50"
             >
               <div className="flex items-center">
                 <Gravatar
@@ -50,7 +54,7 @@ export default function GamePlayers() {
               <div className="m-2 px-2 font-semibold">
                 {totalScore(player)}{" "}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
@@ -88,6 +92,6 @@ export default function GamePlayers() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

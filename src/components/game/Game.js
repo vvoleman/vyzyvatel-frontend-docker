@@ -23,6 +23,7 @@ export default function Game() {
         <GamePlayers />
         <GameChat />
         <GameQueue />
+
         {roomInfo.currentQuestion ? <QuestionController /> : null}
       </div>
     );

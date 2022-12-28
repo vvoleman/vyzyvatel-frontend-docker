@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const { loginUser, username } = useContext(AuthContext);
@@ -79,7 +80,11 @@ export default function Login() {
 
   return (
     <div className="flex grow justify-center items-center bg-slate-900">
-      <div className="w-full sm:rounded-lg shadow sm:border max-w-md  bg-slate-800 border-slate-600">
+      <motion.div
+        initial={{ opacity: 0.4, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full sm:rounded-lg shadow sm:border max-w-md  bg-slate-800 border-slate-600"
+      >
         <div className="space-y-6 p-7">
           <h1 className="text-xl font-bold leading-tight text-white">
             Přihlášení
@@ -127,13 +132,14 @@ export default function Login() {
                 </label>
               ) : null}
             </div>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.03 }}
               onClick={handleButton}
               type="submit"
-              className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
+              className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600 hover:bg-slate-700/80"
             >
               Přilhásit se
-            </button>
+            </motion.button>
             {serverError !== "" ? (
               <div className="flex text-rose-400">{serverError}</div>
             ) : null}
@@ -148,7 +154,7 @@ export default function Login() {
             </p>
           </form>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

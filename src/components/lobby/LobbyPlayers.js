@@ -4,6 +4,7 @@ import { Gravatar } from "../Gravatar";
 
 import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
+import { motion } from "framer-motion";
 
 export default function LobbyPlayers() {
   const { username } = useContext(AuthContext);
@@ -20,7 +21,12 @@ export default function LobbyPlayers() {
       {roomInfo.players.map((player, idx) => {
         let borderColor = idx === 0 ? "border-amber-400" : "border-blue-400";
         return (
-          <div key={idx}>
+          <motion.div
+            key={idx}
+            animate={{ scale: 1 }}
+            initial={{ scale: 0 }}
+            transition={{ delay: idx * 0.2 }}
+          >
             <div
               className={`flex items-center text-lg justify-start rounded-lg pb-2.5 pt-1.5 pl-2 border my-2 ${
                 player === username
@@ -47,7 +53,7 @@ export default function LobbyPlayers() {
                 </button>
               </div>
             ) : null}
-          </div>
+          </motion.div>
         );
       })}
     </div>

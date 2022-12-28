@@ -4,6 +4,7 @@ import SocketContext from "../../../context/SocketContext";
 import PrepareCounter from "./PrepareCounter";
 import useCurrentTime from "../../../hooks/useCurrentTime";
 import NumericResults from "./Numeric/NumericResults";
+import { motion } from "framer-motion";
 
 const QuestionController = () => {
   const { roomInfo, socketAnswerQuestion } = useContext(SocketContext);
@@ -40,29 +41,42 @@ const QuestionController = () => {
     setSecondsTillEnd((roomInfo.currentQuestion.endTime - currentTime) / 1000);
   }, [currentTime, roomInfo.currentQuestion]);
 
-  if (!roomInfo.currentQuestion) return null;
+  const content = () => {
+    if (!roomInfo.currentQuestion) return null;
 
-  if (secondsTillStart > 3) return;
+    if (secondsTillStart > 3) return;
 
-  if (secondsTillStart >= 1)
-    return <PrepareCounter seconds={secondsTillStart} />;
+    if (secondsTillStart >= 1)
+      return <PrepareCounter seconds={secondsTillStart} />;
 
-  // user already answered
-  if (answer || secondsTillEnd < -0.3) {
+    // user already answered
+    if (answer || secondsTillEnd < -0.3) {
+      switch (roomInfo.currentQuestion.type) {
+        case "numeric":
+          return <NumericResults answer={answer} />;
+      }
+    }
+
+    if (secondsTillEnd < -0.3) {
+      return;
+    }
+
+    // user has not answered yet and time is not up
     switch (roomInfo.currentQuestion.type) {
       case "numeric":
-        return <NumericResults answer={answer} />;
+        return <NumericQuestion setAnswer={setAnswer} />;
     }
-  }
+  };
 
-  if (secondsTillEnd < -0.3) {
-    return;
-  }
-
-  // user has not answered yet and time is not up
-  switch (roomInfo.currentQuestion.type) {
-    case "numeric":
-      return <NumericQuestion setAnswer={setAnswer} />;
-  }
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="absolute w-full h-full bg-black/75 m-0 p-0 top-[0%] flex justify-center items-center transition-all"
+    >
+      {content()}
+    </motion.div>
+  );
 };
 export default QuestionController;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { motion } from "framer-motion";
 
 const validateEmail = (email) => {
   const re = /\S+@\S+\.\S+/;
@@ -120,7 +121,11 @@ export default function Register() {
 
   return (
     <div className="flex grow justify-center items-center bg-slate-900">
-      <div className="w-full sm:rounded-lg shadow sm:border max-w-md  bg-slate-800 border-slate-600">
+      <motion.div
+        initial={{ opacity: 0.4, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full sm:rounded-lg shadow sm:border max-w-md  bg-slate-800 border-slate-600"
+      >
         <div className="space-y-6 p-7">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-white">
             Registrace
@@ -211,13 +216,14 @@ export default function Register() {
               ) : null}
             </div>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.03 }}
               onClick={handleButton}
               type="submit"
-              className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
+              className="border-2 border-slate-400/40 w-full text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600 hover:bg-slate-700/50"
             >
               Vytvořit účet
-            </button>
+            </motion.button>
             {serverError !== "" ? (
               <div className="flex text-rose-400">{serverError}</div>
             ) : null}
@@ -232,7 +238,7 @@ export default function Register() {
             </p>
           </form>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

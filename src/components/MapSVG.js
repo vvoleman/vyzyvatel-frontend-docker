@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const regions = [
   {
@@ -95,7 +96,10 @@ const MapSVG = ({ roomInfo, setKraj }) => {
 
   return (
     <>
-      <svg
+      <motion.svg
+        animate={{ scale: 1 }}
+        initial={{ scale: 0 }}
+        transition={{ duration: 0.5 }}
         stroke="#303030"
         strokeWidth="3"
         viewBox="0 0 1000 570"
@@ -145,7 +149,7 @@ const MapSVG = ({ roomInfo, setKraj }) => {
             </text>
           );
         })}
-      </svg>
+      </motion.svg>
     </>
   );
 };

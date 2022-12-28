@@ -3,6 +3,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import AuthContext from "../../context/AuthContext";
 
 import SocketContext from "../../context/SocketContext";
+import { motion } from "framer-motion";
 
 export default function GameChat() {
   const { username } = useContext(AuthContext);
@@ -35,7 +36,12 @@ export default function GameChat() {
     }
   };
   return (
-    <div className="absolute px-4 bottom-[10%]  left-[1%] hidden 2xl:block opacity-50">
+    <motion.div
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
+      transition={{ duration: 0.5 }}
+      className="absolute px-4 bottom-[10%]  left-[1%] hidden 2xl:block opacity-50"
+    >
       <div className="border-2 rounded-md border-slate-500 p-2 bg-gradient-to-r from-slate-900/50 to-slate-900/30">
         <ScrollToBottom className="message-game-container">
           <div className="text-white/80 text-center text-sm">Chat hry</div>
@@ -96,6 +102,6 @@ export default function GameChat() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

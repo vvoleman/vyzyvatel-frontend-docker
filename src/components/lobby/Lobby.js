@@ -8,6 +8,7 @@ import LobbyChat from "./LobbyChat";
 import LobbyPlayers from "./LobbyPlayers";
 import ChooseCategories from "./ChooseCategories";
 import { FaCopy } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Lobby() {
   const { username } = useContext(AuthContext);
@@ -49,7 +50,11 @@ export default function Lobby() {
   if (roomInfo)
     return (
       <div className="flex grow justify-center items-center bg-slate-900">
-        <div className="sm:rounded-lg shadow sm:border w-full max-w-6xl bg-slate-800 border-slate-600">
+        <motion.div
+          animate={{ scale: 1 }}
+          initial={{ scale: 0.6 }}
+          className="sm:rounded-lg shadow sm:border w-full max-w-6xl bg-slate-800 border-slate-600"
+        >
           <div className="sm:space-y-6 p-7">
             <div className="text-white text-lg text-center">
               Kód pro připojení do hry
@@ -121,35 +126,38 @@ export default function Lobby() {
                       Spustit hru
                     </button>
                   ) : (
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
                       onClick={socketStartGame}
                       type="submit"
-                      className="border-2 border-slate-400/40 sm:w-1/3 text-green-500 w-full bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
+                      className="border-2 border-slate-400/40 sm:w-1/3 text-green-500 w-full bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80"
                     >
                       Spustit hru
-                    </button>
+                    </motion.button>
                   )}
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
                     onClick={socketCancelRoom}
                     type="submit"
-                    className="border-2 border-slate-400/40 sm:w-1/3 w-full text-rose-500 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
+                    className="border-2 border-slate-400/40 sm:w-1/3 w-full text-rose-500 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80"
                   >
                     Zrušit
-                  </button>
+                  </motion.button>
                 </>
               ) : (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
                   onClick={socketLeaveRoom}
                   type="submit"
-                  className="border-2 border-slate-400/40 sm:w-1/3 w-full text-rose-500 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
+                  className="border-2 border-slate-400/40 sm:w-1/3 w-full text-rose-500 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80"
                 >
                   Opustit
-                </button>
+                </motion.button>
               )}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     );
   return <LoadingScreen />;

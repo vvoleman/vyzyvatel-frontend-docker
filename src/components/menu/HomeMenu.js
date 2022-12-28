@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import PublicRooms from "./PublicRooms";
 
 import SocketContext from "../../context/SocketContext";
+import { motion } from "framer-motion";
+import { IoMdRefresh } from "react-icons/io";
 
 export default function HomeMenu() {
   const {
@@ -37,16 +39,21 @@ export default function HomeMenu() {
 
   return (
     <div className="flex grow justify-center items-center bg-slate-900">
-      <div className="sm:rounded-lg shadow sm:border w-full max-w-4xl  bg-slate-800 border-slate-600">
+      <motion.div
+        animate={{ scale: 1 }}
+        initial={{ scale: 0.6 }}
+        className="sm:rounded-lg shadow sm:border w-full max-w-4xl  bg-slate-800 border-slate-600"
+      >
         <div className="space-y-6 p-7">
           <div className="flex justify-center">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
               onClick={socketCreateRoom}
               type="submit"
-              className="border-2 border-slate-400/40 w-64 text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600"
+              className="border-2 border-slate-400/40 w-64 text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600 hover:bg-slate-700/80"
             >
               Vytvořit hru
-            </button>
+            </motion.button>
           </div>
           <hr className="border border-slate-400/60" />
           <div className="flex justify-center">
@@ -73,8 +80,18 @@ export default function HomeMenu() {
           </div>
           <hr className="border border-slate-400/60" />
           <div>
-            <div className="flex justify-center text-xl text-white font-semibold mb-2">
-              Veřejné hry
+            <div className="flex justify-center items-center">
+              <div className="absolute text-xl text-white font-semibold mb-2">
+                Veřejné hry
+              </div>
+              <IoMdRefresh
+                onClick={() => {
+                  setPublicRooms(null);
+                  socketGetPublicRooms(setPublicRooms);
+                }}
+                size={28}
+                className="relative left-[78px] text-white m-2 border-2 rounded-md border-slate-400/50 cursor-pointer hover:bg-slate-700/80"
+              />
             </div>
             <PublicRooms
               publicRooms={publicRooms}
@@ -83,7 +100,7 @@ export default function HomeMenu() {
             />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

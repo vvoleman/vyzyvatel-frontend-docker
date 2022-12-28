@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Gravatar } from "./Gravatar";
 import { BiLogInCircle } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 function DropdownItemLink({ text, url, margin }) {
   return (
@@ -63,7 +64,9 @@ export default function Header() {
         </button>
       </div>
       {accountDropdownOpen ? (
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
           className="absolute top-[60px] right-0 bg-slate-800 px-2 py-1.5 rounded-bl-md border-b border-l border-slate-700"
           onMouseLeave={() => {
             setAccountDropdownOpen(false);
@@ -83,7 +86,7 @@ export default function Header() {
               />
             </ul>
           )}
-        </div>
+        </motion.div>
       ) : null}
     </nav>
   );
