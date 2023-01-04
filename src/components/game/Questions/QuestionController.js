@@ -53,7 +53,7 @@ const QuestionController = () => {
     if (answer || secondsTillEnd < -0.3) {
       switch (roomInfo.currentQuestion.type) {
         case "numeric":
-          return <NumericResults answer={answer} />;
+          return <NumericResults />;
       }
     }
 
@@ -72,8 +72,8 @@ const QuestionController = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      className="absolute w-full h-full bg-black/75 m-0 p-0 top-[0%] flex justify-center items-center transition-all"
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="absolute w-full h-full bg-black/70 m-0 p-0 top-[0%] flex justify-center items-center transition-all"
     >
       {content()}
     </motion.div>

@@ -18,7 +18,8 @@ const QuestionTimer = () => {
       barWidth -
       barWidth *
         ((currentTime - roomInfo.currentQuestion.startTime) /
-          (roomInfo.currentQuestion.endTime - roomInfo.currentQuestion.startTime))
+          (roomInfo.currentQuestion.endTime -
+            roomInfo.currentQuestion.startTime))
     );
   }, [currentTime, roomInfo]);
 

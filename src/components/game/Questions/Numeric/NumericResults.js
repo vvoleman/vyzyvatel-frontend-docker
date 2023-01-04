@@ -6,26 +6,45 @@ import { IoMdStats } from "react-icons/io";
 import QuestionTimer from "../QuestionTimer";
 import { motion } from "framer-motion";
 
-const NumericResults = ({ answer }) => {
+const NumericResults = () => {
   const { roomInfo } = useContext(SocketContext);
 
   if (!roomInfo.currentQuestion.answers)
     return (
-      <div className="border-white/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
-        <div className="flex justify-center items-center p-2 bg-slate-200 rounded-t-md">
-          <div className="text-3xl text-slate-900 font-normal px-4 py-2">
+      <motion.div
+        className="border-slate-200/40 border-2 rounded-lg bg-slate-800 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)] min-w-[620px] min-h-[300px]"
+        animate={{ scale: 1 }}
+        initial={{ scale: 0.6 }}
+      >
+        <div className="flex justify-center items-center p-2  rounded-t-md">
+          <div className="text-3xl text-white font-normal px-4 py-2">
             {roomInfo.currentQuestion.question}
           </div>
         </div>
-        <div className="flex justify-center items-center p-2 bg-slate-100 text-3xl font-semibold text-black border-t-2 border-slate-400/50">
-          ?
+        <div className="flex justify-center items-center p-2 bg-slate-900 font-semibold border-y-2 border-slate-400/50">
+          <p className="animate-pulse text-yellow-200 text-4xl rounded-lg">
+            ???
+          </p>
         </div>
-        <QuestionTimer />
-      </div>
+        <motion.div
+          className="flex justify-center items-center h-[160px] rounded-b-lg"
+          animate={{ scale: 1 }}
+          initial={{ scale: 0 }}
+        >
+          <div className="text-center text-lg text-slate-200">
+            Čeká se na ostatní hráče
+            <QuestionTimer />
+          </div>
+        </motion.div>
+      </motion.div>
     );
 
   return (
-    <div className="border-white/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
+    <motion.div
+      className="border-slate-200/40 border-2 rounded-lg bg-slate-800 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)] min-w-[620px] min-h-[300px]"
+      animate={{ scale: 1 }}
+      initial={{ scale: 0.6 }}
+    >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
         <div className="text-3xl text-white font-normal px-4 py-2">
           {roomInfo.currentQuestion.question}
@@ -36,9 +55,10 @@ const NumericResults = ({ answer }) => {
           {roomInfo.currentQuestion.rightAnswer}
         </p>
       </div>
-      <div className="flex justify-center items-center bg-slate-800 p-2">
+      <div className="flex justify-center items-center  p-2">
         {roomInfo.currentQuestion.answers.map((ans) => (
           <motion.div
+            key={ans.username}
             animate={{ scale: 1.1 - ans.position * 0.04 }}
             initial={{ scale: 0 }}
             transition={{ delay: (3 - ans.position) * 0.5 }}
@@ -83,10 +103,24 @@ const NumericResults = ({ answer }) => {
                 <BsClock size={20} className="m-2" />
               </div>
             </div>
+            <div
+              className={`absolute border-2 rounded-full px-[0.45em] pb-[0.08em] text-xl font-semibol border-slate-600/80 bg-slate-900/95 top-[-14px] right-[-12px]
+                ${
+                  ans.position === 1
+                    ? "text-yellow-400 border-yellow-400"
+                    : null
+                }
+                ${ans.position === 2 ? "text-[#c0c0c0] border-[#c0c0c0]" : null}
+                ${
+                  ans.position === 3 ? "text-[#cd7f32] border-[#cd7f32]" : null
+                }`}
+            >
+              {ans.position}
+            </div>
           </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

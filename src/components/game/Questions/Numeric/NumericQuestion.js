@@ -4,6 +4,7 @@ import { BiPlay } from "react-icons/bi";
 import { BsBackspace } from "react-icons/bs";
 import QuestionTimer from "../QuestionTimer";
 import SocketContext from "../../../../context/SocketContext";
+import { motion } from "framer-motion";
 
 const isWholeNumber = (str) => Number.isInteger(Number(str));
 
@@ -56,9 +57,14 @@ const NumericQuestion = ({ setAnswer }) => {
   };
 
   return (
-    <div className="border-white/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
-      <div className="flex justify-center items-center p-2 bg-slate-200 rounded-t-md">
-        <div className="text-3xl text-slate-900 font-normal px-4 py-2">
+    <motion.div
+      className="border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
+        <div className="text-3xl text-white font-normal px-4 py-2">
           {roomInfo.currentQuestion.question}
         </div>
       </div>
@@ -115,7 +121,7 @@ const NumericQuestion = ({ setAnswer }) => {
         </div>
       </div>
       <QuestionTimer />
-    </div>
+    </motion.div>
   );
 };
 

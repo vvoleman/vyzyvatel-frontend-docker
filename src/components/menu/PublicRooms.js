@@ -7,14 +7,11 @@ export default function PublicRooms({
   socketJoinPublicRoom,
   setCodeError,
 }) {
-  if (publicRooms)
+  const content = () => {
+    if (!publicRooms) return null;
+
     return (
-      <div className="text-white border-2 rounded-md border-slate-400/50 font-semibold">
-        <div className="grid grid-cols-4 p-2 py-1">
-          <div>Zakladatel</div>
-          <div>Hráči</div>
-          <div>Témata</div>
-        </div>
+      <div>
         {publicRooms.map((room, idx) => {
           return (
             <motion.div
@@ -44,4 +41,15 @@ export default function PublicRooms({
         })}
       </div>
     );
+  };
+  return (
+    <div className="text-white border-2 rounded-md border-slate-400/50 font-semibold">
+      <div className="grid grid-cols-4 p-2 py-1">
+        <div>Zakladatel</div>
+        <div>Hráči</div>
+        <div>Témata</div>
+      </div>
+      {content()}
+    </div>
+  );
 }
