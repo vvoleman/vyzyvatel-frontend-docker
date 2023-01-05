@@ -24,8 +24,8 @@ export const PLAYER_COLORS = {
 export const GAME_STATES = {
   START: "starting",
 
-  PICK_REGION: "region_pick", // who is picking, end time
-  ATTACK_REGION: "region_pick",
+  PICK_REGION: "pick_region", // who is picking, end time
+  PICK_REGION_RESULTS: "pick_region_results",
 
   ALL_GUESS: "all_guess", // playerAnswers, start time, end time
   ALL_RESULTS: "all_results", // player answers, winner, second winner

@@ -14,20 +14,29 @@ const QuestionController = () => {
   const [secondsTillEnd, setSecondsTillEnd] = useState(9999);
 
   const [answer, setAnswer] = useState(null);
+  const [submit, setSubmit] = useState(false);
+
   const answerSent = useRef(false);
 
   useEffect(() => {
-    console.log("answer", answer);
-  }, [answer]);
-
-  useEffect(() => {
+    if (submit === false) return;
     if (answerSent.current === true) return;
-
-    if (!answer) return;
+    if (answer === null) return;
 
     socketAnswerQuestion(answer);
     answerSent.current = true;
-  }, [answer]);
+  }, [setSubmit]);
+
+  useEffect(() => {
+    if (answerSent.current === true) return;
+    if (answer === null) return;
+    if (secondsTillEnd > 0.5) return;
+
+    console.log("sending answer", answer);
+
+    socketAnswerQuestion(answer);
+    answerSent.current = true;
+  }, [secondsTillEnd]);
 
   useEffect(() => {
     if (!roomInfo.currentQuestion) return;
@@ -50,7 +59,7 @@ const QuestionController = () => {
       return <PrepareCounter seconds={secondsTillStart} />;
 
     // user already answered
-    if (answer || secondsTillEnd < -0.3) {
+    if (submit || secondsTillEnd < -0.3) {
       switch (roomInfo.currentQuestion.type) {
         case "numeric":
           return <NumericResults />;
@@ -64,7 +73,7 @@ const QuestionController = () => {
     // user has not answered yet and time is not up
     switch (roomInfo.currentQuestion.type) {
       case "numeric":
-        return <NumericQuestion setAnswer={setAnswer} />;
+        return <NumericQuestion setAnswer={setAnswer} setSubmit={setSubmit} />;
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import CalculatorNumber from "./CalculatorNumber";
 import { BiPlay } from "react-icons/bi";
 import { BsBackspace } from "react-icons/bs";
@@ -8,9 +8,15 @@ import { motion } from "framer-motion";
 
 const isWholeNumber = (str) => Number.isInteger(Number(str));
 
-const NumericQuestion = ({ setAnswer }) => {
+const NumericQuestion = ({ setAnswer, setSubmit }) => {
   const { roomInfo } = useContext(SocketContext);
   const [input, setInput] = useState("");
+
+  useEffect(() => {
+    if (!isWholeNumber(input)) return;
+
+    setAnswer(parseInt(input));
+  }, [input]);
 
   const undoLastNumber = () => {
     if (input.length === 1) {
@@ -53,7 +59,7 @@ const NumericQuestion = ({ setAnswer }) => {
   };
 
   const submitInput = () => {
-    setAnswer(parseInt(input));
+    setSubmit(true);
   };
 
   return (

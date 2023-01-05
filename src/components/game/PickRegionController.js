@@ -1,7 +1,7 @@
 import React from "react";
 
 const PickRegionController = () => {
-  return <div>PickRegionController</div>;
+  return <div></div>;
 };
 
 export default PickRegionController;

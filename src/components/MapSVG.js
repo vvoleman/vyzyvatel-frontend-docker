@@ -6,6 +6,7 @@ import {
   NUMBER_OF_REGIONS,
 } from "../constants";
 import AuthContext from "../context/AuthContext";
+import SocketContext from "../context/SocketContext";
 
 const regions = [
   {
@@ -96,8 +97,9 @@ const regions = [
 
 const MapSVG = ({ roomInfo }) => {
   const { username } = useContext(AuthContext);
+  const { socketAnswerPickRegion } = useContext(SocketContext);
 
-  const [region, setRegion] = useState(null);
+  const [hoverRegion, setHoverRegion] = useState(null);
 
   const isPlayerRegionNeighbor = (regionIdx) => {
     const playerRegions = [];
@@ -115,23 +117,39 @@ const MapSVG = ({ roomInfo }) => {
   };
 
   const regionMouseEnter = (e) => {
-    setRegion(e.target.attributes.getNamedItem("id").value);
+    setHoverRegion(e.target.attributes.getNamedItem("id").value);
   };
 
   const regionMouseLeave = (e) => {
-    setRegion(null);
+    setHoverRegion(null);
   };
 
+  const nighborColor = "#9A9A9A";
+  const forbiddenColor = "#505050";
+  const selectedColor = "white";
+
   const fillColor = (idx) => {
-    if (roomInfo.map[idx].owner) {
+    if (roomInfo.map[idx].owner)
       return roomInfo.playersColor[roomInfo.map[idx].owner];
-    }
 
-    if (region !== idx.toString()) return "grey";
-    if (roomInfo.gameState !== GAME_STATES.PICK_REGION) return "grey";
-    if (!isPlayerRegionNeighbor(idx)) return "black";
+    if (roomInfo.gameState !== GAME_STATES.PICK_REGION) return forbiddenColor;
+    if (roomInfo.currentPick.username !== username) return forbiddenColor;
+    if (!isPlayerRegionNeighbor(idx)) return forbiddenColor;
 
-    return "white";
+    if (hoverRegion === idx.toString()) return selectedColor;
+
+    return nighborColor;
+  };
+
+  const handlePickRegion = (e) => {
+    e.preventDefault();
+
+    if (roomInfo.gameState !== GAME_STATES.PICK_REGION) return;
+    if (roomInfo.currentPick.username !== username) return;
+    if (!isPlayerRegionNeighbor(e.target.attributes.getNamedItem("id").value))
+      return;
+
+    socketAnswerPickRegion(e.target.attributes.getNamedItem("id").value);
   };
 
   return (
@@ -170,6 +188,7 @@ const MapSVG = ({ roomInfo }) => {
               d={region.path}
               name={region.name}
               onMouseEnter={regionMouseEnter}
+              onClick={handlePickRegion}
               onMouseLeave={regionMouseLeave}
               fill={fillColor(idx)}
               style={

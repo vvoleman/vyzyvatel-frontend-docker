@@ -18,9 +18,7 @@ const GameStatus = ({ roomInfo }) => {
           starTime: {roomInfo.currentQuestion.startTime}
         </div>
       ) : null}
-
       <div className="text-yellow-200">currTime: {currentTime}</div>
-
       {roomInfo.currentQuestion && roomInfo.currentQuestion.endTime ? (
         <div
           className={`${
@@ -32,6 +30,8 @@ const GameStatus = ({ roomInfo }) => {
           endTime: {roomInfo.currentQuestion.endTime}
         </div>
       ) : null}
+      currentPick:
+      {roomInfo.currentPick ? JSON.stringify(roomInfo.currentPick) : null}
     </div>
   );
 };

@@ -146,6 +146,13 @@ export const SocketProvider = ({ children }) => {
     [username]
   );
 
+  const answerPickRegion = useCallback(
+    (answer) => {
+      socket.emit("answer-pick-region", username, answer);
+    },
+    [username]
+  );
+
   let contextData = {
     socket: socket,
 
@@ -156,6 +163,7 @@ export const SocketProvider = ({ children }) => {
     setRoomInfo: setRoomInfo,
 
     socketLogin: login,
+
     socketCancelRoom: cancelRoom,
     socketLeaveRoom: leaveRoom,
     socketUpdateRoom: updateRoom,
@@ -164,9 +172,11 @@ export const SocketProvider = ({ children }) => {
     socketJoinPublicRoom: joinPublicRoom,
     socketGetPublicRooms: getPublicRooms,
     socketKickPlayer: kickPlayer,
+
     socketStartGame: startGame,
 
     socketAnswerQuestion: answerQuestion,
+    socketAnswerPickRegion: answerPickRegion,
   };
 
   return (
