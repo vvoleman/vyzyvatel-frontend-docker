@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import NumericQuestion from "./Numeric/NumericQuestion";
 import SocketContext from "../../../context/SocketContext";
 import PrepareCounter from "./PrepareCounter";
 import useCurrentTime from "../../../hooks/useCurrentTime";
 import NumericResults from "./Numeric/NumericResults";
 import { motion } from "framer-motion";
+import { QUESTION_TYPES } from "../../../constants";
 
 const QuestionController = () => {
   const { roomInfo, socketAnswerQuestion } = useContext(SocketContext);
@@ -19,60 +20,61 @@ const QuestionController = () => {
   const answerSent = useRef(false);
 
   useEffect(() => {
+    console.log("answer", answer);
+  }, [answer]);
+
+  useEffect(() => {
     if (submit === false) return;
     if (answerSent.current === true) return;
     if (answer === null) return;
 
-    socketAnswerQuestion(answer);
+    console.log("sending answer submit button", answer);
+
+    socketAnswerQuestion(answer, false);
     answerSent.current = true;
-  }, [setSubmit]);
+  }, [submit]);
 
   useEffect(() => {
     if (answerSent.current === true) return;
     if (answer === null) return;
-    if (secondsTillEnd > 0.5) return;
+    if (secondsTillEnd > 0.1) return;
 
     console.log("sending answer", answer);
 
-    socketAnswerQuestion(answer);
+    socketAnswerQuestion(answer, true);
     answerSent.current = true;
   }, [secondsTillEnd]);
 
   useEffect(() => {
-    if (!roomInfo.currentQuestion) return;
-
     setSecondsTillStart(
-      parseInt(
-        parseInt(roomInfo.currentQuestion.startTime - currentTime) / 1000 + 1
-      )
+      parseInt(parseInt(roomInfo.startTime - currentTime) / 1000 + 1)
     );
 
-    setSecondsTillEnd((roomInfo.currentQuestion.endTime - currentTime) / 1000);
+    setSecondsTillEnd((roomInfo.endTime - currentTime) / 1000);
   }, [currentTime, roomInfo.currentQuestion]);
 
   const content = () => {
-    if (!roomInfo.currentQuestion) return null;
-
     if (secondsTillStart > 3) return;
 
     if (secondsTillStart >= 1)
       return <PrepareCounter seconds={secondsTillStart} />;
 
     // user already answered
-    if (submit || secondsTillEnd < -0.3) {
+    if (submit || secondsTillEnd < 0) {
       switch (roomInfo.currentQuestion.type) {
-        case "numeric":
+        case QUESTION_TYPES.NUMERIC:
           return <NumericResults />;
       }
     }
 
-    if (secondsTillEnd < -0.3) {
+    // time is up
+    if (secondsTillEnd < 0) {
       return;
     }
 
     // user has not answered yet and time is not up
     switch (roomInfo.currentQuestion.type) {
-      case "numeric":
+      case QUESTION_TYPES.NUMERIC:
         return <NumericQuestion setAnswer={setAnswer} setSubmit={setSubmit} />;
     }
   };
@@ -82,7 +84,7 @@ const QuestionController = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="absolute w-full h-full bg-black/70 m-0 p-0 top-[0%] flex justify-center items-center transition-all"
+      className="absolute w-full h-full bg-black/50 m-0 p-0 top-[0%] flex justify-center items-center transition-all z-20"
     >
       {content()}
     </motion.div>

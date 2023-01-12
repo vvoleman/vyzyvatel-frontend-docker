@@ -4,6 +4,9 @@ import {
   GAME_STATES,
   GAME_REGION_NEIGHBORS,
   NUMBER_OF_REGIONS,
+  PLAYER_COLORS,
+  PLAYER_COLORS_DARK,
+  PLAYER_COLORS_LIGHT,
 } from "../constants";
 import AuthContext from "../context/AuthContext";
 import SocketContext from "../context/SocketContext";
@@ -95,9 +98,9 @@ const regions = [
   },
 ];
 
-const MapSVG = ({ roomInfo }) => {
+const Map = () => {
   const { username } = useContext(AuthContext);
-  const { socketAnswerPickRegion } = useContext(SocketContext);
+  const { socketAnswerPickRegion, roomInfo } = useContext(SocketContext);
 
   const [hoverRegion, setHoverRegion] = useState(null);
 
@@ -128,28 +131,58 @@ const MapSVG = ({ roomInfo }) => {
   const forbiddenColor = "#505050";
   const selectedColor = "white";
 
+  // pls don't look here it's terrible
   const fillColor = (idx) => {
-    if (roomInfo.map[idx].owner)
-      return roomInfo.playersColor[roomInfo.map[idx].owner];
+    if (roomInfo.gameState === GAME_STATES.REGION_ATTACK) {
+      if (roomInfo.currentAttack.attacker === username) {
+        if (roomInfo.currentAttack.attacker === roomInfo.map[idx].owner)
+          return PLAYER_COLORS_DARK[
+            roomInfo.playerColors[roomInfo.map[idx].owner]
+          ];
+        if (hoverRegion === idx.toString() && isPlayerRegionNeighbor(idx))
+          return PLAYER_COLORS_LIGHT[
+            roomInfo.playerColors[roomInfo.map[idx].owner]
+          ];
+        if (isPlayerRegionNeighbor(idx))
+          return PLAYER_COLORS[roomInfo.playerColors[roomInfo.map[idx].owner]];
+        return PLAYER_COLORS_DARK[
+          roomInfo.playerColors[roomInfo.map[idx].owner]
+        ];
+      }
+      return PLAYER_COLORS[roomInfo.playerColors[roomInfo.map[idx].owner]];
+    }
 
-    if (roomInfo.gameState !== GAME_STATES.PICK_REGION) return forbiddenColor;
+    if (roomInfo.map[idx].owner)
+      return PLAYER_COLORS[roomInfo.playerColors[roomInfo.map[idx].owner]];
+
+    if (roomInfo.gameState !== GAME_STATES.REGION_PICK) return forbiddenColor;
     if (roomInfo.currentPick.username !== username) return forbiddenColor;
-    if (!isPlayerRegionNeighbor(idx)) return forbiddenColor;
+    if (
+      !isPlayerRegionNeighbor(idx) &&
+      roomInfo.currentPick.onlyNeighbors === true
+    )
+      return forbiddenColor;
 
     if (hoverRegion === idx.toString()) return selectedColor;
 
     return nighborColor;
   };
 
-  const handlePickRegion = (e) => {
+  const handleClickRegion = (e) => {
     e.preventDefault();
 
-    if (roomInfo.gameState !== GAME_STATES.PICK_REGION) return;
+    const regionIdx = e.target.attributes.getNamedItem("id").value;
+
+    if (roomInfo.gameState !== GAME_STATES.REGION_PICK) return;
+    if (roomInfo.map[regionIdx].owner !== null) return;
     if (roomInfo.currentPick.username !== username) return;
-    if (!isPlayerRegionNeighbor(e.target.attributes.getNamedItem("id").value))
+    if (
+      !isPlayerRegionNeighbor(regionIdx) &&
+      roomInfo.currentPick.onlyNeighbors === true
+    )
       return;
 
-    socketAnswerPickRegion(e.target.attributes.getNamedItem("id").value);
+    socketAnswerPickRegion(regionIdx);
   };
 
   return (
@@ -169,6 +202,12 @@ const MapSVG = ({ roomInfo }) => {
         {regions.map((region, idx) => {
           return (
             <motion.path
+              className={`${
+                fillColor(idx) === selectedColor ||
+                PLAYER_COLORS_LIGHT.includes(fillColor(idx))
+                  ? "cursor-pointer scale-125"
+                  : "scale-100"
+              } transition-all`}
               animate={{ scale: idx === 10 ? 1.4 : 1 }}
               initial={{ scale: 0 }}
               transition={{
@@ -181,14 +220,16 @@ const MapSVG = ({ roomInfo }) => {
               }}
               key={
                 roomInfo.map[idx].owner
-                  ? roomInfo.playersColor[roomInfo.map[idx].owner] + idx
+                  ? PLAYER_COLORS[
+                      roomInfo.playerColors[roomInfo.map[idx].owner]
+                    ] + idx
                   : idx
               }
               id={idx}
               d={region.path}
               name={region.name}
               onMouseEnter={regionMouseEnter}
-              onClick={handlePickRegion}
+              onClick={handleClickRegion}
               onMouseLeave={regionMouseLeave}
               fill={fillColor(idx)}
               style={
@@ -202,6 +243,7 @@ const MapSVG = ({ roomInfo }) => {
           if (roomInfo.map[idx].owner)
             return (
               <motion.text
+                className="blocker"
                 animate={{ scale: 1 }}
                 initial={{ scale: 0 }}
                 transition={{
@@ -214,27 +256,36 @@ const MapSVG = ({ roomInfo }) => {
                 }}
                 key={
                   roomInfo.map[idx].owner
-                    ? roomInfo.playersColor[roomInfo.map[idx].owner] + idx
+                    ? PLAYER_COLORS[
+                        roomInfo.playerColors[roomInfo.map[idx].owner]
+                      ] + idx
                     : idx
                 }
                 name={region.name}
                 x={region.x}
                 y={region.y}
-                fill="white"
+                fill={
+                  fillColor(idx) === selectedColor ||
+                  PLAYER_COLORS_LIGHT.includes(fillColor(idx))
+                    ? "red"
+                    : PLAYER_COLORS_DARK.includes(fillColor(idx))
+                    ? "#2C2C2C"
+                    : "white"
+                }
                 stroke="black"
                 fontSize="28"
                 fontWeight="bold"
                 strokeWidth="1"
                 pointerEvents="none"
-                style={{ textShadow: "1px 1px grey" }}
               >
                 {roomInfo.map[idx].price}
               </motion.text>
             );
+          return null;
         })}
       </motion.svg>
     </>
   );
 };
 
-export default MapSVG;
+export default Map;

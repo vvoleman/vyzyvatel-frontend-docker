@@ -33,7 +33,7 @@ export default function Header() {
   const { username, useremail, logoutUser } = useContext(AuthContext);
 
   return (
-    <nav className="flex bg-slate-800 text-white h-[60px] justify-start items-center border-b border-slate-700">
+    <nav className="flex bg-slate-800 text-white h-[60px] justify-start items-center border-b border-slate-700 z-10 shadow-lg shadow-black/10">
       <div className="flex justify-center items-center w-full absolute">
         <div className="sm:text-2xl text-lg text-white pb-1 font-semibold">
           <a href="/"> Vyzyvatel.cz </a>

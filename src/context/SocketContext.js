@@ -140,8 +140,8 @@ export const SocketProvider = ({ children }) => {
   }, [username]);
 
   const answerQuestion = useCallback(
-    (answer) => {
-      socket.emit("answer-question", username, answer);
+    (answer, auto) => {
+      socket.emit("answer-question", username, answer, auto);
     },
     [username]
   );

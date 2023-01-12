@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import SocketContext from "../../../context/SocketContext";
 import useCurrentTime from "../../../hooks/useCurrentTime";
 
@@ -10,16 +10,15 @@ const QuestionTimer = () => {
   const currentTime = useCurrentTime();
 
   const calculateBarPixels = useCallback(() => {
-    if (currentTime < roomInfo.currentQuestion.startTime) return barWidth;
-    if (currentTime > roomInfo.currentQuestion.endTime) return 4;
+    if (currentTime < roomInfo.startTime) return barWidth;
+    if (currentTime > roomInfo.endTime) return 4;
 
     return (
       4 +
       barWidth -
       barWidth *
-        ((currentTime - roomInfo.currentQuestion.startTime) /
-          (roomInfo.currentQuestion.endTime -
-            roomInfo.currentQuestion.startTime))
+        ((currentTime - roomInfo.startTime) /
+          (roomInfo.endTime - roomInfo.startTime))
     );
   }, [currentTime, roomInfo]);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import AuthContext from "../../context/AuthContext";
 
@@ -11,6 +11,8 @@ export default function GameChat() {
 
   const [currMess, setCurrMess] = useState("");
   const [messList, setMessList] = useState([]);
+  const [focused, setFocused] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     socket.on("receive-message", (data) => {
@@ -18,6 +20,16 @@ export default function GameChat() {
       setMessList((list) => [...list, data]);
     });
   }, [socket]);
+
+  useEffect(() => {
+    if (messList.length === 0) return;
+
+    setShowChat(true);
+
+    setTimeout(() => {
+      setShowChat(false);
+    }, 4 * 1000);
+  }, [messList]);
 
   const sendMessage = async () => {
     if (currMess !== "") {
@@ -27,7 +39,7 @@ export default function GameChat() {
         time:
           new Date(Date.now()).getHours() +
           ":" +
-          new Date(Date.now()).getMinutes(),
+          new Date(Date.now()).getMinutes().toString().padStart(2, "0"),
       };
 
       await socket.emit("send-message", messData, username);
@@ -39,15 +51,18 @@ export default function GameChat() {
     <motion.div
       animate={{ scale: 1 }}
       initial={{ scale: 0 }}
-      transition={{ duration: 0.5 }}
-      className="absolute px-4 bottom-[10%]  left-[1%] hidden 2xl:block opacity-50"
+      transition={{ duration: 0.3 }}
+      className={`absolute px-4 bottom-[10%] left-[1%] hidden 2xl:block opacity-50 hover:opacity-100 focus::opacity-100 transition-all
+    ${showChat || focused ? "opacity-100" : "hidden"}`}
     >
-      <div className="border-2 rounded-md border-slate-500 p-2 bg-gradient-to-r from-slate-900/50 to-slate-900/30">
+      <div className="border-2 rounded-md border-slate-500 p-2 bg-slate-800/50 shadow-xl shadow-black/70">
         <ScrollToBottom className="message-game-container">
           <div className="text-white/80 text-center text-sm">Chat hry</div>
           {messList.map((messContent, index) => {
             return (
-              <div
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 key={index}
                 className={`flex text-white ${
                   messContent.author === username
@@ -72,7 +87,7 @@ export default function GameChat() {
                     {messContent.message}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </ScrollToBottom>
@@ -82,6 +97,12 @@ export default function GameChat() {
               className="border-b border-l border-t p-1 w-full rounded-l-md bg-slate-200 border-slate-400 text-black"
               value={currMess}
               type="text"
+              onFocus={() => {
+                setFocused(true);
+              }}
+              onBlur={() => {
+                setFocused(false);
+              }}
               onChange={(e) => {
                 setCurrMess(e.target.value);
               }}
@@ -94,7 +115,7 @@ export default function GameChat() {
           </div>
           <div className="">
             <button
-              className="border p-1 px-2 w-full border-slate-400 rounded-r-md bg-slate-500 text-white font-semibold"
+              className="border p-1 px-2 w-full border-slate-600 rounded-br-md rounded-tr-sm bg-slate-600 text-white font-semibold"
               onClick={sendMessage}
             >
               odeslat

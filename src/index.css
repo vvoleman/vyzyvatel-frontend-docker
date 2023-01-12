@@ -31,4 +31,12 @@
         overflow-y: hidden;
         overflow-x: hidden;
     }
+
+    .dark-mode {
+        color-scheme: dark;
+    }
+
+        .blocker {
+            pointer-events: none;
+        }
 }

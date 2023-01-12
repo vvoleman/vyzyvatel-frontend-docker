@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import SocketContext from "../../../../context/SocketContext";
 import { Gravatar } from "../../../Gravatar";
 import { BsClock } from "react-icons/bs";
@@ -32,7 +32,7 @@ const NumericResults = () => {
           initial={{ scale: 0 }}
         >
           <div className="text-center text-lg text-slate-200">
-            Čeká se na ostatní hráče
+            Čeká se na výsledky...
             <QuestionTimer />
           </div>
         </motion.div>
@@ -69,7 +69,7 @@ const NumericResults = () => {
             <div className="flex justify-start items-center bg-slate-700 rounded-t-lg">
               <Gravatar
                 style={{
-                  borderColor: roomInfo.playersColor[ans.username],
+                  borderColor: roomInfo.playerColors[ans.username],
                 }}
                 className={`ml-3 m-2 border-2 rounded-full`}
                 email={
@@ -84,7 +84,7 @@ const NumericResults = () => {
             <div
               className="flex justify-center items-center text-black text-2xl font-bold p-1 border-y border-slate-300/50"
               style={{
-                backgroundColor: roomInfo.playersColor[ans.username],
+                backgroundColor: roomInfo.playerColors[ans.username],
               }}
             >
               {ans.answer}
@@ -96,9 +96,7 @@ const NumericResults = () => {
               </div>
               <div className="flex justify-center items-center">
                 <p className="">
-                  {Math.round(
-                    (ans.time - roomInfo.currentQuestion.startTime) / 10
-                  ) / 100}
+                  {Math.round((ans.time - roomInfo.startTime) / 10) / 100}
                 </p>
                 <BsClock size={20} className="m-2" />
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import CalculatorNumber from "./CalculatorNumber";
 import { BiPlay } from "react-icons/bi";
 import { BsBackspace } from "react-icons/bs";
@@ -13,10 +13,11 @@ const NumericQuestion = ({ setAnswer, setSubmit }) => {
   const [input, setInput] = useState("");
 
   useEffect(() => {
+    if (isNaN(parseInt(input))) return;
     if (!isWholeNumber(input)) return;
 
     setAnswer(parseInt(input));
-  }, [input]);
+  }, [input, setAnswer]);
 
   const undoLastNumber = () => {
     if (input.length === 1) {

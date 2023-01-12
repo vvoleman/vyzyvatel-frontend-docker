@@ -1,12 +1,12 @@
-import React from "react";
 import useCurrentTime from "../../hooks/useCurrentTime";
 
 const GameStatus = ({ roomInfo }) => {
   const currentTime = useCurrentTime();
 
   return (
-    <div className="text-xl text-white absolute top-[16%] left-[64%]">
+    <div className="text-md text-white absolute top-[7%] left-[19%] opacity-80">
       <div>gameState: {roomInfo.gameState} </div>
+      <div>gameStage: {roomInfo.gameStage} </div>
       {roomInfo.currentQuestion && roomInfo.currentQuestion.startTime ? (
         <div
           className={`${
@@ -30,8 +30,14 @@ const GameStatus = ({ roomInfo }) => {
           endTime: {roomInfo.currentQuestion.endTime}
         </div>
       ) : null}
-      currentPick:
-      {roomInfo.currentPick ? JSON.stringify(roomInfo.currentPick) : null}
+      <div>
+        currentPick:
+        {roomInfo.currentPick ? JSON.stringify(roomInfo.currentPick) : null}
+      </div>
+      <div>
+        currentAttack:
+        {roomInfo.currentAttack ? JSON.stringify(roomInfo.currentAttack) : null}
+      </div>
     </div>
   );
 };

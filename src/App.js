@@ -7,20 +7,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import MapTest from "./pages/MapTest";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen dark-mode">
           <Header />
           <SocketProvider>
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/map" element={<MapTest />} />
               <Route exact path="/" element={<Home />} />
             </Routes>
           </SocketProvider>

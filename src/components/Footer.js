@@ -3,7 +3,7 @@ import { BsYoutube } from "react-icons/bs";
 
 export default function Footer() {
   return (
-    <footer className="flex bg-slate-800 h-[50px] justify-center items-center border-t border-slate-700 text-slate-400">
+    <footer className="flex bg-slate-800 h-[50px] justify-center items-center border-t border-slate-700 text-slate-400 z-10 shadow-xl shadow-black/40">
       <a
         className="flex justify-center items-center"
         href="https://www.youtube.com/c/MarosoDocumentaries"

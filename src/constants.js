@@ -1,3 +1,5 @@
+export const DEBUG = true;
+
 export const USER_STATES = {
   MENU: "v menu",
   LOBBY: "v lobby",
@@ -7,6 +9,19 @@ export const USER_STATES = {
 export const ROOM_STATES = {
   LOBBY: "lobby",
   GAME: "game",
+  ENDED: "ended",
+};
+
+export const GAME_STATES = {
+  START: "starting",
+
+  REGION_PICK: "region_pick",
+  REGION_ATTACK: "region_attack",
+  REGION_BATTLE: "region_battle",
+  REGION_RESULTS: "region_results",
+
+  QUESTION_GUESS: "question_guess",
+  QUESTION_RESULTS: "question_results",
 };
 
 export const QUESTION_TYPES = {
@@ -14,27 +29,6 @@ export const QUESTION_TYPES = {
   NUMERIC: "numeric",
   IMAGE: "image",
 };
-
-export const PLAYER_COLORS = {
-  RED: "#FF4545",
-  GREEN: "#52FF68",
-  BLUE: "#4EBAFF",
-};
-
-export const GAME_STATES = {
-  START: "starting",
-
-  PICK_REGION: "pick_region", // who is picking, end time
-  PICK_REGION_RESULTS: "pick_region_results",
-
-  ALL_GUESS: "all_guess", // playerAnswers, start time, end time
-  ALL_RESULTS: "all_results", // player answers, winner, second winner
-
-  ATTACK_GUESS: "attack_guess", // involvedPlayers, playerAnswers, start time, end time
-  ATTACK_RESULTS: "attack_results", // involvedPlayers, playerAnswers, start time, end time
-};
-
-export const DEBUG = true;
 
 export const GAME_REGION_NEIGHBORS = {
   0: [6, 1, 8, 9],
@@ -54,3 +48,9 @@ export const GAME_REGION_NEIGHBORS = {
 };
 
 export const NUMBER_OF_REGIONS = 14;
+
+export const PLAYER_COLORS = ["#FF4545", "#52FF68", "#4EBAFF"];
+
+export const PLAYER_COLORS_DARK = ["#7C2828", "#2BA23B", "#226894"];
+
+export const PLAYER_COLORS_LIGHT = ["#941C1C", "#93FFA1", "#84CFFF"];
