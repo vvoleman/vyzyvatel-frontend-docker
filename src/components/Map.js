@@ -7,6 +7,7 @@ import {
   PLAYER_COLORS,
   PLAYER_COLORS_DARK,
   PLAYER_COLORS_LIGHT,
+  GAME_STAGES,
 } from "../constants";
 import AuthContext from "../context/AuthContext";
 import SocketContext from "../context/SocketContext";
@@ -100,7 +101,8 @@ const regions = [
 
 const Map = () => {
   const { username } = useContext(AuthContext);
-  const { socketAnswerPickRegion, roomInfo } = useContext(SocketContext);
+  const { socketAnswerPickRegion, socketAnswerAttackRegion, roomInfo } =
+    useContext(SocketContext);
 
   const [hoverRegion, setHoverRegion] = useState(null);
 
@@ -173,16 +175,32 @@ const Map = () => {
 
     const regionIdx = e.target.attributes.getNamedItem("id").value;
 
-    if (roomInfo.gameState !== GAME_STATES.REGION_PICK) return;
-    if (roomInfo.map[regionIdx].owner !== null) return;
-    if (roomInfo.currentPick.username !== username) return;
-    if (
-      !isPlayerRegionNeighbor(regionIdx) &&
-      roomInfo.currentPick.onlyNeighbors === true
-    )
-      return;
+    switch (roomInfo.gameStage) {
+      case GAME_STAGES.TAKE_REGIONS:
+        if (roomInfo.gameState !== GAME_STATES.REGION_PICK) return;
+        if (roomInfo.map[regionIdx].owner !== null) return;
+        if (roomInfo.currentPick.username !== username) return;
+        if (
+          !isPlayerRegionNeighbor(regionIdx) &&
+          roomInfo.currentPick.onlyNeighbors === true
+        )
+          return;
 
-    socketAnswerPickRegion(regionIdx);
+        socketAnswerPickRegion(regionIdx);
+        return;
+
+      case GAME_STAGES.BATTLE_REGIONS:
+        if (roomInfo.gameState !== GAME_STATES.REGION_ATTACK) return;
+        if (roomInfo.currentAttack.attacker !== username) return;
+        if (roomInfo.map[regionIdx].owner === username) return;
+        if (!isPlayerRegionNeighbor(regionIdx)) return;
+
+        socketAnswerAttackRegion(regionIdx);
+        return;
+
+      default:
+        return;
+    }
   };
 
   return (
@@ -194,7 +212,6 @@ const Map = () => {
         stroke="#303030"
         strokeWidth="3"
         viewBox="0 0 1000 570"
-        className=""
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeOpacity="0.7"
@@ -205,9 +222,17 @@ const Map = () => {
               className={`${
                 fillColor(idx) === selectedColor ||
                 PLAYER_COLORS_LIGHT.includes(fillColor(idx))
-                  ? "cursor-pointer scale-125"
-                  : "scale-100"
-              } transition-all`}
+                  ? "cursor-pointer"
+                  : null
+              } ${
+                roomInfo.currentAttack
+                  ? roomInfo.currentAttack.region
+                    ? roomInfo.currentAttack.region === idx
+                      ? "animate-pulse"
+                      : null
+                    : null
+                  : null
+              }`}
               animate={{ scale: idx === 10 ? 1.4 : 1 }}
               initial={{ scale: 0 }}
               transition={{
@@ -219,11 +244,7 @@ const Map = () => {
                     : 0.5 + idx * 0.1,
               }}
               key={
-                roomInfo.map[idx].owner
-                  ? PLAYER_COLORS[
-                      roomInfo.playerColors[roomInfo.map[idx].owner]
-                    ] + idx
-                  : idx
+                roomInfo.map[idx].owner ? roomInfo.map[idx].owner + idx : idx
               }
               id={idx}
               d={region.path}
@@ -232,9 +253,10 @@ const Map = () => {
               onClick={handleClickRegion}
               onMouseLeave={regionMouseLeave}
               fill={fillColor(idx)}
-              style={
-                idx === 10 ? { transform: "translate(-10%, -11.3%)" } : null
-              }
+              style={{
+                transform: idx === 10 ? "translate(-10%, -11.3%)" : null,
+                zIndex: idx === 5 ? 1 : null,
+              }}
               strokeWidth={idx === 10 ? "2.2" : null}
             />
           );
@@ -244,8 +266,8 @@ const Map = () => {
             return (
               <motion.text
                 className="blocker"
-                animate={{ scale: 1 }}
-                initial={{ scale: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                initial={{ scale: 0, opacity: 0 }}
                 transition={{
                   duration: 0.5,
                   delay:
@@ -254,13 +276,7 @@ const Map = () => {
                       ? 0
                       : 0.5 + idx * 0.1,
                 }}
-                key={
-                  roomInfo.map[idx].owner
-                    ? PLAYER_COLORS[
-                        roomInfo.playerColors[roomInfo.map[idx].owner]
-                      ] + idx
-                    : idx
-                }
+                key={idx}
                 name={region.name}
                 x={region.x}
                 y={region.y}

@@ -27,7 +27,36 @@ const GameHint = () => {
         break;
 
       case GAME_STATES.QUESTION_GUESS:
-        setElement("Otázka všichni proti všem");
+        if (roomInfo.currentQuestion.involvedPlayers.length === 3)
+          setElement("Otázka všichni proti všem");
+        else
+          setElement(
+            <div>
+              <span
+                style={{
+                  color:
+                    PLAYER_COLORS[
+                      roomInfo.playerColors[roomInfo.currentAttack.attacker]
+                    ],
+                }}
+                className="font-semibold"
+              >
+                {roomInfo.currentAttack.attacker}
+              </span>{" "}
+              napadá{" "}
+              <span
+                style={{
+                  color:
+                    PLAYER_COLORS[
+                      roomInfo.playerColors[roomInfo.currentAttack.defender]
+                    ],
+                }}
+                className="font-semibold"
+              >
+                {roomInfo.currentAttack.defender}
+              </span>
+            </div>
+          );
         setWarn(false);
         setShowTimer(false);
         break;

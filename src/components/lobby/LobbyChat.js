@@ -87,7 +87,7 @@ export default function LobbyChat() {
         </div>
         <div className="">
           <button
-            className="border p-1 px-2 w-full border-slate-400 rounded-r-md bg-slate-500 text-white font-semibold"
+            className="border p-1 px-2 w-full border-slate-400 rounded-r-md bg-slate-500 text-white font-semibold hover:bg-slate-600 transition-all hover:cursor-pointer"
             onClick={sendMessage}
           >
             odeslat

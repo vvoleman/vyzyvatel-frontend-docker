@@ -45,11 +45,11 @@ export default function ChooseCategories() {
             className="flex justify-between border rounded-md my-2 px-1 py-0.5 border-slate-200/10 bg-slate-800 text-white/70"
           >
             <div className="p-2 py-1">Vybrat vše</div>
-            <div className="p-2 py-1 flex items-center">
+            <div className="p-2 py-1 flex items-center hover:scale-110 transition-all">
               {roomInfo.owner === username ? (
                 <input
                   checked={checkedAll.current}
-                  className="w-6 h-5"
+                  className="w-6 h-5 cursor-pointer"
                   type="checkbox"
                   onChange={() => {
                     checkedAll.current = !checkedAll.current;
@@ -72,12 +72,12 @@ export default function ChooseCategories() {
               className="flex justify-between border rounded-md my-2 px-1 py-0.5 border-slate-200/50 bg-slate-800"
             >
               <div className="p-2 py-1">{category.name}</div>
-              <div className="p-2 py-1 flex items-center">
+              <div className="p-2 py-1 flex items-center hover:scale-110 transition-all">
                 {roomInfo.owner === username ? (
                   <motion.input
                     animate={{ scale: 1 }}
                     initial={{ scale: 0 }}
-                    className="w-6 h-5"
+                    className="w-6 h-5 cursor-pointer"
                     type="checkbox"
                     checked={category.active}
                     onChange={() => {

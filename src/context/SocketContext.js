@@ -153,6 +153,13 @@ export const SocketProvider = ({ children }) => {
     [username]
   );
 
+  const answerAttackRegion = useCallback(
+    (answer) => {
+      socket.emit("answer-attack-region", username, answer);
+    },
+    [username]
+  );
+
   let contextData = {
     socket: socket,
 
@@ -177,6 +184,7 @@ export const SocketProvider = ({ children }) => {
 
     socketAnswerQuestion: answerQuestion,
     socketAnswerPickRegion: answerPickRegion,
+    socketAnswerAttackRegion: answerAttackRegion,
   };
 
   return (

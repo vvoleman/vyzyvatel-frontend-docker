@@ -5,7 +5,6 @@ import {
   BsFillCheckCircleFill,
 } from "react-icons/bs";
 import { RiSwordLine } from "react-icons/ri";
-import { RiVipCrownFill } from "react-icons/ri";
 import { motion } from "framer-motion";
 
 import { PLAYER_COLORS } from "../../../constants";
@@ -98,7 +97,6 @@ const GameAttackQueue = ({ roomInfo }) => {
         })}
         {roomInfo.currentAttack ? (
           <Point
-            key={roomInfo.attackRegionHistory.length}
             idx={roomInfo.attackRegionHistory.length}
             color={
               PLAYER_COLORS[
@@ -112,24 +110,18 @@ const GameAttackQueue = ({ roomInfo }) => {
         ) : null}
         {roomInfo.attackRegionQueue.map((player, index) => {
           return (
-            <>
-              <Point
-                idx={
-                  roomInfo.currentAttack
-                    ? roomInfo.attackRegionHistory.length + index + 1
-                    : roomInfo.attackRegionHistory.length + index
-                }
-                key={
-                  roomInfo.currentAttack
-                    ? roomInfo.attackRegionHistory.length + index + 1
-                    : roomInfo.attackRegionHistory.length + index
-                }
-                color={PLAYER_COLORS[roomInfo.playerColors[player]]}
-                current={false}
-                checked={false}
-                firstLoad={firstLoad.current}
-              />
-            </>
+            <Point
+              idx={
+                roomInfo.currentAttack
+                  ? roomInfo.attackRegionHistory.length + index + 1
+                  : roomInfo.attackRegionHistory.length + index
+              }
+              key={index}
+              color={PLAYER_COLORS[roomInfo.playerColors[player]]}
+              current={false}
+              checked={false}
+              firstLoad={firstLoad.current}
+            />
           );
         })}
       </motion.div>

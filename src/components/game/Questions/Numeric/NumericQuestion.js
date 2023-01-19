@@ -127,7 +127,7 @@ const NumericQuestion = ({ setAnswer, setSubmit }) => {
           </div>
         </div>
       </div>
-      <QuestionTimer />
+      <QuestionTimer warn={true} />
     </motion.div>
   );
 };

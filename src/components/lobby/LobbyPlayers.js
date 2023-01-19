@@ -44,7 +44,7 @@ export default function LobbyPlayers() {
             {idx !== 0 && username === roomInfo.owner ? (
               <div className="relative flex justify-end">
                 <button
-                  className="absolute text-rose-400 top-[-58px] right-[18px]"
+                  className="absolute text-rose-400 top-[-58px] right-[18px] hover:scale-125 transition-all"
                   onClick={() => {
                     socketKickPlayer(player);
                   }}

@@ -24,6 +24,11 @@ export const GAME_STATES = {
   QUESTION_RESULTS: "question_results",
 };
 
+export const GAME_STAGES = {
+  TAKE_REGIONS: "take_regions",
+  BATTLE_REGIONS: "battle_regions",
+};
+
 export const QUESTION_TYPES = {
   PICK: "pick",
   NUMERIC: "numeric",

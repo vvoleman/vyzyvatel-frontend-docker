@@ -87,7 +87,7 @@ export default function Lobby() {
                         Zveřejnit hru pro všechny
                       </div>
                       <div className="flex justify-center">
-                        <label className="inline-flex relative items-center cursor-pointer">
+                        <label className="inline-flex relative items-center cursor-pointer hover:scale-110 transition-all">
                           <input
                             type="checkbox"
                             value={isPublic}

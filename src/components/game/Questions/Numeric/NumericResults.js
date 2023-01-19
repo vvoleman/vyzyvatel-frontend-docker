@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import SocketContext from "../../../../context/SocketContext";
 import { Gravatar } from "../../../Gravatar";
 import { BsClock } from "react-icons/bs";
@@ -6,8 +6,34 @@ import { IoMdStats } from "react-icons/io";
 import QuestionTimer from "../QuestionTimer";
 import { motion } from "framer-motion";
 
+import { PLAYER_COLORS } from "../../../../constants";
+
+const shuffleArray = (refArray) => {
+  const array = [...refArray];
+  let currentIndex = array.length,
+    randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+};
+
 const NumericResults = () => {
   const { roomInfo } = useContext(SocketContext);
+
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
+
+  useEffect(() => {
+    if (roomInfo.currentQuestion.answers)
+      setShuffledAnswers(shuffleArray(roomInfo.currentQuestion.answers));
+  }, [roomInfo]);
 
   if (!roomInfo.currentQuestion.answers)
     return (
@@ -56,7 +82,7 @@ const NumericResults = () => {
         </p>
       </div>
       <div className="flex justify-center items-center  p-2">
-        {roomInfo.currentQuestion.answers.map((ans) => (
+        {shuffledAnswers.map((ans) => (
           <motion.div
             key={ans.username}
             animate={{ scale: 1.1 - ans.position * 0.04 }}
@@ -69,7 +95,8 @@ const NumericResults = () => {
             <div className="flex justify-start items-center bg-slate-700 rounded-t-lg">
               <Gravatar
                 style={{
-                  borderColor: roomInfo.playerColors[ans.username],
+                  borderColor:
+                    PLAYER_COLORS[roomInfo.playerColors[ans.username]],
                 }}
                 className={`ml-3 m-2 border-2 rounded-full`}
                 email={
@@ -84,7 +111,8 @@ const NumericResults = () => {
             <div
               className="flex justify-center items-center text-black text-2xl font-bold p-1 border-y border-slate-300/50"
               style={{
-                backgroundColor: roomInfo.playerColors[ans.username],
+                backgroundColor:
+                  PLAYER_COLORS[roomInfo.playerColors[ans.username]],
               }}
             >
               {ans.answer}
@@ -95,9 +123,7 @@ const NumericResults = () => {
                 <p className="">{ans.difference}</p>
               </div>
               <div className="flex justify-center items-center">
-                <p className="">
-                  {Math.round((ans.time - roomInfo.startTime) / 10) / 100}
-                </p>
+                <p className="">{Math.round(ans.time / 10) / 100}</p>
                 <BsClock size={20} className="m-2" />
               </div>
             </div>

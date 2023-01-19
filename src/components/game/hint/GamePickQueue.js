@@ -91,7 +91,6 @@ const GamePickQueue = ({ roomInfo }) => {
         })}
         {roomInfo.currentPick ? (
           <Point
-            key={roomInfo.pickRegionHistory.length}
             idx={roomInfo.pickRegionHistory.length}
             color={
               PLAYER_COLORS[
@@ -105,24 +104,18 @@ const GamePickQueue = ({ roomInfo }) => {
         ) : null}
         {roomInfo.pickRegionQueue.map((player, index) => {
           return (
-            <>
-              <Point
-                idx={
-                  roomInfo.currentPick
-                    ? roomInfo.pickRegionHistory.length + index + 1
-                    : roomInfo.pickRegionHistory.length + index
-                }
-                key={
-                  roomInfo.currentPick
-                    ? roomInfo.pickRegionHistory.length + index + 1
-                    : roomInfo.pickRegionHistory.length + index
-                }
-                color={PLAYER_COLORS[roomInfo.playerColors[player]]}
-                current={false}
-                checked={false}
-                firstLoad={firstLoad.current}
-              />
-            </>
+            <Point
+              idx={
+                roomInfo.currentPick
+                  ? roomInfo.pickRegionHistory.length + index + 1
+                  : roomInfo.pickRegionHistory.length + index
+              }
+              key={index}
+              color={PLAYER_COLORS[roomInfo.playerColors[player]]}
+              current={false}
+              checked={false}
+              firstLoad={firstLoad.current}
+            />
           );
         })}
       </motion.div>
