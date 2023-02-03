@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DEBUG } from "../constants";
@@ -24,39 +24,44 @@ export const AuthProvider = ({ children }) => {
       : null
   );
 
+  const firstLoad = useRef(true);
+
   useEffect(() => {
-    const fetchEmail = async () => {
+    const auth = async () => {
       let response = await fetch(
-        process.env.REACT_APP_BACKEND_URL + "/api/auth/email/",
+        process.env.REACT_APP_BACKEND_URL + "/api/auth/authentication/",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Token " + authToken,
           },
-          body: JSON.stringify({
-            username: username,
-          }),
         }
       );
       let data = await response.json();
-      if (!response.ok) return;
-      if (data.valid === true) {
+      if (response.ok) {
+        setUsername(data.username);
+        localStorage.setItem("username", JSON.stringify(data.username));
         setEmail(data.email);
         localStorage.setItem("email", JSON.stringify(data.email));
       } else {
-        localStorage.removeItem("username");
-        localStorage.removeItem("email");
-        localStorage.removeItem("authToken");
-        localStorage.setItem("lastUsername", JSON.stringify("cheater"));
         setUsername(null);
         setEmail(null);
         setAuthToken(null);
+        localStorage.removeItem("username");
+        localStorage.removeItem("email");
+        localStorage.removeItem("authToken");
+        localStorage.setItem("lastUsername", JSON.stringify("co zkousis"));
       }
     };
 
-    if (username && authToken) fetchEmail();
-  }, [username, authToken]);
+    if (firstLoad.current) {
+      firstLoad.current = false;
+      return;
+    }
+
+    if (authToken) auth();
+  }, [authToken]);
 
   const navigate = useNavigate();
 

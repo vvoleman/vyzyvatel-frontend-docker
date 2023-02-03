@@ -51,7 +51,7 @@ const QuestionController = () => {
     if (alreadyAnswered) {
       setSubmit(true);
     }
-  }, [roomInfo]);
+  }, [roomInfo, username]);
 
   useEffect(() => {
     if (submit === false) return;

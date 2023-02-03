@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export default function Login() {
-  const { loginUser, username } = useContext(AuthContext);
+  const { loginUser, username, useremail } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [usern, setUsern] = useState(
@@ -19,8 +19,8 @@ export default function Login() {
 
   useEffect(() => {
     document.title = "Přihlášení - Vyzyvatel";
-    if (username) navigate("/");
-  }, [username, navigate]);
+    if (username && useremail) navigate("/");
+  }, [username, useremail, navigate]);
 
   const handleUsern = (e) => {
     e.preventDefault();
