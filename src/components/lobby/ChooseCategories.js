@@ -72,7 +72,13 @@ export default function ChooseCategories() {
               className="flex justify-between border rounded-md my-2 px-1 py-0.5 border-slate-200/50 bg-slate-800"
             >
               <div className="p-2 py-1">{category.name}</div>
-              <div className="p-2 py-1 flex items-center hover:scale-110 transition-all">
+              <div
+                className={`p-2 py-1 flex items-center ${
+                  roomInfo.owner === username
+                    ? "hover:scale-110 transition-all"
+                    : null
+                }`}
+              >
                 {roomInfo.owner === username ? (
                   <motion.input
                     animate={{ scale: 1 }}

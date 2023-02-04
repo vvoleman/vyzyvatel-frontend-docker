@@ -10,7 +10,16 @@ export default function GameChat() {
   const { socket } = useContext(SocketContext);
 
   const [currMess, setCurrMess] = useState("");
-  const [messList, setMessList] = useState([]);
+  const [messList, setMessList] = useState([
+    {
+      author: "Maroso",
+      message: "Užijte si hru :)",
+      time:
+        new Date(Date.now()).getHours() +
+        ":" +
+        new Date(Date.now()).getMinutes().toString().padStart(2, "0"),
+    },
+  ]);
   const [focused, setFocused] = useState(false);
   const [showChat, setShowChat] = useState(false);
 

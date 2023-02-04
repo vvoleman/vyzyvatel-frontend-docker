@@ -81,65 +81,64 @@ const NumericResults = () => {
           {roomInfo.currentQuestion.rightAnswer}
         </p>
       </div>
-      <div className="flex justify-center items-center  p-2">
+      <div className="flex justify-center items-center p-2">
         {shuffledAnswers.map((ans) => (
           <motion.div
             key={ans.username}
             animate={{ scale: 1.1 - ans.position * 0.04 }}
             initial={{ scale: 0 }}
             transition={{ delay: (3 - ans.position) * 0.5 }}
-            className={`border-2 m-2 mx-4 rounded-lg border-slate-500 ${
-              ans.position === 1 ? "" : null
-            }`}
           >
-            <div className="flex justify-start items-center bg-slate-700 rounded-t-lg">
-              <Gravatar
+            <div className={`border-2 m-2 mx-4 rounded-lg border-slate-500`}>
+              <div className="flex justify-start items-center bg-slate-700 rounded-t-lg">
+                <Gravatar
+                  style={{
+                    borderColor:
+                      PLAYER_COLORS[roomInfo.playerColors[ans.username]],
+                  }}
+                  className={`ml-3 m-2 border-2 rounded-full`}
+                  email={
+                    roomInfo.emails[ans.username]
+                      ? roomInfo.emails[ans.username]
+                      : ""
+                  }
+                  size={36}
+                />
+                <div className="text-lg pr-2">{ans.username}</div>
+              </div>
+              <div
+                className="flex justify-center items-center text-black text-2xl font-bold p-1 border-y border-slate-300/50"
                 style={{
-                  borderColor:
+                  backgroundColor:
                     PLAYER_COLORS[roomInfo.playerColors[ans.username]],
                 }}
-                className={`ml-3 m-2 border-2 rounded-full`}
-                email={
-                  roomInfo.emails[ans.username]
-                    ? roomInfo.emails[ans.username]
-                    : ""
-                }
-                size={36}
-              />
-              <div className="text-lg pr-2">{ans.username}</div>
-            </div>
-            <div
-              className="flex justify-center items-center text-black text-2xl font-bold p-1 border-y border-slate-300/50"
-              style={{
-                backgroundColor:
-                  PLAYER_COLORS[roomInfo.playerColors[ans.username]],
-              }}
-            >
-              {ans.answer}
-            </div>
-            <div className="flex justify-between items-center gap-10 bg-slate-600/80 rounded-b-lg">
-              <div className="flex justify-center items-center">
-                <IoMdStats size={20} className="m-1.5" />
-                <p className="">{ans.difference}</p>
+              >
+                {ans.answer}
               </div>
-              <div className="flex justify-center items-center">
-                <p className="">{Math.round(ans.time / 10) / 100}</p>
-                <BsClock size={20} className="m-2" />
+              <div className="flex justify-between items-center gap-10 bg-slate-600/80 rounded-b-lg">
+                <div className="flex justify-center items-center">
+                  <IoMdStats size={20} className="m-1.5" />
+                  <p className="">{ans.difference}</p>
+                </div>
+                <div className="flex justify-center items-center">
+                  <p className="">{Math.round(ans.time / 10) / 100}</p>
+                  <BsClock size={20} className="m-2" />
+                </div>
               </div>
-            </div>
-            <div
-              className={`absolute border-2 rounded-full px-[0.45em] pb-[0.08em] text-xl font-semibol border-slate-600/80 bg-slate-900/95 top-[-14px] right-[-12px]
+              <div
+                className={`absolute border-2 rounded-full px-[0.45em] pb-[0.08em] text-xl font-semibol border-slate-600/80 bg-slate-900/95 top-[-10px] right-[0px]
                 ${
                   ans.position === 1
-                    ? "text-yellow-400 border-yellow-400"
+                    ? "text-yellow-400 border-yellow-400 bouncing top-[-4px]"
                     : null
                 }
                 ${ans.position === 2 ? "text-[#c0c0c0] border-[#c0c0c0]" : null}
                 ${
                   ans.position === 3 ? "text-[#cd7f32] border-[#cd7f32]" : null
                 }`}
-            >
-              {ans.position}
+              >
+                {ans.position}
+              </div>
             </div>
           </motion.div>
         ))}

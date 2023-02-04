@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import PublicRooms from "./PublicRooms";
 
 import SocketContext from "../../context/SocketContext";
@@ -15,7 +15,17 @@ export default function HomeMenu() {
 
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState(null);
-  const [publicRooms, setPublicRooms] = useState(null);
+  const [publicRooms, setPublicRooms] = useState([]);
+  const [spamCounter, setSpamCounter] = useState(0);
+
+  const loading = useRef(false);
+
+  useEffect(() => {
+    if (loading.current) return;
+    loading.current = true;
+
+    socketGetPublicRooms(setPublicRooms);
+  }, [socketGetPublicRooms]);
 
   useEffect(() => {
     if (publicRooms == null) {
@@ -84,14 +94,35 @@ export default function HomeMenu() {
               <div className="absolute text-xl text-white font-semibold mb-2">
                 Veřejné hry
               </div>
-              <IoMdRefresh
-                onClick={() => {
-                  setPublicRooms(null);
-                  socketGetPublicRooms(setPublicRooms);
-                }}
-                size={28}
-                className="relative left-[78px] text-white m-2 border-2 rounded-md border-slate-400/50 cursor-pointer hover:bg-slate-700/80"
-              />
+              <div className="relative left-[78px] text-white flex justify-start items-center">
+                <button
+                  onClick={() => {
+                    setSpamCounter((prev) => prev + 1);
+                    setTimeout(() => {
+                      setSpamCounter((prev) => prev - 1);
+                    }, 1000);
+
+                    if (spamCounter > 3) return;
+
+                    socketGetPublicRooms(setPublicRooms);
+                  }}
+                >
+                  <IoMdRefresh
+                    className="m-2 border-2 rounded-md border-slate-400/50 cursor-pointer hover:bg-slate-700/80 "
+                    size={28}
+                  />
+                </button>
+                {spamCounter > 3 ? (
+                  <motion.div
+                    className="absolute left-[45px] w-[100px] text-sm text-white/50 blocker"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    nespamuj vole
+                  </motion.div>
+                ) : null}
+              </div>
             </div>
             <PublicRooms
               publicRooms={publicRooms}

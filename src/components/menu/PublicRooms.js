@@ -12,6 +12,11 @@ export default function PublicRooms({
 
     return (
       <div>
+        {publicRooms.length === 0 ? (
+          <div className="p-3 text-center grid text-slate-400 font-normal text-sm">
+            momentálně nejsou žádné veřejné hry
+          </div>
+        ) : null}
         {publicRooms.map((room, idx) => {
           return (
             <motion.div

@@ -27,6 +27,7 @@ export const GAME_STATES = {
 export const GAME_STAGES = {
   TAKE_REGIONS: "take_regions",
   BATTLE_REGIONS: "battle_regions",
+  END: "end",
 };
 
 export const QUESTION_TYPES = {
@@ -53,6 +54,8 @@ export const GAME_REGION_NEIGHBORS = {
 };
 
 export const NUMBER_OF_REGIONS = 14;
+
+// ------------ CLIENT DEDICATED ------------
 
 export const PLAYER_COLORS = ["#FF4545", "#52FF68", "#4EBAFF"];
 

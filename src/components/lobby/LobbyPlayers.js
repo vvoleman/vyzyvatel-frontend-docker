@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { MdCancelPresentation } from "react-icons/md";
 import { Gravatar } from "../Gravatar";
+import { FaCrown } from "react-icons/fa";
 
 import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
@@ -39,6 +40,14 @@ export default function LobbyPlayers() {
                 email={roomInfo.emails[player] ? roomInfo.emails[player] : ""}
                 size={36}
               />
+              {roomInfo.owner === player ? (
+                <div className="flex items-center justify-center absolute">
+                  <FaCrown
+                    size={20}
+                    className="relative top-[-22px] left-[16px] text-yellow-400"
+                  />
+                </div>
+              ) : null}
               {player}
             </div>
             {idx !== 0 && username === roomInfo.owner ? (
