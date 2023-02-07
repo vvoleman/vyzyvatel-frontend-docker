@@ -20,7 +20,7 @@ export class Gravatar extends React.Component {
   static defaultProps = {
     size: 50,
     rating: "g",
-    default: "mp",
+    default: "wavatar",
     protocol: "//",
     domain: "www.gravatar.com",
   };

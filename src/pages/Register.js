@@ -167,6 +167,16 @@ export default function Register() {
                 placeholder="pepa@seznam.cz"
                 onChange={handleEmail}
               />
+              <div className="text-white text-[13px] p-1 opacity-80">
+                pro vlastní profilový obrázek je potřeba propojit email s{" "}
+                <a
+                  href="https://gravatar.com/"
+                  target="_blank"
+                  className="text-blue-300 font-semibold hover:text-blue-100 underline"
+                >
+                  Gravatar
+                </a>
+              </div>
               {emailError ? (
                 <label className="text-rose-500/90 p-2 text-sm">
                   Email není validní
