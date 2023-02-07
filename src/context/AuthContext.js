@@ -107,7 +107,7 @@ export const AuthProvider = ({ children }) => {
       }
     );
     let data = await response.json();
-    //DEBUG && console.log("login:", data);
+
     if (response.ok) {
       setUsername(username);
       setAuthToken(data.auth_token);
