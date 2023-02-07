@@ -17,16 +17,23 @@ const ImageResults = ({ answer }) => {
       }
     });
 
-    if (colors.length === 0) return "#334454";
+    if (colors.length === 0) {
+      if (roomInfo.currentQuestion.involvedPlayers.includes(username)) {
+        return "#334454";
+      }
+      return "rgba(51, 68, 84, 0.3)";
+    }
     if (colors.length === 1) return colors[0];
     if (colors.length === 2)
       return `linear-gradient(90deg, ${colors.join(",")}`;
   };
 
   return (
-    <div className="border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
+    <div
+      className={`border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]`}
+    >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="text-3xl text-white font-normal px-4 py-2">
+        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[640px]">
           {roomInfo.currentQuestion.question}
         </div>
       </div>
@@ -34,7 +41,7 @@ const ImageResults = ({ answer }) => {
         <img
           src={roomInfo.currentQuestion.image_url}
           alt="question"
-          className="object-contain max-h-[520px] max-w-[1600px] rounded-md border-slate-600 border-2"
+          className="object-contain max-h-[520px] max-w-[640px] rounded-md border-slate-600 border-2"
         />
       </div>
       {roomInfo.currentQuestion.answers ? (
@@ -49,7 +56,7 @@ const ImageResults = ({ answer }) => {
                       : null
                   }`}
                   style={{ background: getAnswerBackgroundColor(ans) }}
-                ></div>
+                />
                 <div
                   className={`absolute w-[340px] h-[60px] flex justify-center items-center blocker border-white/40 border-2 ${
                     ans === roomInfo.currentQuestion.rightAnswer
@@ -68,7 +75,11 @@ const ImageResults = ({ answer }) => {
           {roomInfo.currentQuestion.possibleAnswers.map((ans, index) => (
             <div className="flex justify-center items-center" key={index}>
               <div
-                className="w-[340px] h-[60px] flex items-center justify-center m-2 p-2 rounded-md border-white/40 border-2 bg-slate-700"
+                className={`w-[340px] h-[60px] flex items-center justify-center m-2 p-2 rounded-md border-white/40 border-2 ${
+                  roomInfo.currentQuestion.involvedPlayers.includes(username)
+                    ? "bg-slate-700"
+                    : "bg-slate-700/30"
+                }`}
                 style={{
                   backgroundColor:
                     ans === answer

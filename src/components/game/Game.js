@@ -8,11 +8,18 @@ import GameChat from "./GameChat";
 import GameStatus from "./GameStatus";
 import QuestionController from "./Questions/QuestionController";
 import GameHint from "./hint/GameHint";
-import AuthContext from "../../context/AuthContext";
+import { ROOM_STATES } from "../../constants";
+import Finish from "./Finish";
 
 export default function Game() {
   const { roomInfo } = useContext(SocketContext);
-  const { username } = useContext(AuthContext);
+
+  if (roomInfo.state === ROOM_STATES.ENDED)
+    return (
+      <div className="flex grow justify-center items-center bg-slate-900 text-white/50">
+        <Finish />
+      </div>
+    );
 
   if (roomInfo.map)
     return (
@@ -20,14 +27,11 @@ export default function Game() {
         <div className="relative w-full max-w-6xl ml-[8%]">
           <MapSVG />
         </div>
-        <GameStatus roomInfo={roomInfo} />
+        {false ? <GameStatus roomInfo={roomInfo} /> : null}
         <GamePlayers />
         <GameChat />
         <GameHint />
-        {roomInfo.currentQuestion &&
-        roomInfo.currentQuestion.involvedPlayers.includes(username) ? (
-          <QuestionController />
-        ) : null}
+        {roomInfo.currentQuestion ? <QuestionController /> : null}
       </div>
     );
   return <LoadingScreen />;

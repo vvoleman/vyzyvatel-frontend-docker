@@ -19,7 +19,7 @@ const ImageQuestion = ({ setAnswer, setSubmit }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="text-3xl text-white font-normal px-4 py-2">
+        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[640px]">
           {roomInfo.currentQuestion.question}
         </div>
       </div>
@@ -27,7 +27,7 @@ const ImageQuestion = ({ setAnswer, setSubmit }) => {
         <img
           src={roomInfo.currentQuestion.image_url}
           alt="question"
-          className="object-contain max-h-[520px] max-w-[1600px] rounded-md border-slate-600 border-2"
+          className="object-contain max-h-[520px] max-w-[640px] rounded-md border-slate-600 border-2"
         />
       </div>
       <div className="grid grid-cols-2 p-4">

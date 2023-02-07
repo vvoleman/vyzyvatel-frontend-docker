@@ -54,7 +54,7 @@ export default function Header() {
         >
           {useremail ? (
             <Gravatar
-              className="sm:mr-5 mr-1 border-2 border-green-500 rounded-full"
+              className="sm:mr-5 mr-1 border-2 border-slate-400 rounded-full"
               email={useremail}
               size={34}
             />

@@ -88,7 +88,9 @@ const GameAttackQueue = ({ roomInfo }) => {
             <Point
               idx={index}
               key={index}
-              color={PLAYER_COLORS[roomInfo.playerColors[player]]}
+              color={
+                player ? PLAYER_COLORS[roomInfo.playerColors[player]] : "gray"
+              }
               current={false}
               checked={true}
               firstLoad={firstLoad.current}

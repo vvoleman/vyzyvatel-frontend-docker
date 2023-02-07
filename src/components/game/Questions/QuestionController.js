@@ -12,6 +12,10 @@ import useCurrentTime from "../../../hooks/useCurrentTime";
 import { motion } from "framer-motion";
 import { GAME_STATES, QUESTION_TYPES } from "../../../constants";
 import AuthContext from "../../../context/AuthContext";
+import { GiSwordBrandish } from "react-icons/gi";
+import { GiSlashedShield } from "react-icons/gi";
+import { Gravatar } from "../../Gravatar";
+import { PLAYER_COLORS } from "../../../constants";
 
 const QuestionController = () => {
   const { username } = useContext(AuthContext);
@@ -83,12 +87,96 @@ const QuestionController = () => {
     setSecondsTillEnd((roomInfo.endTime - currentTime) / 1000);
   }, [currentTime, roomInfo.currentQuestion]);
 
+  const attackerDefenderWrapper = (content) => {
+    return (
+      <div className="flex justify-center">
+        <motion.div
+          className="w-[180px] h-[233px] mr-6 mt-[150px] bg-slate-900/50 text-white rounded-xl rounded-b-[70px] rounded-tr-3xl border-slate-400/30 border-2 drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+          initial={{ scale: 0, x: 200 }}
+          animate={{ scale: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex justify-start items-center text-white/90">
+            <GiSwordBrandish size={60} /> <div className="text-lg">Útočník</div>
+          </div>
+          <div
+            className="py-2 text-center text-lg font-semibold text-slate-900"
+            style={{
+              backgroundColor:
+                PLAYER_COLORS[
+                  roomInfo.playerColors[roomInfo.currentAttack.attacker]
+                ],
+            }}
+          >
+            {roomInfo.currentAttack.attacker}
+          </div>
+          <div className="flex justify-center mt-1">
+            <Gravatar
+              className={`m-2 border-[4px] rounded-full`}
+              style={{
+                borderColor:
+                  PLAYER_COLORS[
+                    roomInfo.playerColors[roomInfo.currentAttack.attacker]
+                  ],
+              }}
+              email={roomInfo.emails[roomInfo.currentAttack.attacker]}
+              size={100}
+            />
+          </div>
+        </motion.div>
+        {content}
+        <motion.div
+          className="w-[180px] h-[233px] ml-6 mt-[150px] bg-slate-900/50 text-white rounded-xl rounded-b-[70px] rounded-tl-3xl border-slate-400/30 border-2 drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+          initial={{ scale: 0, x: -200 }}
+          animate={{ scale: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex justify-end items-center text-white/90">
+            <div className="text-lg">Obránce</div>
+            <GiSlashedShield size={60} className="p-[5px]" />
+          </div>
+          <div
+            className="py-2 text-center text-lg font-semibold text-slate-900"
+            style={{
+              backgroundColor:
+                PLAYER_COLORS[
+                  roomInfo.playerColors[roomInfo.currentAttack.defender]
+                ],
+            }}
+          >
+            {roomInfo.currentAttack.defender}
+          </div>
+          <div className="flex justify-center mt-1">
+            <Gravatar
+              className={`m-2 border-[4px] rounded-full`}
+              style={{
+                borderColor:
+                  PLAYER_COLORS[
+                    roomInfo.playerColors[roomInfo.currentAttack.defender]
+                  ],
+              }}
+              email={roomInfo.emails[roomInfo.currentAttack.defender]}
+              size={100}
+            />
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
+
   const content = () => {
     if (roomInfo.gameState === GAME_STATES.QUESTION_GUESS) {
       if (secondsTillStart > 3) return;
 
       if (secondsTillStart >= 1)
-        return <PrepareCounter seconds={secondsTillStart} />;
+        return (
+          <PrepareCounter
+            seconds={secondsTillStart}
+            involved={roomInfo.currentQuestion.involvedPlayers.includes(
+              username
+            )}
+          />
+        );
 
       if (
         submit ||
@@ -98,11 +186,13 @@ const QuestionController = () => {
         // user already answered
         switch (roomInfo.currentQuestion.type) {
           case QUESTION_TYPES.NUMERIC:
-            return <NumericResults />;
+            if (roomInfo.currentQuestion.involvedPlayers.length === 3)
+              return <NumericResults />;
+            return attackerDefenderWrapper(<NumericResults />);
           case QUESTION_TYPES.PICK:
-            return <PickResults answer={answer} />;
+            return attackerDefenderWrapper(<PickResults answer={answer} />);
           case QUESTION_TYPES.IMAGE:
-            return <ImageResults answer={answer} />;
+            return attackerDefenderWrapper(<ImageResults answer={answer} />);
         }
       }
 
@@ -114,22 +204,32 @@ const QuestionController = () => {
       // user has not answered yet and time is not up
       switch (roomInfo.currentQuestion.type) {
         case QUESTION_TYPES.NUMERIC:
-          return (
+          if (roomInfo.currentQuestion.involvedPlayers.length === 3)
+            return (
+              <NumericQuestion setAnswer={setAnswer} setSubmit={setSubmit} />
+            );
+          return attackerDefenderWrapper(
             <NumericQuestion setAnswer={setAnswer} setSubmit={setSubmit} />
           );
         case QUESTION_TYPES.PICK:
-          return <PickQuestion setAnswer={setAnswer} setSubmit={setSubmit} />;
+          return attackerDefenderWrapper(
+            <PickQuestion setAnswer={setAnswer} setSubmit={setSubmit} />
+          );
         case QUESTION_TYPES.IMAGE:
-          return <ImageQuestion setAnswer={setAnswer} setSubmit={setSubmit} />;
+          return attackerDefenderWrapper(
+            <ImageQuestion setAnswer={setAnswer} setSubmit={setSubmit} />
+          );
       }
     }
     switch (roomInfo.currentQuestion.type) {
       case QUESTION_TYPES.NUMERIC:
-        return <NumericResults />;
+        if (roomInfo.currentQuestion.involvedPlayers.length === 3)
+          return <NumericResults />;
+        return attackerDefenderWrapper(<NumericResults />);
       case QUESTION_TYPES.PICK:
-        return <PickResults answer={answer} />;
+        return attackerDefenderWrapper(<PickResults answer={answer} />);
       case QUESTION_TYPES.IMAGE:
-        return <ImageResults answer={answer} />;
+        return attackerDefenderWrapper(<ImageResults answer={answer} />);
     }
   };
 

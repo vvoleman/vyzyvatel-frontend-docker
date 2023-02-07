@@ -60,7 +60,7 @@ export default function HomeMenu() {
               whileHover={{ scale: 1.05 }}
               onClick={socketCreateRoom}
               type="submit"
-              className="border-2 border-slate-400/40 w-64 text-white bg-primary-600 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600 hover:bg-slate-700/80"
+              className="border-2 border-slate-400/40 w-64 text-white bg-slate-700/80 font-bold rounded-lg text-lg py-2.5 text-center bg-primary-600 hover:bg-slate-700"
             >
               Vytvořit hru
             </motion.button>
@@ -119,7 +119,7 @@ export default function HomeMenu() {
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    nespamuj vole
+                    nespamuj
                   </motion.div>
                 ) : null}
               </div>

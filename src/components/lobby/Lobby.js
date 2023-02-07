@@ -116,7 +116,7 @@ export default function Lobby() {
             <div className="flex justify-center gap-5">
               {roomInfo["owner"] === username ? (
                 <>
-                  {roomInfo["players"].length < 0 ||
+                  {roomInfo["players"].length < 3 ||
                   !IsAtleastOneCategoryActive() ? (
                     <button
                       disabled

@@ -35,7 +35,7 @@ export default function GamePlayers() {
                 style={{
                   borderColor: PLAYER_COLORS[roomInfo.playerColors[player]],
                 }}
-                className="flex items-center text-lg justify-between rounded-2xl pb-1.5 pt-1 pl-2 border-2 my-2 w-72 opacity-95 bg-slate-800/70 shadow-xl shadow-black/60"
+                className="flex items-center text-lg justify-between rounded-2xl pb-1.5 pt-1 pl-2 border-2 my-2 w-[304px] opacity-95 bg-slate-800/70 shadow-xl shadow-black/60"
               >
                 <div className="flex items-center">
                   <Gravatar

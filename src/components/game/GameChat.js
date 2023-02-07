@@ -13,7 +13,7 @@ export default function GameChat() {
   const [messList, setMessList] = useState([
     {
       author: "Maroso",
-      message: "Užijte si hru :)",
+      message: "Užijte si hru 🙂",
       time:
         new Date(Date.now()).getHours() +
         ":" +

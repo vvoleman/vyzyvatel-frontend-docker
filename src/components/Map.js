@@ -146,6 +146,11 @@ const Map = () => {
       playerRegions.push(idx);
     }
 
+    if (playerRegions.length === 0) {
+      // player has no regions
+      playerRegions.push(14);
+    }
+
     return GAME_REGION_NEIGHBORS[regionIdx].some((regIdx) =>
       playerRegions.includes(regIdx)
     );
@@ -283,7 +288,7 @@ const Map = () => {
             />
           );
         })}
-        {roomInfo.currentAttack && roomInfo.currentAttack.region ? (
+        {roomInfo.currentAttack && roomInfo.currentAttack.region !== null ? (
           <g
             transform={`translate(${
               regions[roomInfo.currentAttack.region].ax
