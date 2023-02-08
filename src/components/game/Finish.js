@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { Gravatar } from "../Gravatar";
-import { PLAYER_COLORS, USER_STATES } from "../../constants";
+import { PLAYER_COLORS } from "../../constants";
 import SocketContext from "../../context/SocketContext";
+import { useNavigate } from "react-router-dom";
 
 const Finish = () => {
-  const { roomInfo, userInfo, setUserInfo, setRoomInfo } =
-    useContext(SocketContext);
+  const { roomInfo } = useContext(SocketContext);
+
+  const navigate = useNavigate();
 
   const totalScore = (player) => {
     let total = 0;
@@ -121,8 +123,7 @@ const Finish = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             onClick={() => {
-              setRoomInfo(null);
-              setUserInfo({ ...userInfo, state: USER_STATES.MENU });
+              navigate("/");
             }}
             type="submit"
             className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"
