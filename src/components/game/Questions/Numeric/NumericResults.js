@@ -43,8 +43,11 @@ const NumericResults = () => {
         initial={{ scale: 0.6 }}
       >
         <div className="flex justify-center items-center p-2  rounded-t-md">
-          <div className="question-question max-w-[560px]">
-            {roomInfo.currentQuestion.question}
+          <div className="question-question max-w-[620px]">
+            {roomInfo.currentQuestion.question}{" "}
+            <span className="question-category">
+              {roomInfo.currentQuestion.category}
+            </span>
           </div>
         </div>
         <div className="flex justify-center items-center p-2 bg-slate-900 font-semibold border-y-2 border-slate-400/50">
