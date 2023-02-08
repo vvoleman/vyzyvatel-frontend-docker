@@ -58,13 +58,13 @@ const ImageResults = ({ answer }) => {
                   style={{ background: getAnswerBackgroundColor(ans) }}
                 />
                 <div
-                  className={`absolute w-[340px] h-[60px] flex justify-center items-center blocker border-white/40 border-2 ${
+                  className={`w-[340px] h-[60px] flex items-center justify-center border-white/40 border-2 absolute blocker ${
                     ans === roomInfo.currentQuestion.rightAnswer
                       ? "border-amber-300 border-4 animate-bounce bottom-[-6px]"
                       : null
                   } rounded-md`}
                 >
-                  <p className="text-lg z-50 tracking-wide">{ans}</p>
+                  <p className="pick-question-answer">{ans}</p>
                 </div>
               </div>
             </div>
@@ -75,7 +75,7 @@ const ImageResults = ({ answer }) => {
           {roomInfo.currentQuestion.possibleAnswers.map((ans, index) => (
             <div className="flex justify-center items-center" key={index}>
               <div
-                className={`w-[340px] h-[60px] flex items-center justify-center m-2 p-2 rounded-md border-white/40 border-2 ${
+                className={`w-[340px] h-[60px] flex items-center justify-center border-white/40 border-2 m-2 p-2 rounded-md ${
                   roomInfo.currentQuestion.involvedPlayers.includes(username)
                     ? "bg-slate-700"
                     : "bg-slate-700/30"
@@ -87,7 +87,7 @@ const ImageResults = ({ answer }) => {
                       : "",
                 }}
               >
-                <p className="text-lg z-50 tracking-wide">{ans}</p>
+                <p className="pick-question-answer">{ans}</p>
               </div>
             </div>
           ))}

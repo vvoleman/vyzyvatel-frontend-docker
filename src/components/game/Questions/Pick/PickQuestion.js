@@ -32,7 +32,7 @@ const PickQuestion = ({ setAnswer, setSubmit }) => {
               }}
               className="w-[340px] h-[60px] flex items-center justify-center m-2 p-2 rounded-md border-white/40 border-2 bg-slate-700 transition-all hover:bg-slate-600 cursor-pointer"
             >
-              <p className="text-lg z-50 tracking-wide">{answer}</p>
+              <p className="pick-question-answer">{answer}</p>
             </div>
           </div>
         ))}

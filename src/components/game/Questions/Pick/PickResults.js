@@ -55,7 +55,7 @@ const PickResults = ({ answer }) => {
                       : null
                   } rounded-md`}
                 >
-                  <p className="text-lg z-50 tracking-wide">{ans}</p>
+                  <p className="pick-question-answer">{ans}</p>
                 </div>
               </div>
             </div>
@@ -78,7 +78,7 @@ const PickResults = ({ answer }) => {
                       : "",
                 }}
               >
-                <p className="text-lg z-50 tracking-wide">{ans}</p>
+                <p className="pick-question-answer">{ans}</p>
               </div>
             </div>
           ))}

@@ -58,4 +58,8 @@
         backface-visibility: hidden;
         animation: bouncing 1s ease-in-out infinite;
     }
+
+    .pick-question-answer {
+        @apply text-lg z-50 tracking-wide leading-tight
+    }
 }
