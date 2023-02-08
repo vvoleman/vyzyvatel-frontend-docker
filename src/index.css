@@ -68,6 +68,6 @@
     }
 
     .question-category {
-        @apply text-white/60 text-[22px] text-end pt-1 font-thin tracking-wide
+        @apply text-white/60 text-[20px] text-end font-thin tracking-wide
     }
 }
