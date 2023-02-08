@@ -25,93 +25,87 @@ const Finish = () => {
       transition={{ duration: 0.4 }}
     >
       <div className="flex gap-20">
-        {roomInfo.players
-          .sort((a, b) => (totalScore(b) > totalScore(a) ? 1 : -1))
-          .map((player, idx) => {
-            return (
-              <div
-                key={idx}
-                className="relative flex justify-center text-white"
+        {roomInfo.players.map((player, idx) => {
+          return (
+            <div key={idx} className="relative flex justify-center text-white">
+              <motion.div
+                className="w-[130px] absolute top-[54px] rounded-sm shadow-xl shadow-black/40"
+                animate={{ y: -30 - totalScore(player) / 5 }}
+                initial={{ y: 0 }}
+                transition={{
+                  duration: 0.8 + totalScore(player) / 2000,
+                  delay: (idx + 1) * 1.2,
+                }}
+                style={{
+                  backgroundColor: PLAYER_COLORS[roomInfo.playerColors[player]],
+                  height: 30 + totalScore(player) / 5 - 2,
+                }}
+              />
+              <motion.div
+                className="flex justify-center w-[130px] h-[52px] absolute top-[28px] rounded-sm "
+                animate={{ scale: 1.2 }}
+                initial={{ scale: 0 }}
+                transition={{
+                  duration: 0.8 + totalScore(player) / 2000,
+                  delay: (idx + 1) * 1.2,
+                }}
               >
+                <div className="text-slate-900 text-lg font-semibold tracking-wider">
+                  {totalScore(player)}
+                </div>
+              </motion.div>
+              <motion.div
+                animate={{ y: -30 - totalScore(player) / 5 }}
+                initial={{ y: 0 }}
+                transition={{
+                  duration: 0.8 + totalScore(player) / 2000,
+                  delay: (idx + 1) * 1.2,
+                }}
+                style={{
+                  borderColor: PLAYER_COLORS[roomInfo.playerColors[player]],
+                }}
+                className="text-xl text-center rounded-2xl w-[190px] py-2.5 border-2 opacity-95 bg-slate-700/60 shadow-xl shadow-black/60"
+              >
+                {player}
                 <motion.div
-                  className="w-[130px] absolute top-[54px] rounded-sm shadow-xl shadow-black/40"
-                  animate={{ y: -30 - totalScore(player) / 5 }}
+                  className="absolute flex justify-center w-[190px] top-[-110px] "
+                  animate={{ y: -2 }}
                   initial={{ y: 0 }}
                   transition={{
-                    duration: 0.8 + totalScore(player) / 2000,
-                    delay: (idx + 1) * 1.2,
-                  }}
-                  style={{
-                    backgroundColor:
-                      PLAYER_COLORS[roomInfo.playerColors[player]],
-                    height: 30 + totalScore(player) / 5 - 2,
-                  }}
-                />
-                <motion.div
-                  className="flex justify-center w-[130px] h-[52px] absolute top-[28px] rounded-sm "
-                  animate={{ scale: 1.2 }}
-                  initial={{ scale: 0 }}
-                  transition={{
-                    duration: 0.8 + totalScore(player) / 2000,
+                    duration: 0.0001,
                     delay: (idx + 1) * 1.2,
                   }}
                 >
-                  <div className="text-slate-900 text-lg font-semibold tracking-wider">
-                    {totalScore(player)}
-                  </div>
-                </motion.div>
-                <motion.div
-                  animate={{ y: -30 - totalScore(player) / 5 }}
-                  initial={{ y: 0 }}
-                  transition={{
-                    duration: 0.8 + totalScore(player) / 2000,
-                    delay: (idx + 1) * 1.2,
-                  }}
-                  style={{
-                    borderColor: PLAYER_COLORS[roomInfo.playerColors[player]],
-                  }}
-                  className="text-xl text-center rounded-2xl w-[190px] py-2.5 border-2 opacity-95 bg-slate-700/60 shadow-xl shadow-black/60"
-                >
-                  {player}
                   <motion.div
-                    className="absolute flex justify-center w-[190px] top-[-110px] "
-                    animate={{ y: -2 }}
-                    initial={{ y: 0 }}
+                    animate={{ y: -totalScore(player) / 100 }}
+                    initial={{ y: -20 }}
                     transition={{
-                      duration: 0.0001,
+                      duration: 0.8 + totalScore(player) / 2000,
                       delay: (idx + 1) * 1.2,
                     }}
                   >
-                    <motion.div
-                      animate={{ y: -totalScore(player) / 100 }}
-                      initial={{ y: -20 }}
-                      transition={{
-                        duration: 0.8 + totalScore(player) / 2000,
-                        delay: (idx + 1) * 1.2,
+                    <Gravatar
+                      className="m-2 border-[3px] rounded-full relative shadow-xl shadow-black/40"
+                      style={{
+                        borderColor:
+                          PLAYER_COLORS[roomInfo.playerColors[player]],
                       }}
-                    >
-                      <Gravatar
-                        className="m-2 border-[3px] rounded-full relative shadow-xl shadow-black/40"
-                        style={{
-                          borderColor:
-                            PLAYER_COLORS[roomInfo.playerColors[player]],
-                        }}
-                        email={
-                          roomInfo.emails[player] ? roomInfo.emails[player] : ""
-                        }
-                        size={90}
-                      />
-                      {totalScore(player) < 100 ? (
-                        <div className="relative top-[-125px] text-sm text-slate-600">
-                          (noob)
-                        </div>
-                      ) : null}
-                    </motion.div>
+                      email={
+                        roomInfo.emails[player] ? roomInfo.emails[player] : ""
+                      }
+                      size={90}
+                    />
+                    {totalScore(player) < 100 ? (
+                      <div className="relative top-[-125px] text-sm text-slate-600">
+                        (noob)
+                      </div>
+                    ) : null}
                   </motion.div>
                 </motion.div>
-              </div>
-            );
-          })}
+              </motion.div>
+            </div>
+          );
+        })}
       </div>
       <div className="h-[270px] w-[900px] left-[-20px] absolute bg-slate-900"></div>
       <div className="absolute w-[730px]">

@@ -19,7 +19,7 @@ const PickQuestion = ({ setAnswer, setSubmit }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[500px]">
+        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[560px]">
           {roomInfo.currentQuestion.question}
         </div>
       </div>
