@@ -21,9 +21,9 @@ const ImageQuestion = ({ setAnswer, setSubmit }) => {
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
         <div className="question-question max-w-[640px]">
           {roomInfo.currentQuestion.question}
-          <div class="question-category">
+          <span className="question-category">
             {roomInfo.currentQuestion.category}
-          </div>
+          </span>
         </div>
       </div>
       <div className="flex justify-center items-center pt-4 px-2">

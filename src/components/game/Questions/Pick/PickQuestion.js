@@ -21,9 +21,9 @@ const PickQuestion = ({ setAnswer, setSubmit }) => {
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
         <div className="question-question max-w-[560px]">
           {roomInfo.currentQuestion.question}
-          <div class="question-category">
+          <span className="question-category">
             {roomInfo.currentQuestion.category}
-          </div>
+          </span>
         </div>
       </div>
       <div className="flex-col justify-center items-center mt-2 pt-4">

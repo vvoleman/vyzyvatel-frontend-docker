@@ -36,7 +36,9 @@ const ImageResults = ({ answer }) => {
         <div className="question-question max-w-[640px]">
           {roomInfo.currentQuestion.question}
         </div>
-        <div class="question-category">{roomInfo.currentQuestion.category}</div>
+        <span className="question-category">
+          {roomInfo.currentQuestion.category}
+        </span>
       </div>
       <div className="flex justify-center items-center pt-4 px-2">
         <img
