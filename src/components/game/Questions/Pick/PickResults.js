@@ -49,7 +49,7 @@ const PickResults = ({ answer }) => {
                   style={{ background: getAnswerBackgroundColor(ans) }}
                 ></div>
                 <div
-                  className={`absolute w-[340px] h-[60px] flex justify-center items-center blocker border-white/40 border-2 ${
+                  className={`absolute w-[340px] h-[60px] flex justify-center p-2 items-center blocker border-white/40 border-2 ${
                     ans === roomInfo.currentQuestion.rightAnswer
                       ? "border-amber-300 border-4 animate-bounce bottom-[-8px]"
                       : null
