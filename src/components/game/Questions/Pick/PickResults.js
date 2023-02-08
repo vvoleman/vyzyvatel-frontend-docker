@@ -31,8 +31,8 @@ const PickResults = ({ answer }) => {
   return (
     <div className="border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="question-question max-w-[560px]">
-          {roomInfo.currentQuestion.question}
+        <div className="question-question max-w-[620px]">
+          {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}
           </span>

@@ -71,8 +71,8 @@ const NumericQuestion = ({ setAnswer, setSubmit }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="question-question max-w-[560px]">
-          {roomInfo.currentQuestion.question}
+        <div className="question-question max-w-[620px]">
+          {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}
           </span>
