@@ -61,7 +61,7 @@ export default function GameChat() {
       animate={{ scale: 1 }}
       initial={{ scale: 0 }}
       transition={{ duration: 0.3 }}
-      className={`absolute px-4 bottom-[10%] left-[1%] hidden 2xl:block opacity-50 hover:opacity-100 focus::opacity-100 transition-all
+      className={`z-50 absolute px-4 bottom-[10%] left-[1%] hidden 2xl:block opacity-50 hover:opacity-100 focus::opacity-100 transition-all
     ${showChat || focused ? "opacity-100" : "hidden"}`}
     >
       <div className="border-2 rounded-md border-slate-500 p-2 bg-slate-800/50 shadow-xl shadow-black/70">
