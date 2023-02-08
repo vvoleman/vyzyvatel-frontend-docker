@@ -33,9 +33,10 @@ const ImageResults = ({ answer }) => {
       className={`border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]`}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[640px]">
+        <div className="question-question max-w-[640px]">
           {roomInfo.currentQuestion.question}
         </div>
+        <div class="question-category">{roomInfo.currentQuestion.category}</div>
       </div>
       <div className="flex justify-center items-center pt-4 px-2">
         <img

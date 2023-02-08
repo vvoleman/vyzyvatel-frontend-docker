@@ -62,4 +62,12 @@
     .pick-question-answer {
         @apply text-lg z-50 tracking-wide leading-tight
     }
+
+    .question-question {
+        @apply text-3xl text-white font-normal px-4 py-2
+    }
+
+    .question-category {
+        @apply text-white/60 text-[22px] text-end pt-1 font-thin tracking-wide
+    }
 }

@@ -43,7 +43,7 @@ const NumericResults = () => {
         initial={{ scale: 0.6 }}
       >
         <div className="flex justify-center items-center p-2  rounded-t-md">
-          <div className="text-3xl text-white font-normal px-4 py-2 max-w-[560px]">
+          <div className="question-question max-w-[560px]">
             {roomInfo.currentQuestion.question}
           </div>
         </div>
@@ -72,8 +72,11 @@ const NumericResults = () => {
       initial={{ scale: 0.6 }}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[560px]">
+        <div className="question-question max-w-[560px]">
           {roomInfo.currentQuestion.question}
+          <div class="question-category">
+            {roomInfo.currentQuestion.category}
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center p-2 bg-slate-900 font-semibold border-y-2 border-slate-400/50">

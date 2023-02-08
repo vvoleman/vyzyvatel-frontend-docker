@@ -19,8 +19,11 @@ const ImageQuestion = ({ setAnswer, setSubmit }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="text-3xl text-white font-normal px-4 py-2 max-w-[640px]">
+        <div className="question-question max-w-[640px]">
           {roomInfo.currentQuestion.question}
+          <div class="question-category">
+            {roomInfo.currentQuestion.category}
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center pt-4 px-2">
