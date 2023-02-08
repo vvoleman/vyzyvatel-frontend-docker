@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Gravatar } from "../Gravatar";
 import { PLAYER_COLORS, USER_STATES } from "../../constants";
 import SocketContext from "../../context/SocketContext";
+import { Navigate } from "react-router-dom";
 
 const Finish = () => {
   const { roomInfo, userInfo, setUserInfo, setRoomInfo } =
@@ -121,8 +122,9 @@ const Finish = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             onClick={() => {
-              setRoomInfo(null);
-              setUserInfo({ ...userInfo, state: USER_STATES.MENU });
+              //setRoomInfo(null);
+              //setUserInfo({ ...userInfo, state: USER_STATES.MENU });
+              Navigate("/");
             }}
             type="submit"
             className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"

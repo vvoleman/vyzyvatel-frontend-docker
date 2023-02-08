@@ -168,7 +168,7 @@ export default function Register() {
                 onChange={handleEmail}
               />
               <div className="text-white text-[13px] p-1 opacity-80">
-                pro vlastní profilový obrázek je potřeba propojit email s{" "}
+                Pro vlastní profilový obrázek je potřeba propojit email s{" "}
                 <a
                   href="https://gravatar.com/"
                   target="_blank"
