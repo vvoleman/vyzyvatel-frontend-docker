@@ -2,7 +2,7 @@ import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DEBUG } from "../constants";
-import SocketContext from "../../context/SocketContext";
+import SocketContext from "../context/SocketContext";
 
 const AuthContext = createContext();
 
@@ -143,7 +143,6 @@ export const AuthProvider = ({ children }) => {
       setEmail(null);
       setUserInfo(null);
       setRoomInfo(null);
-      DEBUG && console.log("logoutUser - end");
     } else
       DEBUG &&
         console.log("logoutUser - fail" + JSON.stringify(response.json()));
