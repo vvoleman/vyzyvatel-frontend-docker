@@ -30,6 +30,10 @@ export const SocketProvider = ({ children }) => {
   }, [roomInfo]);
 
   useEffect(() => {
+    updateSocket();
+  }, [username, useremail]);
+
+  useEffect(() => {
     socket.on("user-update", (data) => {
       setUserInfo(data);
     });
