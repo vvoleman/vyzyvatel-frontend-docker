@@ -174,8 +174,6 @@ export const SocketProvider = ({ children }) => {
     setUserInfo: setUserInfo,
     setRoomInfo: setRoomInfo,
 
-    socketLogin: login,
-
     socketCancelRoom: cancelRoom,
     socketLeaveRoom: leaveRoom,
     socketUpdateRoom: updateRoom,

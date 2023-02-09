@@ -13,7 +13,7 @@ import LoadingScreen from "../components/LoadingScreen";
 
 export default function Home() {
   const { username, useremail } = useContext(AuthContext);
-  const { userInfo, socketLogin } = useContext(SocketContext);
+  const { userInfo } = useContext(SocketContext);
 
   const navigate = useNavigate();
 
@@ -26,9 +26,7 @@ export default function Home() {
       navigate("/login");
       return;
     }
-
-    //socketLogin();
-  }, [username, useremail, navigate, socketLogin]);
+  }, [username, useremail, navigate]);
 
   if (!userInfo) return <LoadingScreen />;
 
