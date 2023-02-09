@@ -38,6 +38,10 @@ export const SocketProvider = ({ children }) => {
       setRoomInfo(data);
     });
 
+    socket.on("connect", (data) => {
+      console.log("connected: " + JSON.stringify(data));
+    });
+
     socket.on("disconnect", (data) => {
       console.log("disconnect: " + JSON.stringify(data));
     });
