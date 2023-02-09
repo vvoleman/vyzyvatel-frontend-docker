@@ -172,6 +172,7 @@ export default function Register() {
                 <a
                   href="https://gravatar.com/"
                   target="_blank"
+                  rel="noreferrer"
                   className="text-blue-300 font-semibold hover:text-blue-100 underline"
                 >
                   Gravatar
