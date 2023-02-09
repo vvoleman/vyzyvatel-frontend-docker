@@ -49,7 +49,10 @@ export const SocketProvider = ({ children }) => {
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
-    if (username === null || useremail === null) return;
+    if (username === null || useremail === null) {
+      console.log("username or email is null");
+      return;
+    }
 
     socket.emit("update-socket", username, useremail, (response) => {
       if (response) {
