@@ -45,16 +45,12 @@ export const SocketProvider = ({ children }) => {
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
-    socket.emit("update-socket", username, (response) => {
+    socket.emit("update-socket", username, useremail, (response) => {
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username]);
-
-  const login = useCallback(() => {
-    socket.emit("login", username, useremail, () => {});
   }, [username, useremail]);
 
   const cancelRoom = useCallback(() => {

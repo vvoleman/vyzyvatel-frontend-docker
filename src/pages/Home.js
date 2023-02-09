@@ -27,7 +27,7 @@ export default function Home() {
       return;
     }
 
-    socketLogin();
+    //socketLogin();
   }, [username, useremail, navigate, socketLogin]);
 
   if (!userInfo) return <LoadingScreen />;
