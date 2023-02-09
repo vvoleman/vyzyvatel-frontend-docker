@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import SocketContext from "../context/SocketContext";
 import { Gravatar } from "./Gravatar";
 import { BiLogInCircle } from "react-icons/bi";
 import { motion } from "framer-motion";
@@ -31,6 +32,7 @@ export default function Header() {
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
   const { username, useremail, logoutUser } = useContext(AuthContext);
+  const { setUserInfo, setRoomInfo } = useContext(SocketContext);
 
   return (
     <nav className="flex bg-slate-800 text-white h-[60px] justify-start items-center border-b border-slate-700 z-10 shadow-lg shadow-black/10">
@@ -76,7 +78,14 @@ export default function Header() {
         >
           {username ? (
             <ul>
-              <DropdownItemButton text={"odhlásit"} func={logoutUser} />
+              <DropdownItemButton
+                text={"odhlásit"}
+                func={() => {
+                  logoutUser();
+                  setUserInfo(null);
+                  setRoomInfo(null);
+                }}
+              />
             </ul>
           ) : (
             <ul>

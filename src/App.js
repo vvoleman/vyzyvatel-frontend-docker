@@ -13,8 +13,8 @@ function App() {
     <Router>
       <AuthProvider>
         <div className="flex flex-col h-screen dark-mode">
-          <Header />
           <SocketProvider>
+            <Header />
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

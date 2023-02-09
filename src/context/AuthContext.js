@@ -1,8 +1,7 @@
-import { createContext, useEffect, useState, useContext, useRef } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DEBUG } from "../constants";
-import SocketContext from "./SocketContext";
 
 const AuthContext = createContext();
 
@@ -24,8 +23,6 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("email"))
       : null
   );
-
-  const { setUserInfo, setRoomInfo } = useContext(SocketContext);
 
   const firstLoad = useRef(true);
 
@@ -133,19 +130,14 @@ export const AuthProvider = ({ children }) => {
         },
       }
     );
-    if (response.ok) {
-      DEBUG && console.log("logoutUser - succes");
-      localStorage.removeItem("username");
-      localStorage.removeItem("email");
-      localStorage.removeItem("authToken");
-      setAuthToken(null);
-      setUsername(null);
-      setEmail(null);
-      setUserInfo(null);
-      setRoomInfo(null);
-    } else
-      DEBUG &&
-        console.log("logoutUser - fail" + JSON.stringify(response.json()));
+
+    DEBUG && console.log("logoutUser");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("authToken");
+    setAuthToken(null);
+    setUsername(null);
+    setEmail(null);
   };
 
   let contextData = {
