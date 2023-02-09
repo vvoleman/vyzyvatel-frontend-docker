@@ -89,9 +89,9 @@ const QuestionController = () => {
 
   const attackerDefenderWrapper = (content) => {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center">
         <motion.div
-          className="w-[180px] h-[233px] mr-6 mt-[150px] bg-slate-900/50 text-white rounded-xl rounded-b-[70px] rounded-tr-3xl border-slate-400/30 border-2 drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+          className="w-[180px] h-[233px] mr-6 bg-slate-900/50 text-white rounded-xl rounded-b-[70px] rounded-tr-3xl border-slate-400/30 border-2 drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
           initial={{ scale: 0, x: 200 }}
           animate={{ scale: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -126,7 +126,7 @@ const QuestionController = () => {
         </motion.div>
         {content}
         <motion.div
-          className="w-[180px] h-[233px] ml-6 mt-[150px] bg-slate-900/50 text-white rounded-xl rounded-b-[70px] rounded-tl-3xl border-slate-400/30 border-2 drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+          className="w-[180px] h-[233px] ml-6 bg-slate-900/50 text-white rounded-xl rounded-b-[70px] rounded-tl-3xl border-slate-400/30 border-2 drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
           initial={{ scale: 0, x: -200 }}
           animate={{ scale: 1, x: 0 }}
           transition={{ duration: 0.5 }}
