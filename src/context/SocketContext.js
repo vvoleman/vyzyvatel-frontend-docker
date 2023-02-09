@@ -45,6 +45,8 @@ export const SocketProvider = ({ children }) => {
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
+    if (username === null || useremail === null) return;
+
     socket.emit("update-socket", username, useremail, (response) => {
       if (response) {
         setUserInfo(response.userInfo);
