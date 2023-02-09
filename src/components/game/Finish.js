@@ -117,15 +117,13 @@ const Finish = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <a href="/">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              type="submit"
-              className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"
-            >
-              Zpět do Menu
-            </motion.button>
-          </a>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            type="submit"
+            className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"
+          >
+            <a href="/">Zpět do Menu</a>
+          </motion.button>
         </div>
       </div>
     </motion.div>
