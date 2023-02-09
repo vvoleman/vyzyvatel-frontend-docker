@@ -2,7 +2,7 @@ import { createContext, useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DEBUG } from "../constants";
-import SocketContext from "../context/SocketContext";
+import SocketContext from "../SocketContext";
 
 const AuthContext = createContext();
 
