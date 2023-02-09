@@ -37,6 +37,10 @@ export const SocketProvider = ({ children }) => {
     socket.on("room-update", (data) => {
       setRoomInfo(data);
     });
+
+    socket.on("disconnect", (data) => {
+      console.log("disconnect: " + JSON.stringify(data));
+    });
   }, [setRoomInfo, setUserInfo]);
 
   const login = useCallback(() => {
