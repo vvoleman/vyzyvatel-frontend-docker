@@ -38,14 +38,14 @@ export const SocketProvider = ({ children }) => {
       setRoomInfo(data);
     });
 
-    socket.on("connect", (data) => {
-      console.log("connected: " + JSON.stringify(data));
-    });
-
-    socket.on("disconnect", (data) => {
-      console.log("disconnect: " + JSON.stringify(data));
+    socket.on("connect", () => {
+      updateSocket();
     });
   }, [setRoomInfo, setUserInfo]);
+
+  const updateSocket = useCallback(() => {
+    socket.emit("update-socket", username, () => {});
+  }, [username]);
 
   const login = useCallback(() => {
     socket.emit("login", username, useremail, (response) => {
