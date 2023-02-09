@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { Gravatar } from "../Gravatar";
-import { PLAYER_COLORS } from "../../constants";
+import { PLAYER_COLORS, USER_STATES } from "../../constants";
 import SocketContext from "../../context/SocketContext";
 
 const Finish = () => {
-  const { roomInfo } = useContext(SocketContext);
+  const { roomInfo, userInfo, setUserInfo, setRoomInfo } =
+    useContext(SocketContext);
 
   const totalScore = (player) => {
     let total = 0;
@@ -117,14 +118,21 @@ const Finish = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <a
+          <motion.button
             whileHover={{ scale: 1.05 }}
+            onClick={() => {
+              setRoomInfo(null);
+              setUserInfo({
+                ...userInfo,
+                state: USER_STATES.MENU,
+                roomCode: null,
+              });
+            }}
             type="submit"
-            href="/"
             className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"
           >
             Zpět do Menu
-          </a>
+          </motion.button>
         </div>
       </div>
     </motion.div>
@@ -132,3 +140,14 @@ const Finish = () => {
 };
 
 export default Finish;
+
+/*
+<a
+            whileHover={{ scale: 1.05 }}
+            type="submit"
+            href="/"
+            className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"
+          >
+            Zpět do Menu
+          </a>
+*/
