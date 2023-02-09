@@ -21,8 +21,6 @@ export const SocketProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
 
-  const [loginPassed, setLoginPassed] = useState(false);
-
   useEffect(() => {
     if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
   }, [userInfo]);
@@ -42,7 +40,7 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("connect", () => {
       console.log("socket connected, loginPassed:", loginPassed);
-      if (loginPassed) updateSocket();
+      updateSocket();
     });
   }, [setRoomInfo, setUserInfo]);
 
@@ -55,9 +53,6 @@ export const SocketProvider = ({ children }) => {
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
-        setTimeout(() => {
-          setLoginPassed(true);
-        }, 5 * 1000);
       }
     });
   }, [username, useremail]);
