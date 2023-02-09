@@ -39,6 +39,7 @@ export const SocketProvider = ({ children }) => {
     });
 
     socket.on("connect", () => {
+      console.log("socket connected");
       updateSocket();
     });
   }, [setRoomInfo, setUserInfo]);
