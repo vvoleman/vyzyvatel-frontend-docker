@@ -50,7 +50,7 @@ export const SocketProvider = ({ children }) => {
 
   const updateSocket = useCallback(() => {
     if (username === null || useremail === null) {
-      console.log("username or email is null");
+      console.log("username or useremail is null", username, useremail);
       return;
     }
 

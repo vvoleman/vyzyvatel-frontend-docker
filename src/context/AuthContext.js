@@ -27,6 +27,14 @@ export const AuthProvider = ({ children }) => {
   const firstLoad = useRef(true);
 
   useEffect(() => {
+    console.log("username: ", username);
+  }, [username]);
+
+  useEffect(() => {
+    console.log("useremail: ", email);
+  }, [email]);
+
+  useEffect(() => {
     const auth = async () => {
       let response = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/api/auth/authentication/",
