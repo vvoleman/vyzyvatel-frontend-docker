@@ -143,6 +143,7 @@ export const AuthProvider = ({ children }) => {
       setEmail(null);
       setUserInfo(null);
       setRoomInfo(null);
+      DEBUG && console.log("logoutUser - end");
     } else
       DEBUG &&
         console.log("logoutUser - fail" + JSON.stringify(response.json()));
