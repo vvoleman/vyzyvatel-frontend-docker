@@ -2,6 +2,7 @@ import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DEBUG } from "../constants";
+import SocketContext from "../../context/SocketContext";
 
 const AuthContext = createContext();
 
@@ -23,6 +24,8 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("email"))
       : null
   );
+
+  const { setUserInfo, setRoomInfo } = useContext(SocketContext);
 
   const firstLoad = useRef(true);
 
@@ -138,6 +141,8 @@ export const AuthProvider = ({ children }) => {
       setAuthToken(null);
       setUsername(null);
       setEmail(null);
+      setUserInfo(null);
+      setRoomInfo(null);
     } else
       DEBUG &&
         console.log("logoutUser - fail" + JSON.stringify(response.json()));
