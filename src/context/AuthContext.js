@@ -27,11 +27,11 @@ export const AuthProvider = ({ children }) => {
   const firstLoad = useRef(true);
 
   useEffect(() => {
-    console.log("username: ", username);
+    console.log("username:", username);
   }, [username]);
 
   useEffect(() => {
-    console.log("useremail: ", email);
+    console.log("useremail:", email);
   }, [email]);
 
   useEffect(() => {

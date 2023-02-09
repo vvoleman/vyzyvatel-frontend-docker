@@ -8,7 +8,7 @@ import {
 import io from "socket.io-client";
 import AuthContext from "../context/AuthContext";
 
-import { DEBUG } from "../constants";
+import { DEBUG, ROOM_STATES } from "../constants";
 
 const SocketContext = createContext();
 const socket = io.connect(process.env.REACT_APP_SOCKETIO_URL);
@@ -56,6 +56,8 @@ export const SocketProvider = ({ children }) => {
 
     socket.emit("update-socket", username, useremail, (response) => {
       if (response) {
+        if (roomInfo && roomInfo.state === ROOM_STATES.ENDED) return;
+
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
       }
