@@ -46,6 +46,10 @@ export const SocketProvider = ({ children }) => {
       console.log("socket connected");
       updateSocket();
     });
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
