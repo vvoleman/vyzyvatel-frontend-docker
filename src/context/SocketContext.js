@@ -47,8 +47,8 @@ export const SocketProvider = ({ children }) => {
       updateSocket();
     });
 
-    socket.on("dissconnect", () => {
-      console.log("socket dissconnected");
+    socket.on("disconnect", () => {
+      console.log("socket disconnected");
     });
   }, [setRoomInfo, setUserInfo]);
 
