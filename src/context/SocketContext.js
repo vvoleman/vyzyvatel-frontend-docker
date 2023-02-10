@@ -44,16 +44,16 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("connect", () => {
       console.log("socket connected");
+
+      if (username === null || useremail === null) {
+        console.log("username or useremail is null", username, useremail);
+        return;
+      }
       updateSocket();
     });
-  }, [setRoomInfo, setUserInfo]);
+  }, [setRoomInfo, setUserInfo, username, useremail]);
 
   const updateSocket = useCallback(() => {
-    if (username === null || useremail === null) {
-      console.log("username or useremail is null", username, useremail);
-      return;
-    }
-
     socket.emit("update-socket", username, useremail, (response) => {
       if (response) {
         if (roomInfo && roomInfo.state === ROOM_STATES.ENDED) return;
@@ -62,7 +62,7 @@ export const SocketProvider = ({ children }) => {
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username, useremail]);
+  }, [username, useremail, roomInfo]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
