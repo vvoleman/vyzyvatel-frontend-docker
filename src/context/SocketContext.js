@@ -58,6 +58,8 @@ export const SocketProvider = ({ children }) => {
       if (response) {
         if (roomInfo && roomInfo.state === ROOM_STATES.ENDED) return;
 
+        console.log("room state: " + roomInfo.state);
+
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
       }
