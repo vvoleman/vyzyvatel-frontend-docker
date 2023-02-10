@@ -46,6 +46,10 @@ export const SocketProvider = ({ children }) => {
       console.log("socket connected");
       updateSocket();
     });
+
+    socket.on("disconnect", () => {
+      console.log("socket dissconnected");
+    });
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = () => {
