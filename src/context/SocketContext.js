@@ -47,12 +47,12 @@ export const SocketProvider = ({ children }) => {
       updateSocket();
     });
 
-    socket.on("disconnect", () => {
+    socket.on("dissconnect", () => {
       console.log("socket dissconnected");
     });
   }, [setRoomInfo, setUserInfo]);
 
-  const updateSocket = () => {
+  const updateSocket = useCallback(() => {
     if (username === null || useremail === null) {
       console.log("username or useremail is null", username, useremail);
       return;
@@ -61,14 +61,13 @@ export const SocketProvider = ({ children }) => {
     socket.emit("update-socket", username, useremail, (response) => {
       if (response) {
         if (roomInfo && roomInfo.state === ROOM_STATES.ENDED) return;
-
-        console.log("room state: " + roomInfo.state);
+        console.log("roomState:", roomInfo.state);
 
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
       }
     });
-  };
+  }, [username, useremail, roomInfo]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
