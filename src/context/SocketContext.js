@@ -61,10 +61,14 @@ export const SocketProvider = ({ children }) => {
       ? useremail
       : JSON.parse(localStorage.getItem("email"));
 
+    console.log(
+      "updateSocked, name: " + name + ", email: " + email,
+      ", username: " + username,
+      ", useremail: " + useremail
+    );
+
     if (!name || !email) {
       console.log("username or email is null");
-      console.log("name: " + name);
-      console.log("email: " + email);
       return;
     }
 
