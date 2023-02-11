@@ -53,12 +53,22 @@ export const SocketProvider = ({ children }) => {
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
-    if (username === null || useremail === null) {
+    const name = username
+      ? username
+      : JSON.parse(localStorage.getItem("username"));
+
+    const email = useremail
+      ? useremail
+      : JSON.parse(localStorage.getItem("email"));
+
+    if (!name || !email) {
       console.log("username or email is null");
+      console.log("name: " + name);
+      console.log("email: " + email);
       return;
     }
 
-    socket.emit("update-socket", username, useremail, (response) => {
+    socket.emit("update-socket", name, email, (response) => {
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
