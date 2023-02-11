@@ -68,7 +68,7 @@ export const SocketProvider = ({ children }) => {
     );
 
     if (!name || !email) {
-      console.log("username or email is null");
+      console.log("username or email is null", name, email);
       return;
     }
 
