@@ -8,7 +8,7 @@ import {
 import io from "socket.io-client";
 import AuthContext from "../context/AuthContext";
 
-import { DEBUG } from "../constants";
+import { DEBUG, ROOM_STATES } from "../constants";
 
 const SocketContext = createContext();
 const socket = io.connect(process.env.REACT_APP_SOCKETIO_URL);
@@ -69,12 +69,18 @@ export const SocketProvider = ({ children }) => {
     }
 
     socket.emit("update-socket", name, email, (response) => {
+      if (roomInfo) {
+        if (roomInfo.state === ROOM_STATES.ENDED) {
+          return; // do not update on finish screen
+        }
+      }
+
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username, useremail]);
+  }, [username, useremail, roomInfo]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
