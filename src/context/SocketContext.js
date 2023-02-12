@@ -52,7 +52,7 @@ export const SocketProvider = ({ children }) => {
     });
   }, [setRoomInfo, setUserInfo]);
 
-  const updateSocket = useCallback(() => {
+  const updateSocket = () => {
     const name = username
       ? username
       : JSON.parse(localStorage.getItem("username"));
@@ -89,7 +89,7 @@ export const SocketProvider = ({ children }) => {
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username, useremail, roomInfo, userInfo]);
+  };
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
