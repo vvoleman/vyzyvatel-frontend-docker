@@ -66,7 +66,7 @@ const QuestionController = () => {
 
     socketAnswerQuestion(answer, false);
     answerSent.current = true;
-  }, [submit]);
+  }, [submit, answer]);
 
   useEffect(() => {
     if (answerSent.current === true) return;
@@ -77,7 +77,7 @@ const QuestionController = () => {
 
     socketAnswerQuestion(answer, true);
     answerSent.current = true;
-  }, [secondsTillEnd]);
+  }, [secondsTillEnd, answer]);
 
   useEffect(() => {
     setSecondsTillStart(

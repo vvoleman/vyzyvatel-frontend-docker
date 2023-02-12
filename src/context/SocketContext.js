@@ -4,6 +4,7 @@ import {
   useEffect,
   useContext,
   useCallback,
+  useRef,
 } from "react";
 import io from "socket.io-client";
 import AuthContext from "../context/AuthContext";
@@ -21,12 +22,18 @@ export const SocketProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
 
+  const dontUpdateInfo = useRef(false);
+
   useEffect(() => {
     if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
   }, [userInfo]);
 
   useEffect(() => {
     if (DEBUG) console.log("roomInfo: " + JSON.stringify(roomInfo));
+
+    if (roomInfo && roomInfo.state === ROOM_STATES.GAME) {
+      dontUpdateInfo.current = true;
+    }
   }, [roomInfo]);
 
   useEffect(() => {
@@ -57,7 +64,7 @@ export const SocketProvider = ({ children }) => {
     });
   }, [setRoomInfo, setUserInfo, userInfo]);
 
-  const updateSocket = () => {
+  const updateSocket = useCallback(() => {
     const name = username
       ? username
       : JSON.parse(localStorage.getItem("username"));
@@ -74,12 +81,16 @@ export const SocketProvider = ({ children }) => {
     }
 
     socket.emit("update-socket", name, email, (response) => {
+      console.log("dontUpdateInfo.current", dontUpdateInfo.current);
+
+      if (dontUpdateInfo.current) return;
+
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
       }
     });
-  };
+  }, [username, useremail]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
@@ -216,6 +227,8 @@ export const SocketProvider = ({ children }) => {
     socketAnswerQuestion: answerQuestion,
     socketAnswerPickRegion: answerPickRegion,
     socketAnswerAttackRegion: answerAttackRegion,
+
+    socketDontUpdateInfo: dontUpdateInfo,
   };
 
   return (
