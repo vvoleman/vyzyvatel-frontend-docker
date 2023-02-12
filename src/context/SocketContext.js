@@ -89,7 +89,7 @@ export const SocketProvider = ({ children }) => {
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username, useremail, roomInfo]);
+  }, [username, useremail, roomInfo, userInfo]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
