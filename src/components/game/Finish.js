@@ -5,7 +5,7 @@ import { PLAYER_COLORS, USER_STATES } from "../../constants";
 import SocketContext from "../../context/SocketContext";
 
 const Finish = () => {
-  const { roomInfo, userInfo, setUserInfo, setRoomInfo, socketDontUpdateInfo } =
+  const { roomInfo, userInfo, setUserInfo, setRoomInfo } =
     useContext(SocketContext);
 
   const totalScore = (player) => {
@@ -127,7 +127,6 @@ const Finish = () => {
                 state: USER_STATES.MENU,
                 roomCode: null,
               });
-              socketDontUpdateInfo.current = false;
             }}
             type="submit"
             className="border-2 border-slate-400/40 sm:w-1/3 w-full text-slate-300 bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center hover:bg-slate-700/80 shadow-xl shadow-black/40"

@@ -4,7 +4,6 @@ import {
   useEffect,
   useContext,
   useCallback,
-  useRef,
 } from "react";
 import io from "socket.io-client";
 import AuthContext from "../context/AuthContext";
@@ -22,22 +21,16 @@ export const SocketProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
 
-  const dontUpdateInfo = useRef(false);
-
   useEffect(() => {
     if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
   }, [userInfo]);
 
   useEffect(() => {
     if (DEBUG) console.log("roomInfo: " + JSON.stringify(roomInfo));
-
-    if (roomInfo && roomInfo.state === ROOM_STATES.GAME) {
-      dontUpdateInfo.current = true;
-    }
   }, [roomInfo]);
 
   useEffect(() => {
-    updateSocket();
+    updateSocket(true);
   }, [username, useremail]);
 
   useEffect(() => {
@@ -51,46 +44,48 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("connect", () => {
       console.log("inside connect userInfo", userInfo);
-      if (roomInfo && roomInfo.socket === socket.id) {
-        console.log(roomInfo.socket, socket.id);
+      console.log("inside connect roomInfo", roomInfo);
+      if (userInfo && userInfo.socket === socket.id) {
+        console.log(userInfo.socket, socket.id);
         return;
       }
 
-      updateSocket();
+      updateSocket(roomInfo ? roomInfo.state !== ROOM_STATES.ENDED : true);
     });
 
     socket.on("disconnect", () => {
       console.log("disconnected");
     });
-  }, [setRoomInfo, setUserInfo, userInfo]);
+  }, [setRoomInfo, setUserInfo, roomInfo, userInfo, updateSocket]);
 
-  const updateSocket = useCallback(() => {
-    const name = username
-      ? username
-      : JSON.parse(localStorage.getItem("username"));
+  const updateSocket = useCallback(
+    (shouldUpdate) => {
+      const name = username
+        ? username
+        : JSON.parse(localStorage.getItem("username"));
 
-    const email = useremail
-      ? useremail
-      : JSON.parse(localStorage.getItem("email"));
+      const email = useremail
+        ? useremail
+        : JSON.parse(localStorage.getItem("email"));
 
-    console.log("updateSocked", name, email, username, useremail);
+      console.log("updateSocked", name, email, username, useremail);
 
-    if (!name || !email) {
-      console.log("username or email is null", name, email);
-      return;
-    }
-
-    socket.emit("update-socket", name, email, (response) => {
-      console.log("dontUpdateInfo.current", dontUpdateInfo.current);
-
-      if (dontUpdateInfo.current) return;
-
-      if (response) {
-        setUserInfo(response.userInfo);
-        setRoomInfo(response.roomInfo);
+      if (!name || !email) {
+        console.log("username or email is null", name, email);
+        return;
       }
-    });
-  }, [username, useremail]);
+
+      socket.emit("update-socket", name, email, (response) => {
+        console.log("shouldUpdate", shouldUpdate);
+
+        if (response) {
+          setUserInfo(response.userInfo);
+          setRoomInfo(response.roomInfo);
+        }
+      });
+    },
+    [username, useremail]
+  );
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
@@ -227,8 +222,6 @@ export const SocketProvider = ({ children }) => {
     socketAnswerQuestion: answerQuestion,
     socketAnswerPickRegion: answerPickRegion,
     socketAnswerAttackRegion: answerAttackRegion,
-
-    socketDontUpdateInfo: dontUpdateInfo,
   };
 
   return (
