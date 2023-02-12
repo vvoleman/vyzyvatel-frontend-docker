@@ -80,9 +80,9 @@ export const SocketProvider = ({ children }) => {
       }
 
       console.log("inside updateSocket --------");
-      console.log("roomInfo", roomInfo);
-      console.log("userInfo", userInfo);
-      console.log("username", username);
+      console.log("- roomInfo", roomInfo);
+      console.log("- userInfo", userInfo);
+      console.log("- username", username);
 
       if (response) {
         setUserInfo(response.userInfo);
