@@ -43,16 +43,19 @@ export const SocketProvider = ({ children }) => {
     });
 
     socket.on("connect", () => {
-      console.log("socket connected");
-      console.log("socket.id: " + socket.id);
       console.log("inside connect userInfo", userInfo);
+      if (roomInfo && roomInfo.socket === socket.id) {
+        console.log(roomInfo.socket, socket.id);
+        return;
+      }
+
       updateSocket();
     });
 
     socket.on("disconnect", () => {
       console.log("disconnected");
     });
-  }, [setRoomInfo, setUserInfo]);
+  }, [setRoomInfo, setUserInfo, userInfo]);
 
   const updateSocket = () => {
     const name = username
@@ -63,31 +66,14 @@ export const SocketProvider = ({ children }) => {
       ? useremail
       : JSON.parse(localStorage.getItem("email"));
 
-    console.log(
-      "updateSocked, name: " + name + ", email: " + email,
-      ", username: " + username,
-      ", useremail: " + useremail
-    );
+    console.log("updateSocked", name, email, username, useremail);
 
     if (!name || !email) {
       console.log("username or email is null", name, email);
       return;
     }
 
-    console.log("inside updateSocket func userInfo", userInfo);
-
     socket.emit("update-socket", name, email, (response) => {
-      if (roomInfo) {
-        if (roomInfo.state === ROOM_STATES.ENDED) {
-          return; // do not update on finish screen
-        }
-      }
-
-      console.log("inside updateSocket emit --------");
-      console.log("- roomInfo", roomInfo);
-      console.log("- userInfo", userInfo);
-      console.log("- username", username);
-
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);
