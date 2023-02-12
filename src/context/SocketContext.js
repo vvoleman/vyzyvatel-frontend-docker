@@ -52,15 +52,8 @@ export const SocketProvider = ({ children }) => {
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
-    const name = username
-      ? username
-      : JSON.parse(localStorage.getItem("username"));
-
-    const email = useremail
-      ? useremail
-      : JSON.parse(localStorage.getItem("email"));
-
-    console.log("updateSocked", name, email, username, useremail);
+    const name = JSON.parse(localStorage.getItem("username"));
+    const email = JSON.parse(localStorage.getItem("email"));
 
     if (!name || !email) {
       console.log("username or email is null", name, email);
@@ -73,7 +66,7 @@ export const SocketProvider = ({ children }) => {
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username, useremail]);
+  }, []);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);
