@@ -206,10 +206,18 @@ const QuestionController = () => {
         case QUESTION_TYPES.NUMERIC:
           if (roomInfo.currentQuestion.involvedPlayers.length === 3)
             return (
-              <NumericQuestion setAnswer={setAnswer} setSubmit={setSubmit} />
+              <NumericQuestion
+                setAnswer={setAnswer}
+                setSubmit={setSubmit}
+                answer={answer}
+              />
             );
           return attackerDefenderWrapper(
-            <NumericQuestion setAnswer={setAnswer} setSubmit={setSubmit} />
+            <NumericQuestion
+              setAnswer={setAnswer}
+              setSubmit={setSubmit}
+              answer={answer}
+            />
           );
         case QUESTION_TYPES.PICK:
           return attackerDefenderWrapper(

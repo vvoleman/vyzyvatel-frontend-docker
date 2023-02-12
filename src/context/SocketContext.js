@@ -30,7 +30,7 @@ export const SocketProvider = ({ children }) => {
   }, [roomInfo]);
 
   useEffect(() => {
-    updateSocket(true);
+    updateSocket();
   }, [username, useremail]);
 
   useEffect(() => {
@@ -43,49 +43,37 @@ export const SocketProvider = ({ children }) => {
     });
 
     socket.on("connect", () => {
-      console.log("inside connect userInfo", userInfo);
-      console.log("inside connect roomInfo", roomInfo);
-      if (userInfo && userInfo.socket === socket.id) {
-        console.log(userInfo.socket, socket.id);
-        return;
-      }
-
-      updateSocket(roomInfo ? roomInfo.state !== ROOM_STATES.ENDED : true);
+      updateSocket();
     });
 
     socket.on("disconnect", () => {
       console.log("disconnected");
     });
-  }, [setRoomInfo, setUserInfo, roomInfo, userInfo, updateSocket]);
+  }, [setRoomInfo, setUserInfo]);
 
-  const updateSocket = useCallback(
-    (shouldUpdate) => {
-      const name = username
-        ? username
-        : JSON.parse(localStorage.getItem("username"));
+  const updateSocket = useCallback(() => {
+    const name = username
+      ? username
+      : JSON.parse(localStorage.getItem("username"));
 
-      const email = useremail
-        ? useremail
-        : JSON.parse(localStorage.getItem("email"));
+    const email = useremail
+      ? useremail
+      : JSON.parse(localStorage.getItem("email"));
 
-      console.log("updateSocked", name, email, username, useremail);
+    console.log("updateSocked", name, email, username, useremail);
 
-      if (!name || !email) {
-        console.log("username or email is null", name, email);
-        return;
+    if (!name || !email) {
+      console.log("username or email is null", name, email);
+      return;
+    }
+
+    socket.emit("update-socket", name, email, (response) => {
+      if (response) {
+        setUserInfo(response.userInfo);
+        setRoomInfo(response.roomInfo);
       }
-
-      socket.emit("update-socket", name, email, (response) => {
-        console.log("shouldUpdate", shouldUpdate);
-
-        if (response) {
-          setUserInfo(response.userInfo);
-          setRoomInfo(response.roomInfo);
-        }
-      });
-    },
-    [username, useremail]
-  );
+    });
+  }, [username, useremail]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);

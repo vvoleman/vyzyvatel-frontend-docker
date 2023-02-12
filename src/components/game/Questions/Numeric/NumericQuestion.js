@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const isWholeNumber = (str) => Number.isInteger(Number(str));
 
-const NumericQuestion = ({ setAnswer, setSubmit }) => {
+const NumericQuestion = ({ setAnswer, setSubmit, answer }) => {
   const { roomInfo } = useContext(SocketContext);
   const [input, setInput] = useState("");
 
@@ -60,7 +60,7 @@ const NumericQuestion = ({ setAnswer, setSubmit }) => {
   };
 
   const submitInput = () => {
-    setSubmit(true);
+    if (answer) setSubmit(true);
   };
 
   return (
