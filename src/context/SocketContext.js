@@ -79,7 +79,7 @@ export const SocketProvider = ({ children }) => {
         }
       }
 
-      console.log("roomState:", roomInfo.state);
+      console.log("roomState:", roomInfo?.state);
 
       if (response) {
         setUserInfo(response.userInfo);
