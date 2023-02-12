@@ -44,6 +44,8 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("connect", () => {
       console.log("socket connected");
+      console.log("socket.id: " + socket.id);
+      console.log("inside connect userInfo", userInfo);
       updateSocket();
     });
 
@@ -72,6 +74,8 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
+    console.log("inside updateSocket func userInfo", userInfo);
+
     socket.emit("update-socket", name, email, (response) => {
       if (roomInfo) {
         if (roomInfo.state === ROOM_STATES.ENDED) {
@@ -79,7 +83,7 @@ export const SocketProvider = ({ children }) => {
         }
       }
 
-      console.log("inside updateSocket --------");
+      console.log("inside updateSocket emit --------");
       console.log("- roomInfo", roomInfo);
       console.log("- userInfo", userInfo);
       console.log("- username", username);
