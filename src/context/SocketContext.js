@@ -23,6 +23,8 @@ export const SocketProvider = ({ children }) => {
   const [roomInfo, setRoomInfo] = useState(null);
 
   const gameEnded = useRef(false);
+  const canUpdateSocket = useRef(true);
+  const updateSocketCooldown = 1000;
 
   useEffect(() => {
     if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
@@ -39,7 +41,13 @@ export const SocketProvider = ({ children }) => {
   }, [roomInfo]);
 
   useEffect(() => {
+    if (!canUpdateSocket.current) return;
+
     updateSocket();
+    canUpdateSocket.current = false;
+    setTimeout(() => {
+      canUpdateSocket.current = true;
+    }, updateSocketCooldown);
   }, [username, useremail]);
 
   useEffect(() => {
@@ -52,7 +60,13 @@ export const SocketProvider = ({ children }) => {
     });
 
     socket.on("connect", () => {
+      if (!canUpdateSocket.current) return;
+
       updateSocket();
+      canUpdateSocket.current = false;
+      setTimeout(() => {
+        canUpdateSocket.current = true;
+      }, updateSocketCooldown);
     });
 
     socket.on("disconnect", () => {
@@ -75,7 +89,6 @@ export const SocketProvider = ({ children }) => {
     }
 
     socket.emit("update-socket", name, email, (response) => {
-      console.log("gameEnded.current: " + gameEnded.current);
       if (gameEnded.current) return;
 
       if (response) {
