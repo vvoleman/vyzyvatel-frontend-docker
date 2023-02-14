@@ -38,6 +38,12 @@ export const SocketProvider = ({ children }) => {
     } else {
       gameEnded.current = false;
     }
+
+    const currTime = new Date().getTime();
+
+    if (roomInfo?.sendTime) {
+      roomInfo.correctionTime = currTime - roomInfo.sendTime;
+    }
   }, [roomInfo]);
 
   useEffect(() => {

@@ -80,12 +80,18 @@ const QuestionController = () => {
   }, [secondsTillEnd, answer, socketAnswerQuestion]);
 
   useEffect(() => {
-    setSecondsTillStart(
-      parseInt(parseInt(roomInfo.startTime - currentTime) / 1000 + 1)
-    );
+    const startTime =
+      roomInfo.startTime + roomInfo.correctionTime - currentTime;
+    const endTime = roomInfo.endTime + roomInfo.correctionTime - currentTime;
 
-    setSecondsTillEnd((roomInfo.endTime - currentTime) / 1000);
-  }, [currentTime, roomInfo.currentQuestion, setSecondsTillStart]);
+    setSecondsTillStart(parseInt(parseInt(startTime / 1000 + 1)));
+    setSecondsTillEnd(endTime / 1000);
+  }, [
+    currentTime,
+    roomInfo.currentQuestion,
+    setSecondsTillStart,
+    setSecondsTillEnd,
+  ]);
 
   const attackerDefenderWrapper = (content) => {
     return (
