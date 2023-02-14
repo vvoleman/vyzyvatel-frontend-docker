@@ -31,7 +31,7 @@ const PickResults = ({ answer }) => {
   return (
     <div className="question drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
       <div className="question-question-div">
-        <div className="question-question max-w-[500px]">
+        <div className="question-question max-w-[540px]">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}

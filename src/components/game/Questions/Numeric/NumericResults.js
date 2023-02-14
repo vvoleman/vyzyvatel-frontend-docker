@@ -43,7 +43,7 @@ const NumericResults = () => {
         initial={{ scale: 0.6 }}
       >
         <div className="question-question-div">
-          <div className="question-question max-w-[500px]">
+          <div className="question-question max-w-[540px]">
             {roomInfo.currentQuestion.question}{" "}
             <span className="question-category">
               {roomInfo.currentQuestion.category}
