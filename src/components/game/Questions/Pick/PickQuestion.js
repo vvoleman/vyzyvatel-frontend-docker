@@ -19,7 +19,7 @@ const PickQuestion = ({ setAnswer, setSubmit }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="question-question-div">
-        <div className="question-question">
+        <div className="question-question max-w-[500px]">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}

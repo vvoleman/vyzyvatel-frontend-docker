@@ -31,7 +31,7 @@ const ImageResults = ({ answer }) => {
   return (
     <div className="question drop-shadow-[0_1px_40px_rgba(0, 0, 0, 0.5)]">
       <div className="question-question-div">
-        <div className="question-question">
+        <div className="question-question max-w-[600px]">
           {roomInfo.currentQuestion.question}
         </div>{" "}
         <span className="question-category">
