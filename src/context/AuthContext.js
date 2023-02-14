@@ -128,6 +128,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutUser = async () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("authToken");
+    setAuthToken(null);
+    setUsername(null);
+    setEmail(null);
+
     let response = await fetch(
       process.env.REACT_APP_BACKEND_URL + "/api/auth/token/logout/",
       {
@@ -139,13 +146,7 @@ export const AuthProvider = ({ children }) => {
       }
     );
 
-    DEBUG && console.log("logoutUser");
-    localStorage.removeItem("username");
-    localStorage.removeItem("email");
-    localStorage.removeItem("authToken");
-    setAuthToken(null);
-    setUsername(null);
-    setEmail(null);
+    DEBUG && console.log("logoutUser success:", response.ok);
   };
 
   let contextData = {

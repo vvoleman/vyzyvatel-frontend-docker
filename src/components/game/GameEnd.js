@@ -4,7 +4,7 @@ import { Gravatar } from "../Gravatar";
 import { PLAYER_COLORS, USER_STATES } from "../../constants";
 import SocketContext from "../../context/SocketContext";
 
-const Finish = () => {
+const GameEnd = () => {
   const { roomInfo, userInfo, setUserInfo, setRoomInfo } =
     useContext(SocketContext);
 
@@ -139,7 +139,7 @@ const Finish = () => {
   );
 };
 
-export default Finish;
+export default GameEnd;
 
 /*
 <a

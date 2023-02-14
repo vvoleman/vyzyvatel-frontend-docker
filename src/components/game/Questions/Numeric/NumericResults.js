@@ -38,22 +38,20 @@ const NumericResults = () => {
   if (!roomInfo.currentQuestion.answers)
     return (
       <motion.div
-        className="border-slate-200/40 border-2 rounded-lg bg-slate-800 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)] min-w-[620px] min-h-[300px]"
+        className="question min-w-[620px] min-h-[300px]"
         animate={{ scale: 1 }}
         initial={{ scale: 0.6 }}
       >
-        <div className="flex justify-center items-center p-2  rounded-t-md">
-          <div className="question-question max-w-[620px]">
+        <div className="flex justify-center items-center p-2 rounded-t-md">
+          <div className="question-question">
             {roomInfo.currentQuestion.question}{" "}
             <span className="question-category">
               {roomInfo.currentQuestion.category}
             </span>
           </div>
         </div>
-        <div className="flex justify-center items-center p-2 bg-slate-900 font-semibold border-y-2 border-slate-400/50">
-          <p className="animate-pulse text-yellow-200 text-4xl rounded-lg">
-            ???
-          </p>
+        <div className="numeric-question-question-div">
+          <p className="numeric-question-result">???</p>
         </div>
         <motion.div
           className="flex justify-center items-center h-[160px] rounded-b-lg"
@@ -70,20 +68,20 @@ const NumericResults = () => {
 
   return (
     <motion.div
-      className="border-slate-200/40 border-2 rounded-lg bg-slate-800 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)] min-w-[620px] min-h-[300px]"
+      className="question min-w-[620px] min-h-[300px] drop-shadow-[0_1px_40px_rgba(0, 0, 0, 0.5)]"
       animate={{ scale: 1 }}
       initial={{ scale: 0.6 }}
     >
       <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="question-question max-w-[620px]">
+        <div className="question-question">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}
           </span>
         </div>
       </div>
-      <div className="flex justify-center items-center p-2 bg-slate-900 font-semibold border-y-2 border-slate-400/50">
-        <p className="animate-pulse text-yellow-200 text-4xl rounded-lg">
+      <div className="numeric-question-question-div">
+        <p className="numeric-question-result">
           {roomInfo.currentQuestion.rightAnswer}
         </p>
       </div>

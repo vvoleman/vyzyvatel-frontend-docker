@@ -13,27 +13,27 @@ const ImageQuestion = ({ setAnswer, setSubmit }) => {
 
   return (
     <motion.div
-      className="border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+      className="question drop-shadow-[0_1px_40px_rgba(0, 0, 0, 0.5)]"
       animate={{ scale: 1 }}
       initial={{ scale: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="question-question max-w-[640px]">
+      <div className="image-question-question">
+        <div className="question-question">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}
           </span>
         </div>
       </div>
-      <div className="flex justify-center items-center pt-4 px-2">
+      <div className="image-quesiton-img-div">
         <img
           src={roomInfo.currentQuestion.image_url}
           alt="question"
-          className="object-contain max-h-[520px] max-w-[640px] rounded-md border-slate-600 border-2"
+          className="image-question-img"
         />
       </div>
-      <div className="grid grid-cols-2 p-4">
+      <div className="image-question-grid">
         {roomInfo.currentQuestion.possibleAnswers.map((answer, index) => (
           <div className="flex justify-center items-center" key={index}>
             <div

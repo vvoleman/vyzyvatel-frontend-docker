@@ -4,6 +4,7 @@ import {
   useEffect,
   useContext,
   useCallback,
+  useRef,
 } from "react";
 import io from "socket.io-client";
 import AuthContext from "../context/AuthContext";
@@ -21,12 +22,20 @@ export const SocketProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
 
+  const gameEnded = useRef(false);
+
   useEffect(() => {
     if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
   }, [userInfo]);
 
   useEffect(() => {
     if (DEBUG) console.log("roomInfo: " + JSON.stringify(roomInfo));
+
+    if (roomInfo?.state === ROOM_STATES.ENDED) {
+      gameEnded.current = true;
+    } else {
+      gameEnded.current = false;
+    }
   }, [roomInfo]);
 
   useEffect(() => {
@@ -66,6 +75,9 @@ export const SocketProvider = ({ children }) => {
     }
 
     socket.emit("update-socket", name, email, (response) => {
+      console.log("gameEnded.current: " + gameEnded.current);
+      if (gameEnded.current) return;
+
       if (response) {
         setUserInfo(response.userInfo);
         setRoomInfo(response.roomInfo);

@@ -13,13 +13,13 @@ const PickQuestion = ({ setAnswer, setSubmit }) => {
 
   return (
     <motion.div
-      className="border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
+      className="question drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]"
       animate={{ scale: 1 }}
       initial={{ scale: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
-        <div className="question-question max-w-[620px]">
+      <div className="pick-question-question-div">
+        <div className="question-question">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
             {roomInfo.currentQuestion.category}

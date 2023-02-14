@@ -66,7 +66,7 @@ const QuestionController = () => {
 
     socketAnswerQuestion(answer, false);
     answerSent.current = true;
-  }, [submit, answer]);
+  }, [submit, answer, socketAnswerQuestion]);
 
   useEffect(() => {
     if (answerSent.current === true) return;
@@ -77,7 +77,7 @@ const QuestionController = () => {
 
     socketAnswerQuestion(answer, true);
     answerSent.current = true;
-  }, [secondsTillEnd, answer]);
+  }, [secondsTillEnd, answer, socketAnswerQuestion]);
 
   useEffect(() => {
     setSecondsTillStart(
@@ -85,7 +85,7 @@ const QuestionController = () => {
     );
 
     setSecondsTillEnd((roomInfo.endTime - currentTime) / 1000);
-  }, [currentTime, roomInfo.currentQuestion]);
+  }, [currentTime, roomInfo.currentQuestion, setSecondsTillStart]);
 
   const attackerDefenderWrapper = (content) => {
     return (

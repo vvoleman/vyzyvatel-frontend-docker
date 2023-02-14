@@ -9,7 +9,7 @@ import GameStatus from "./GameStatus";
 import QuestionController from "./Questions/QuestionController";
 import GameHint from "./hint/GameHint";
 import { ROOM_STATES } from "../../constants";
-import Finish from "./Finish";
+import GameEnd from "./GameEnd";
 
 export default function Game() {
   const { roomInfo } = useContext(SocketContext);
@@ -17,7 +17,7 @@ export default function Game() {
   if (roomInfo.state === ROOM_STATES.ENDED)
     return (
       <div className="flex grow justify-center items-center bg-slate-900 text-white/50">
-        <Finish />
+        <GameEnd />
       </div>
     );
 
