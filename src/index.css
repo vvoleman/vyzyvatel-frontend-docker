@@ -62,6 +62,10 @@
     .question {
         @apply border-slate-200/40 border-2 rounded-md bg-slate-900/70 text-white
     }
+    
+    .question-question-div {
+         @apply flex justify-center items-center p-2 bg-slate-800 rounded-t-md max-w-[520px]
+    }
 
     .question-question {
         @apply text-3xl text-white font-normal px-4 py-2
@@ -83,20 +87,12 @@
         @apply text-lg z-50 tracking-wide leading-tight
     }
 
-    .pick-question-question-div {
-        @apply flex justify-center items-center p-2 bg-slate-800 rounded-t-md
-    }
-
     .image-question-img {
         @apply object-contain max-h-[480px] max-w-[620px] rounded-md border-slate-600 border-2
     }
 
     .image-quesiton-img-div {
         @apply flex justify-center items-center pt-4 px-2
-    }
-
-    .image-question-question {
-        @apply flex justify-center items-center p-2 bg-slate-800 rounded-t-md max-w-[620px]
     }
 
     .image-question-grid {

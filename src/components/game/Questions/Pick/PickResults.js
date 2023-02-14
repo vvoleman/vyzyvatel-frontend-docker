@@ -30,7 +30,7 @@ const PickResults = ({ answer }) => {
 
   return (
     <div className="question drop-shadow-[0_1px_40px_rgba(0,0,0,0.5)]">
-      <div className="pick-question-question-div">
+      <div className="question-question-div">
         <div className="question-question">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">

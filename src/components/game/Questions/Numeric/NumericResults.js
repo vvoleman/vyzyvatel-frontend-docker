@@ -42,7 +42,7 @@ const NumericResults = () => {
         animate={{ scale: 1 }}
         initial={{ scale: 0.6 }}
       >
-        <div className="flex justify-center items-center p-2 rounded-t-md">
+        <div className="question-question-div">
           <div className="question-question">
             {roomInfo.currentQuestion.question}{" "}
             <span className="question-category">
@@ -72,7 +72,7 @@ const NumericResults = () => {
       animate={{ scale: 1 }}
       initial={{ scale: 0.6 }}
     >
-      <div className="flex justify-center items-center p-2 bg-slate-800 rounded-t-md">
+      <div className="question-question-div">
         <div className="question-question">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">

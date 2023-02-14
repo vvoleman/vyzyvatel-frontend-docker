@@ -40,7 +40,6 @@ export const SocketProvider = ({ children }) => {
     const currTime = new Date().getTime();
 
     if (roomInfo?.sendTime) {
-      console.log("SEND TIME EXISTS JUCHU");
       roomInfo.correctionTime = currTime - roomInfo.sendTime;
     }
 

@@ -18,7 +18,7 @@ const ImageQuestion = ({ setAnswer, setSubmit }) => {
       initial={{ scale: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="image-question-question">
+      <div className="question-question-div">
         <div className="question-question">
           {roomInfo.currentQuestion.question}{" "}
           <span className="question-category">
