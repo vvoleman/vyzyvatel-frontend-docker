@@ -31,8 +31,6 @@ export const SocketProvider = ({ children }) => {
   }, [userInfo]);
 
   useEffect(() => {
-    if (DEBUG) console.log("roomInfo: " + JSON.stringify(roomInfo));
-
     if (roomInfo?.state === ROOM_STATES.ENDED) {
       gameEnded.current = true;
     } else {
@@ -44,6 +42,8 @@ export const SocketProvider = ({ children }) => {
     if (roomInfo?.sendTime) {
       roomInfo.correctionTime = currTime - roomInfo.sendTime;
     }
+
+    if (DEBUG) console.log("roomInfo: " + JSON.stringify(roomInfo));
   }, [roomInfo]);
 
   useEffect(() => {
