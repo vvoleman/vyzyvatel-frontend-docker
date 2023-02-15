@@ -63,10 +63,8 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    if (firstLoad.current) {
-      firstLoad.current = false;
-      return;
-    }
+    if (!firstLoad.current) return;
+    firstLoad.current = false;
 
     if (authToken) auth();
   }, [authToken]);
