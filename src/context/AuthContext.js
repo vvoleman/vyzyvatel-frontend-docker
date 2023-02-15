@@ -27,12 +27,16 @@ export const AuthProvider = ({ children }) => {
   const firstLoad = useRef(true);
 
   useEffect(() => {
-    console.log("username:", username);
+    console.log("username updated:", username);
   }, [username]);
 
   useEffect(() => {
-    console.log("useremail:", email);
+    console.log("useremail updated:", email);
   }, [email]);
+
+  useEffect(() => {
+    console.log("authToken updated:", email);
+  }, [authToken]);
 
   useEffect(() => {
     const auth = async () => {
@@ -64,11 +68,8 @@ export const AuthProvider = ({ children }) => {
       console.log("auth:", data);
     };
 
-    if (!firstLoad.current) return;
-    firstLoad.current = false;
-
     if (authToken) auth();
-  }, [authToken]);
+  }, [authToken, username]);
 
   const navigate = useNavigate();
 
@@ -124,6 +125,8 @@ export const AuthProvider = ({ children }) => {
       setServerError("");
       navigate("/");
     } else setServerError("Účet s těmito údaji neexistuje");
+
+    DEBUG && console.log("loginUser:", data);
   };
 
   const logoutUser = async () => {
