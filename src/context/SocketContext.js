@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }) => {
 
   const gameEnded = useRef(false);
   const canUpdateSocket = useRef(true);
-  const updateSocketCooldown = 1000;
+  const updateSocketCooldown = 5000;
 
   useEffect(() => {
     if (DEBUG) console.log("userInfo: " + JSON.stringify(userInfo));
@@ -47,6 +47,7 @@ export const SocketProvider = ({ children }) => {
   }, [roomInfo]);
 
   useEffect(() => {
+    if (username === null || useremail === null) return;
     if (!canUpdateSocket.current) return;
 
     updateSocket();
@@ -81,20 +82,13 @@ export const SocketProvider = ({ children }) => {
   }, [setRoomInfo, setUserInfo]);
 
   const updateSocket = useCallback(() => {
-    const name = username
-      ? username
-      : JSON.parse(localStorage.getItem("username"));
-
-    const email = useremail
-      ? useremail
-      : JSON.parse(localStorage.getItem("email"));
-
-    if (!name || !email) {
-      console.log("username or email is null", name, email);
+    if (!username || !useremail) {
+      console.log("username or email is null", username, useremail);
+      canUpdateSocket.current = true;
       return;
     }
 
-    socket.emit("update-socket", name, email, (response) => {
+    socket.emit("update-socket", username, useremail, (response) => {
       if (gameEnded.current) return;
 
       if (response) {
