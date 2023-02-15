@@ -10,15 +10,16 @@ const QuestionTimer = ({ warn }) => {
   const currentTime = useCurrentTime();
 
   const calculateBarPixels = useCallback(() => {
-    if (currentTime < roomInfo.startTime) return barWidth;
-    if (currentTime > roomInfo.endTime) return 4;
+    const startTime = roomInfo.startTime + roomInfo.correctionTime;
+    const endTime = roomInfo.endTime + roomInfo.correctionTime;
+
+    if (currentTime < startTime) return barWidth;
+    if (currentTime > endTime) return 4;
 
     return (
       4 +
       barWidth -
-      barWidth *
-        ((currentTime - roomInfo.startTime) /
-          (roomInfo.endTime - roomInfo.startTime))
+      barWidth * ((currentTime - startTime) / (endTime - startTime))
     );
   }, [currentTime, roomInfo]);
 

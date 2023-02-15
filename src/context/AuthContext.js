@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { DEBUG } from "../constants";
@@ -23,8 +23,6 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("email"))
       : null
   );
-
-  const firstLoad = useRef(true);
 
   useEffect(() => {
     console.log("username updated:", username);

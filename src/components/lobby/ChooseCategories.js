@@ -9,7 +9,7 @@ export default function ChooseCategories() {
   const { username } = useContext(AuthContext);
   const { roomInfo, socketUpdateRoom } = useContext(SocketContext);
 
-  const checkedAll = useRef(true);
+  const checkedAll = useRef(false);
 
   const updateCategory = (id) => {
     let categories = roomInfo.categories;
