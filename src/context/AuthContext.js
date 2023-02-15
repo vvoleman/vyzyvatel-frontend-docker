@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("authToken");
         localStorage.setItem("lastUsername", JSON.stringify("co zkousis"));
       }
+      console.log("auth:", data);
     };
 
     if (!firstLoad.current) return;
