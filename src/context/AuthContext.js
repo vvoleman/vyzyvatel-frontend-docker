@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   }, [email]);
 
   useEffect(() => {
-    console.log("authToken updated:", email);
+    console.log("authToken updated:", authToken);
   }, [authToken]);
 
   useEffect(() => {
