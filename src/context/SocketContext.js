@@ -67,7 +67,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (DEBUG) console.log("username or email updated, updating socket");
-    updateSocket(username, useremail);
+    updateSocket();
   }, [username, useremail]);
 
   const updateSocket = useCallback(() => {
