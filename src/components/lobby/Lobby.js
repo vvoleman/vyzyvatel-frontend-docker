@@ -40,11 +40,12 @@ export default function Lobby() {
   };
 
   const IsAtleastOneCategoryActive = () => {
-    let isActive = false;
+    if (!roomInfo.categories) return false;
+
     roomInfo.categories.forEach((cat) => {
-      if (cat.active === true) isActive = true;
+      if (cat.active === true) return true;
     });
-    return isActive;
+    return false;
   };
 
   if (roomInfo)

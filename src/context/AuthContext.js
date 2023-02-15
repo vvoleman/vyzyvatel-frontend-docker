@@ -25,15 +25,15 @@ export const AuthProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    console.log("username updated:", username);
+    if (DEBUG) console.log("username updated:", username);
   }, [username]);
 
   useEffect(() => {
-    console.log("useremail updated:", email);
+    if (DEBUG) console.log("useremail updated:", email);
   }, [email]);
 
   useEffect(() => {
-    console.log("authToken updated:", authToken);
+    if (DEBUG) console.log("authToken updated:", authToken);
   }, [authToken]);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("authToken");
         localStorage.setItem("lastUsername", JSON.stringify("co zkousis"));
       }
-      console.log("auth:", data);
+      if (DEBUG) console.log("auth:", data);
     };
 
     if (authToken) auth();
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }) => {
       navigate("/");
     } else setServerError("Účet s těmito údaji neexistuje");
 
-    DEBUG && console.log("loginUser:", data);
+    if (DEBUG) console.log("loginUser:", data);
   };
 
   const logoutUser = async () => {
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }) => {
       }
     );
 
-    DEBUG && console.log("logoutUser success:", response.ok);
+    if (DEBUG) console.log("logoutUser success:", response.ok);
   };
 
   let contextData = {

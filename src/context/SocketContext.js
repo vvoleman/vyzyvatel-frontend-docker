@@ -47,17 +47,6 @@ export const SocketProvider = ({ children }) => {
   }, [roomInfo]);
 
   useEffect(() => {
-    if (username === null || useremail === null) return;
-    if (!canUpdateSocket.current) return;
-
-    updateSocket();
-    canUpdateSocket.current = false;
-    setTimeout(() => {
-      canUpdateSocket.current = true;
-    }, updateSocketCooldown);
-  }, [username, useremail]);
-
-  useEffect(() => {
     socket.on("user-update", (data) => {
       setUserInfo(data);
     });
@@ -66,27 +55,34 @@ export const SocketProvider = ({ children }) => {
       setRoomInfo(data);
     });
 
-    socket.on("connect", () => {
-      if (!canUpdateSocket.current) return;
-
-      updateSocket();
-      canUpdateSocket.current = false;
-      setTimeout(() => {
-        canUpdateSocket.current = true;
-      }, updateSocketCooldown);
-    });
-
     socket.on("disconnect", () => {
-      console.log("disconnected");
+      if (DEBUG) console.log("disconnected");
     });
-  }, [setRoomInfo, setUserInfo]);
+
+    socket.on("connect", () => {
+      if (DEBUG) console.log("connected");
+      updateSocket();
+    });
+  }, [setRoomInfo, setUserInfo, updateSocket]);
+
+  useEffect(() => {
+    if (DEBUG) console.log("username or email updated, updating socket");
+    updateSocket(username, useremail);
+  }, [username, useremail]);
 
   const updateSocket = useCallback(() => {
-    if (!username || !useremail) {
-      console.log("username or email is null", username, useremail);
-      canUpdateSocket.current = true;
+    if (username === null || useremail === null) {
+      if (DEBUG) console.log("username or email is null, not updating socket");
       return;
     }
+    if (!canUpdateSocket.current) {
+      console.log("can't update socket yet");
+      return;
+    }
+    canUpdateSocket.current = false;
+    setTimeout(() => {
+      canUpdateSocket.current = true;
+    }, updateSocketCooldown);
 
     socket.emit("update-socket", username, useremail, (response) => {
       if (gameEnded.current) return;
@@ -96,7 +92,7 @@ export const SocketProvider = ({ children }) => {
         setRoomInfo(response.roomInfo);
       }
     });
-  }, [username, useremail]);
+  }, [setUserInfo, setRoomInfo, gameEnded, username, useremail]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);

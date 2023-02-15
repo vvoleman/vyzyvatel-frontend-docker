@@ -25,7 +25,6 @@ export default function GameChat() {
 
   useEffect(() => {
     socket.on("receive-message", (data) => {
-      console.log(JSON.stringify(data));
       setMessList((list) => [...list, data]);
     });
   }, [socket]);

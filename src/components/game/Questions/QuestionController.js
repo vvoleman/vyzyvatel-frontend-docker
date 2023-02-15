@@ -41,9 +41,7 @@ const QuestionController = () => {
   }, [roomInfo.currentQuestion.type]);
 
   useEffect(() => {
-    if (roomInfo.currentQuestion.answers === undefined) return;
-
-    let alreadyAnswered = false;
+    if (!roomInfo.currentQuestion.answers) return;
 
     roomInfo.currentQuestion.answers.forEach((ans) => {
       if (ans.username === username) {
@@ -51,10 +49,6 @@ const QuestionController = () => {
         setSubmit(true);
       }
     });
-
-    if (alreadyAnswered) {
-      setSubmit(true);
-    }
   }, [roomInfo, username]);
 
   useEffect(() => {
