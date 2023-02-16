@@ -40,6 +40,7 @@ export default function Lobby() {
   };
 
   const IsAtleastOneCategoryActive = () => {
+    console.log("isaonecat - categories", roomInfo.categories);
     if (!roomInfo.categories) return false;
 
     roomInfo.categories.forEach((cat) => {
@@ -115,9 +116,9 @@ export default function Lobby() {
               <LobbyChat />
             </div>
             <div className="flex justify-center gap-5">
-              {roomInfo["owner"] === username ? (
+              {roomInfo.owner === username ? (
                 <>
-                  {roomInfo["players"].length < 3 ||
+                  {roomInfo.players.length != 3 ||
                   !IsAtleastOneCategoryActive() ? (
                     <button
                       disabled

@@ -25,7 +25,12 @@ const PickResults = ({ answer }) => {
     }
     if (colors.length === 1) return colors[0];
     if (colors.length === 2)
-      return `linear-gradient(90deg, ${colors.join(",")}`;
+      return `linear-gradient(90deg, ${
+        PLAYER_COLORS[roomInfo.playerColors[roomInfo.currentAttack.attacker]]
+      }, 
+        ${
+          PLAYER_COLORS[roomInfo.playerColors[roomInfo.currentAttack.defender]]
+        })`;
   };
 
   return (

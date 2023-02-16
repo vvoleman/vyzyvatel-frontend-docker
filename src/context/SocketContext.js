@@ -76,7 +76,7 @@ export const SocketProvider = ({ children }) => {
       return;
     }
     if (!canUpdateSocket.current) {
-      console.log("can't update socket yet");
+      if (DEBUG) console.log("can't update socket yet");
       return;
     }
     canUpdateSocket.current = false;
