@@ -39,9 +39,9 @@ export default function Lobby() {
     });
   };
 
-  const IsAtleastOneCategoryActive = () => {
-    console.log("isaonecat - categories", roomInfo.categories);
-    if (!roomInfo.categories) return false;
+  const canStartGame = () => {
+    if (roomInfo.players.length !== 3) return false;
+    if (roomInfo.categories === undefined) return false;
 
     roomInfo.categories.forEach((cat) => {
       if (cat.active === true) return true;
@@ -118,8 +118,7 @@ export default function Lobby() {
             <div className="flex justify-center gap-5">
               {roomInfo.owner === username ? (
                 <>
-                  {roomInfo.players.length != 3 ||
-                  !IsAtleastOneCategoryActive() ? (
+                  {canStartGame() ? (
                     <button
                       disabled
                       type="submit"
