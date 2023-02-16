@@ -40,10 +40,13 @@ export default function Lobby() {
   };
 
   const canStartGame = () => {
+    console.log("players length", roomInfo.players.length);
     if (roomInfo.players.length !== 3) return false;
     if (roomInfo.categories === undefined) return false;
 
     roomInfo.categories.forEach((cat) => {
+      console.log("cat", cat);
+      console.log("cat.active", cat.active);
       if (cat.active === true) return true;
     });
     return false;
@@ -119,14 +122,6 @@ export default function Lobby() {
               {roomInfo.owner === username ? (
                 <>
                   {canStartGame() ? (
-                    <button
-                      disabled
-                      type="submit"
-                      className="border-2 border-slate-400/40 sm:w-1/3 text-green-500/50 w-full bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
-                    >
-                      Spustit hru
-                    </button>
-                  ) : (
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       onClick={socketStartGame}
@@ -135,6 +130,14 @@ export default function Lobby() {
                     >
                       Spustit hru
                     </motion.button>
+                  ) : (
+                    <button
+                      disabled
+                      type="submit"
+                      className="border-2 border-slate-400/40 sm:w-1/3 text-green-500/50 w-full bg-slate-900/50 font-semibold rounded-lg text-lg py-2.5 text-center"
+                    >
+                      Spustit hru
+                    </button>
                   )}
 
                   <motion.button
