@@ -47,25 +47,6 @@ export const SocketProvider = ({ children }) => {
   }, [roomInfo]);
 
   useEffect(() => {
-    socket.on("user-update", (data) => {
-      setUserInfo(data);
-    });
-
-    socket.on("room-update", (data) => {
-      setRoomInfo(data);
-    });
-
-    socket.on("disconnect", () => {
-      if (DEBUG) console.log("disconnected");
-    });
-
-    socket.on("connect", () => {
-      if (DEBUG) console.log("connected");
-      updateSocket();
-    });
-  }, [setRoomInfo, setUserInfo, updateSocket]);
-
-  useEffect(() => {
     if (DEBUG) console.log("username or email updated, updating socket");
     updateSocket();
   }, [username, useremail]);
@@ -93,6 +74,25 @@ export const SocketProvider = ({ children }) => {
       }
     });
   }, [setUserInfo, setRoomInfo, gameEnded, username, useremail]);
+
+  useEffect(() => {
+    socket.on("user-update", (data) => {
+      setUserInfo(data);
+    });
+
+    socket.on("room-update", (data) => {
+      setRoomInfo(data);
+    });
+
+    socket.on("disconnect", () => {
+      if (DEBUG) console.log("disconnected");
+    });
+
+    socket.on("connect", () => {
+      if (DEBUG) console.log("connected");
+      updateSocket();
+    });
+  }, [setRoomInfo, setUserInfo, updateSocket]);
 
   const cancelRoom = useCallback(() => {
     socket.emit("cancel-room", username);

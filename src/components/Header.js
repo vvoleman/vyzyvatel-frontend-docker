@@ -39,7 +39,8 @@ export default function Header() {
       <div className="flex justify-center items-center w-full absolute">
         <div className="sm:text-2xl text-lg text-white pb-1 font-semibold">
           <a href="/">
-            Vyzyva<span className="text-white/60">.</span>tel
+            Vyzyva<span className="text-white/60 mr-[-1px]">.</span>
+            tel
           </a>
         </div>
       </div>
