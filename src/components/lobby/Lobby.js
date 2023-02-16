@@ -40,16 +40,17 @@ export default function Lobby() {
   };
 
   const canStartGame = () => {
-    console.log("players length", roomInfo.players.length);
-    if (roomInfo.players.length !== 3) return false;
     if (roomInfo.categories === undefined) return false;
+    if (roomInfo.players.length !== 3) return false;
 
+    let isSomeActive = false;
     roomInfo.categories.forEach((cat) => {
-      console.log("cat", cat);
-      console.log("cat.active", cat.active);
-      if (cat.active === true) return true;
+      if (cat.active === true) {
+        isSomeActive = true;
+        return;
+      }
     });
-    return false;
+    return isSomeActive;
   };
 
   if (roomInfo)
