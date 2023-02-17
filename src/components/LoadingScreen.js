@@ -47,7 +47,7 @@ export default function LoadingScreen() {
       }
       if (timer > 30) {
         setLoadingText(
-          "Asi spadl server. Kontaktuj mě prosím na Discordu: Maroso#0271"
+          "Pokud nepomáhá F5, kontaktuj mě prosím na Discordu."
         );
       }
     }, 100);
