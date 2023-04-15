@@ -12,6 +12,7 @@ https://www.vyzyva.tel/
 
 ## Screenshots
 
+![Registration Screenshot](screenshots/register.png)
 ![Map Screenshot](screenshots/map.png)
 ![Image Question](screenshots/imagequestion.png)
 ![Numeric Screenshot](screenshots/numericquestion.png)
