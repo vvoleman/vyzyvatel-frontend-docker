@@ -1,5 +1,6 @@
 # Vyzyvatel
 Clone of a popular quiz game https://triviador.com/ (dobyvatel.cz)
+
 Backend Django (database, auth) and Express (socketio game server) repos are private for security reasons.
  
 ## About
